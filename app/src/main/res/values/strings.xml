@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QLPhongGym</string>
+    <string name="toggle_password_visibility">Hiển thị/ẩn mật khẩu</string>
 </resources>

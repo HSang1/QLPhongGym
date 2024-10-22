@@ -42,7 +42,7 @@
                 android:paddingStart="10dp"
                 android:text=" Quay lại"
                 android:textColor="@color/white"
-                android:textSize="40px"
+                android:textSize="50px"
 
                 />
 
@@ -121,12 +121,33 @@
                     android:text="Mật khẩu"
                     android:textStyle="bold" />
 
-                <EditText
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-                    android:inputType="textPassword"
-                    android:minHeight="48dp" />
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/txtMatKhau"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="textPassword"
+                       />
+
+                    <ImageView
+                        android:id="@+id/imgAnHienMatKhau"
+                        android:layout_width="35dp"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/toggle_password_visibility"
+                        android:src="@drawable/baseline_remove_red_eye_24" />
+                </LinearLayout>
+
+<!--                        android:drawableEnd="@drawable/baseline_remove_red_eye_24"/>-->
+
+
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -135,7 +156,6 @@
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:alpha="0.7"
                         android:text="Lưu mật khẩu" />
 
