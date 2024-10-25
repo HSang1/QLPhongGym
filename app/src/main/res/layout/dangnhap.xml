@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login"
-    tools:context=".MainActivity">
+    tools:context=".dangNhap">
 
     <RelativeLayout
 
@@ -129,7 +129,7 @@
 
                     <EditText
                         android:id="@+id/txtMatKhau"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="textPassword"
@@ -137,9 +137,10 @@
 
                     <ImageView
                         android:id="@+id/imgAnHienMatKhau"
-                        android:layout_width="35dp"
-                        android:layout_height="37dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="9"
                         android:contentDescription="@string/toggle_password_visibility"
                         android:src="@drawable/baseline_remove_red_eye_24" />
                 </LinearLayout>

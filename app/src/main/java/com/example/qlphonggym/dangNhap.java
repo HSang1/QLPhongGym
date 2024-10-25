@@ -12,7 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class dangNhap extends AppCompatActivity {
 
     private EditText txtMatKhau;
     private ImageView imgAnHienMatKhau;

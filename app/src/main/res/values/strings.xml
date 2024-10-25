@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">QLPhongGym</string>
+    <string name="app_name">GYM</string>
     <string name="toggle_password_visibility">Hiển thị/ẩn mật khẩu</string>
+    <string-array name="vietnam_cities">
+        <item>Chọn Thành Phố</item>
+        <item>TP.HCM</item>
+        <item>Đà Nẵng</item>
+        <item>Hà Nội</item>
+        <item>Cần Thơ</item>
+    </string-array>
 </resources>
