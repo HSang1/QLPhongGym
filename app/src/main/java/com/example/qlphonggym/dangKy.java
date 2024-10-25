@@ -1,7 +1,7 @@
 package com.example.qlphonggym;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.widget.ArrayAdapter; // Tạo Adapter để kết nối Spinner
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
