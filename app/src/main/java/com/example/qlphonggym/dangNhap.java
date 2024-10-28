@@ -35,7 +35,7 @@ public class dangNhap extends AppCompatActivity {
 
 
         // Gán view sau khi setContentView
-        txtMatKhau = findViewById(R.id.txtMatKhau);
+        txtMatKhau = findViewById(R.id.txtMK);
         imgAnHienMatKhau = findViewById(R.id.imgAnHienMatKhau);
 
         // Thiết lập sự kiện nhấn cho ImageView
