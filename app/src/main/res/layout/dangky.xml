@@ -23,7 +23,7 @@
             >
 
             <TextView
-                android:id="@+id/txtQuayLai"
+                android:id="@+id/txtReturn"
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"

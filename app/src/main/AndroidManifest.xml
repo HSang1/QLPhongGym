@@ -14,6 +14,9 @@
         android:theme="@style/Theme.QLPhongGym"
         tools:targetApi="31">
         <activity
+            android:name=".Taikhoan"
+            android:exported="false" />
+        <activity
             android:name=".DangkysdtActivity"
             android:exported="false" />
         <activity

@@ -4,11 +4,14 @@ import android.os.Bundle;
 
 import android.content.Intent;
 
+//Them dong nay
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -66,6 +69,17 @@ public class DangkysdtActivity extends AppCompatActivity {
                 // Nếu điều kiện thỏa mãn, chuyển sang màn hình đăng ký
                 Intent intent = new Intent(DangkysdtActivity.this, dangKy.class);
                 startActivity(intent);
+            }
+        });
+
+        // Khởi tạo TextView "Quay lại" và thiết lập sự kiện onClick
+        TextView txtQuayLai = findViewById(R.id.txtTroLai);
+        txtQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DangkysdtActivity.this, Taikhoan.class); // Chuyển sang màn hình Trang Chủ
+                startActivity(intent);
+                finish(); // Đóng Activity hiện tại để tránh quay lại màn hình này khi bấm nút Back
             }
         });
 

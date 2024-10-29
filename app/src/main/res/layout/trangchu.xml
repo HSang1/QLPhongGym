@@ -175,7 +175,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/home" />
+
             <TextView
+                android:id="@+id/txtTrangChu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trang chủ"
@@ -193,7 +195,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/calendar" />
+
             <TextView
+                android:id="@+id/txtDatLich"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đặt lịch"
@@ -213,7 +217,9 @@
                 android:background="@drawable/qr_code_scanner_24"
                 android:layout_margin="4dp"
                 android:scaleType="centerInside" />
+
             <TextView
+                android:id="@+id/txtQR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quét mã"
@@ -231,7 +237,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/baseline" />
+
             <TextView
+                android:id="@+id/txtHopThu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hộp thư"
@@ -249,7 +257,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/account" />
+
             <TextView
+                android:id="@+id/txtTaiKhoan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tài khoản"

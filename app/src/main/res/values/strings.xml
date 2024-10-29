@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GYM</string>
+    <string name="app_name">PTS Gym</string>
     <string name="toggle_password_visibility">Hiển thị/ẩn mật khẩu</string>
     <string-array name="vietnam_cities">
         <item>TP.HCM</item>

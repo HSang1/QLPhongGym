@@ -31,6 +31,7 @@
             android:paddingBottom="28dp">
 
             <TextView
+                android:id="@+id/txtReturn"
                 android:layout_width="166dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -38,13 +39,12 @@
                 android:layout_marginTop="-5dp"
                 android:drawableStart="@drawable/back_24_icon"
                 android:gravity="start"
-                android:paddingTop="10dp"
                 android:paddingStart="10dp"
+                android:paddingTop="10dp"
                 android:text=" Quay lại"
                 android:textColor="@color/white"
-                android:textSize="50px"
 
-                />
+                android:textSize="50px" />
 
             <ImageView
                 android:layout_width="99dp"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="OU GYM"
+                android:text="PTS GYM"
                 android:textColor="@color/white"
                 android:textSize="120px"
                 android:textStyle="bold" />

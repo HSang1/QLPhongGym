@@ -1,8 +1,11 @@
 package com.example.qlphonggym;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter; // Tạo Adapter để kết nối Spinner
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +34,18 @@ public class dangKy extends AppCompatActivity {
                 R.array.vietnam_cities, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(adapter);
+
+
+        // Khởi tạo TextView "Quay lại" và thiết lập sự kiện onClick
+        TextView txtQuayLai = findViewById(R.id.txtReturn);
+        txtQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dangKy.this, DangkysdtActivity.class); // Chuyển sang màn hình Trang Chủ
+                startActivity(intent);
+                finish(); // Đóng Activity hiện tại để tránh quay lại màn hình này khi bấm nút Back
+            }
+        });
     }
     }
 
