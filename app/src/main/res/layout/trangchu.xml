@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_button"
     tools:context=".trangChu">
 
     <!-- Nội dung chính có thể cuộn được -->
@@ -24,7 +23,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -33,8 +32,10 @@
                 android:id="@+id/headerSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+
                 android:padding="16dp">
 
                 <ImageView
@@ -125,28 +126,218 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/txtTinTuc"
+                    android:id="@+id/txtCheDo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tin tức"
+                    android:text="Chế độ dinh dưỡng"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtTinTuc1"
-                    android:layout_width="wrap_content"
+                <!-- Nội dung có thể cuộn ngang -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:onClick="openNewsDetail"
-                    android:text="Chế độ dinh dưỡng - 22/06/2023" />
+                    android:paddingTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- CardView 1: Chế độ dinh dưỡng -->
+                        <androidx.cardview.widget.CardView
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_margin="5dp"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginLeft="5dp"
+                                    app:srcCompat="@drawable/login" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_marginLeft="5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textView17"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Dành cho người ăn chay"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textSize="17dp"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="30/10/2024"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- CardView 2: Tin tức về phòng tập -->
+                        <androidx.cardview.widget.CardView
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_margin="5dp"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginLeft="5dp"
+                                    app:srcCompat="@drawable/login" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_marginLeft="5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tin tức về phòng tập"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textSize="17dp"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Phòng tập hiện đại với nhiều tiện nghi"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <TextView
-                    android:id="@+id/txtTinTuc2"
+                    android:id="@+id/txtTinTuc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:onClick="openNewsDetail"
-                    android:text="Tin tức về phòng gym của tôi - 18/11/2021" />
+                    android:text="Tin tức về phòng gym chúng tôi"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Nội dung có thể cuộn ngang -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- CardView 1: Chế độ dinh dưỡng -->
+                        <androidx.cardview.widget.CardView
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_margin="5dp"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginLeft="5dp"
+                                    app:srcCompat="@drawable/login" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_marginLeft="5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Nâng cấp hệ thống phòng gym"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textSize="17dp"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="30/10/2024"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- CardView 2: Tin tức về phòng tập -->
+                        <androidx.cardview.widget.CardView
+                            app:cardBackgroundColor="@color/white"
+                            android:layout_margin="5dp"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_marginLeft="5dp"
+                                    app:srcCompat="@drawable/login" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_marginLeft="5dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tin tức về phòng tập"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textSize="17dp"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Phòng tập hiện đại với nhiều tiện nghi"
+                                        android:textColor="@color/black"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
             </LinearLayout>
 
         </LinearLayout>
