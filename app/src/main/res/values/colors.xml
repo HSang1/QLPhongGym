@@ -5,4 +5,6 @@
 
     <color name="my_color">#35B6F2</color>
     <color name="my_color2">#021494</color>
+    <color name="color_admin">#F69F1E</color>
+    <color name="color_admin_chucnang">#f0f0f0</color>
 </resources>
