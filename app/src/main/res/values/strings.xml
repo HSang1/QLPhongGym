@@ -1,10 +1,26 @@
 <resources>
-    <string name="app_name">PTS Gym</string>
+    <string name="app_name">GYM</string>
     <string name="toggle_password_visibility">Hiển thị/ẩn mật khẩu</string>
     <string-array name="vietnam_cities">
         <item>TP.HCM</item>
         <item>Đà Nẵng</item>
         <item>Hà Nội</item>
         <item>Cần Thơ</item>
+    </string-array>
+
+    <string-array name="service_types">
+        <item>Dance</item>
+        <item>Zumba</item>
+        <item>Yoga</item>
+    </string-array>
+
+    <string-array name="cities">
+        <item>Hồ Chí Minh</item>
+        <item>Hà Nội</item>
+    </string-array>
+
+    <string-array name="clubs">
+        <item>Landmark Centurion Club</item>
+        <item>Go Vap Club</item>
     </string-array>
 </resources>
