@@ -13,6 +13,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+//khai báo thêm dòng sau
+import android.widget.EditText;
+import android.widget.Toast;
+import android.widget.Button;
+import android.content.SharedPreferences;
+
 public class dangKy extends AppCompatActivity {
 
     @Override
@@ -46,6 +52,53 @@ public class dangKy extends AppCompatActivity {
                 finish(); // Đóng Activity hiện tại để tránh quay lại màn hình này khi bấm nút Back
             }
         });
-    }
-    }
 
+
+        // Khởi tạo các thành phần trong form đăng ký
+        Button btnDangKy = findViewById(R.id.btDangKy);
+        EditText txtHoTen = findViewById(R.id.txtHoTen);
+        EditText txtEmail = findViewById(R.id.txtEmail);
+        EditText txtAddress = findViewById(R.id.txtDiaChi);
+
+        // Nhận số điện thoại từ DangkysdtActivity
+        Intent intent = getIntent();
+        String phoneNumber = intent.getStringExtra("PHONE_NUMBER");
+
+        // Xử lý sự kiện khi nhấn nút Đăng Ký
+        btnDangKy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = txtHoTen.getText().toString();
+                String email = txtEmail.getText().toString();
+                String address = txtAddress.getText().toString();
+                String city = spinnerCity.getSelectedItem().toString(); // Lấy thành phố từ Spinner
+
+                if (username.isEmpty()) {
+                    Toast.makeText(dangKy.this, "Vui lòng nhập tên đăng nhập", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Lưu thông tin người dùng vào SharedPreferences
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("USERNAME", username);
+                    editor.putString("PHONE_NUMBER", phoneNumber); // Lưu số điện thoại
+                    editor.putString("EMAIL", email);
+                    editor.putString("ADDRESS", address);
+                    editor.putString("CITY", city); // Lưu thành phố
+                    editor.putBoolean("IS_REGISTERED", true); // Đánh dấu đã đăng ký
+                    editor.apply(); // Lưu thay đổi
+
+                    // Hiển thị thông báo khi lưu thành công
+                    Toast.makeText(dangKy.this, "Đã lưu thông tin đăng ký thành công", Toast.LENGTH_SHORT).show();
+
+                    // Chuyển đến trang chủ sau khi đăng ký thành công và gửi tên đăng nhập
+                    Intent intent = new Intent(dangKy.this, trangChu.class);
+                    intent.putExtra("USERNAME", username); // Thêm tên đăng nhập vào Intent
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);  // Tắt animation chuyển Activity
+                    finish();
+                }
+            }
+        });
+
+    }
+}

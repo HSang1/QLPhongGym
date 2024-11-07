@@ -9,73 +9,79 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.activity.EdgeToEdge;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 public class dangNhap extends AppCompatActivity {
 
-    private EditText txtMatKhau;
+    private EditText txtHoTen, txtMatKhau;
     private ImageView imgAnHienMatKhau;
     private boolean isPasswordVisible = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dangnhap);
 
-
-
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-
-
-        // Gán view sau khi setContentView
+        txtHoTen = findViewById(R.id.txtHoTen);
         txtMatKhau = findViewById(R.id.txtMK);
         imgAnHienMatKhau = findViewById(R.id.imgAnHienMatKhau);
+        MaterialButton btnDangNhap = findViewById(R.id.btnDangNhap);
 
-        // Thiết lập sự kiện nhấn cho ImageView
+        // Thiết lập sự kiện nhấn cho ImageView để ẩn/hiện mật khẩu
         imgAnHienMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isPasswordVisible) {
-                    // Hide password
                     txtMatKhau.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     imgAnHienMatKhau.setImageResource(R.drawable.baseline_remove_red_eye_24);
                 } else {
-                    // Show password
                     txtMatKhau.setInputType(InputType.TYPE_CLASS_TEXT);
                     imgAnHienMatKhau.setImageResource(R.drawable.baseline_visibility_off_24);
                 }
-                isPasswordVisible = !isPasswordVisible; // Toggle state for next click
-                txtMatKhau.setSelection(txtMatKhau.getText().length()); // Set cursor to end after toggle
+                isPasswordVisible = !isPasswordVisible;
+                txtMatKhau.setSelection(txtMatKhau.getText().length());
             }
         });
 
-        EdgeToEdge.enable(this);
+        // Xử lý sự kiện nhấn nút "Đăng nhập"
+        btnDangNhap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String inputUsername = txtHoTen.getText().toString();
+                String inputPassword = txtMatKhau.getText().toString();
 
-        // Áp dụng WindowInsets sau khi view đã được thiết lập
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                String storedUsername = sharedPreferences.getString("USERNAME", null);
+                String storedPassword = sharedPreferences.getString("PASSWORD", null); // Đảm bảo mật khẩu đã lưu ở `dangKy`
+
+                if (inputUsername.equals(storedUsername) && inputPassword.equals(storedPassword)) {
+                    // Đăng nhập thành công
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("IS_REGISTERED", true);
+                    editor.apply();
+
+                    // Chuyển đến trang chủ
+                    Intent intent = new Intent(dangNhap.this, trangChu.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // Thông báo lỗi đăng nhập
+                    Toast.makeText(dangNhap.this, "Tên tài khoản hoặc mật khẩu không đúng.", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
-
-        // tạo TextView "Quay lại" và thiết lập sự kiện onClick
+        // Thiết lập sự kiện cho TextView "Quay lại"
         TextView txtQuayLai = findViewById(R.id.txtReturn);
         txtQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(dangNhap.this, Taikhoan.class); // Chuyển sang màn hình Trang Chủ
+                Intent intent = new Intent(dangNhap.this, Taikhoan.class);
                 startActivity(intent);
-                finish(); // Đóng Activity hiện tại để tránh quay lại màn hình này khi bấm nút Back
+                finish();
             }
         });
     }

@@ -66,9 +66,12 @@ public class DangkysdtActivity extends AppCompatActivity {
             } else if (!txtSDT.getText().toString().matches("^(03[2-9]|07[0|5-9]|08[1-5|8-9]|09[0-4])\\d{7}$")) {
                 Toast.makeText(this, "Số điện thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
             } else {
-                // Nếu điều kiện thỏa mãn, chuyển sang màn hình đăng ký
+                // Lấy số điện thoại và truyền qua dangKy
+                String phoneNumber = txtSDT.getText().toString();
                 Intent intent = new Intent(DangkysdtActivity.this, dangKy.class);
+                intent.putExtra("PHONE_NUMBER", phoneNumber); // Truyền số điện thoại
                 startActivity(intent);
+                finish(); // Đóng DangkysdtActivity
             }
         });
 

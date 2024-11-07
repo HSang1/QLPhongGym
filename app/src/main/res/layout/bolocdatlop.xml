@@ -9,6 +9,16 @@
     android:padding="16dp"
     tools:context=".boLocDatLop">
 
+    <TextView
+        android:id="@+id/txtReturn"
+        android:layout_width="166dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/back_27"
+        android:paddingBottom="10dp"
+        android:text=" Quay lại"
+        android:textColor="@color/black"
+        android:textSize="50px" />
+
     <!-- Spinner for Service Type -->
     <TextView
         android:layout_width="wrap_content"
@@ -21,8 +31,8 @@
 
         android:id="@+id/service_type_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown" />
+        android:layout_height="40dp"
+        android:background="@drawable/spinner_background" />
 
     <!-- Spinner for City -->
     <TextView
@@ -36,8 +46,8 @@
     <Spinner
         android:id="@+id/city_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown" />
+        android:layout_height="40dp"
+        android:background="@drawable/spinner_background" />
 
     <!-- Spinner for Club -->
     <TextView
@@ -51,8 +61,8 @@
     <Spinner
         android:id="@+id/club_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown" />
+        android:layout_height="40dp"
+        android:background="@drawable/spinner_background" />
 
     <!-- Apply Button -->
     <Button

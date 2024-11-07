@@ -9,9 +9,9 @@
     </string-array>
 
     <string-array name="service_types">
-        <item>Dance</item>
-        <item>Zumba</item>
         <item>Yoga</item>
+        <item>Cycling</item>
+        <item>Group-X</item>
     </string-array>
 
     <string-array name="cities">

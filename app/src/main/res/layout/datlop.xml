@@ -39,9 +39,9 @@
     <HorizontalScrollView
         android:id="@+id/date_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_below="@id/header"
-        android:background="#ffffff"
+        android:background="@drawable/date_background"
         android:padding="10dp">
 
         <LinearLayout

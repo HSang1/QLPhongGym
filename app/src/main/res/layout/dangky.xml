@@ -151,6 +151,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="49dp"
+                            android:background="@drawable/spinner_background"
                             android:paddingLeft="10dp" />
 
                         <TextView

@@ -19,14 +19,17 @@ import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 import android.widget.ArrayAdapter; // Tạo Adapter để kết nối Spinner
 import android.widget.Spinner;
+import android.content.Intent;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class datLop extends AppCompatActivity {
     private LinearLayout datesContainer;
     private LinearLayout classesContainer;
 
-    private String selectedServiceType = "";
-    private String selectedCity = "Hồ Chí Minh";
-    private String selectedClub = "Landmark Centurion Club";
+    private String selectedServiceType = ""; // Không lọc loại dịch vụ mặc định
+    private String selectedCity = ""; // Không lọc thành phố mặc định
+    private String selectedClub = ""; // Không lọc câu lạc bộ mặc định
 
 
     @Override
@@ -40,6 +43,16 @@ public class datLop extends AppCompatActivity {
             return insets;
         });
 
+        // Khởi tạo TextView "Quay lại" và thiết lập sự kiện onClick
+        TextView txtQuayLai = findViewById(R.id.back_btn);
+        txtQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(datLop.this, trangChu.class); // Chuyển sang màn hình Trang Chủ
+                startActivity(intent);
+            }
+        });
+
         datesContainer = findViewById(R.id.dates_container);
         classesContainer = findViewById(R.id.classes_container);
 
@@ -51,37 +64,63 @@ public class datLop extends AppCompatActivity {
     }
 
     private void renderDates() {
+        datesContainer.removeAllViews(); // Xóa các view cũ trước khi thêm mới
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd/MM", new Locale("vi", "VN"));
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", new Locale("vi", "VN"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd", new Locale("vi", "VN"));
 
         for (int i = 0; i < 7; i++) {
-            TextView dateView = new TextView(this);
-            dateView.setPadding(20, 10, 20, 10);
-            dateView.setText(dateFormat.format(calendar.getTime()));
-            dateView.setTextSize(16);
-            dateView.setClickable(true);
+            // Tạo LinearLayout dọc cho từng ngày
+            LinearLayout dayLayout = new LinearLayout(this);
+            dayLayout.setOrientation(LinearLayout.VERTICAL);
+            dayLayout.setPadding(20, 10, 20, 10);
 
+            // TextView cho thứ
+            TextView dayOfWeekView = new TextView(this);
+            String dayOfWeek = dayFormat.format(calendar.getTime());
+            dayOfWeekView.setText(dayOfWeek);
+            dayOfWeekView.setTextSize(16);
+            dayOfWeekView.setGravity(View.TEXT_ALIGNMENT_CENTER);
+
+            // TextView cho ngày
+            TextView dayOfMonthView = new TextView(this);
+            String dayOfMonth = dateFormat.format(calendar.getTime());
+            dayOfMonthView.setText(dayOfMonth);
+            dayOfMonthView.setTextSize(16);
+            dayOfMonthView.setGravity(View.TEXT_ALIGNMENT_CENTER);
+
+            // Thiết lập màu sắc cho TextView
             if (i == 0) {
-                dateView.setBackgroundColor(getResources().getColor(R.color.my_color));
-                dateView.setTextColor(getResources().getColor(R.color.white));
+                dayOfWeekView.setBackgroundColor(getResources().getColor(R.color.my_color));
+                dayOfWeekView.setTextColor(getResources().getColor(R.color.white));
+                dayOfMonthView.setBackgroundColor(getResources().getColor(R.color.my_color));
+                dayOfMonthView.setTextColor(getResources().getColor(R.color.white));
             } else {
-                dateView.setTextColor(getResources().getColor(R.color.black));
+                dayOfWeekView.setTextColor(getResources().getColor(R.color.black));
+                dayOfMonthView.setTextColor(getResources().getColor(R.color.black));
             }
 
-            datesContainer.addView(dateView);
+            // Thêm các TextView vào LinearLayout
+            dayLayout.addView(dayOfWeekView);
+            dayLayout.addView(dayOfMonthView);
+
+            // Thêm LinearLayout vào datesContainer
+            datesContainer.addView(dayLayout);
+
+            // Di chuyển sang ngày tiếp theo
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
     }
-
     private void renderClasses() {
         classesContainer.removeAllViews();
 
-        String[] classNames = {"Sexy Dance", "J Dance", "Belly Dance", "Zumba"};
-        String[] types = {"Dance", "Dance", "Dance", "Dance"};
-        String[] locations = {"Landmark Centurion Club", "Landmark Centurion Club", "Landmark Centurion Club", "Landmark Centurion Club"};
+        String[] classNames = {"Tango Dance", "Fo Yoga", "Belly Dance", "T Cycling"};
+        String[] types = {"Group-X", "Yoga", "Group-X", "Cycling"};
+        String[] locations = {"Landmark Centurion Club", "Go Vap Club", "Landmark Centurion Club", "Landmark Centurion Club"};
         String[] startTimes = {"09:45", "11:00", "17:00", "19:20"};
         String[] durations = {"50 phút", "60 phút", "60 phút", "60 phút"};
         String[] cities = {"Hồ Chí Minh", "Hồ Chí Minh", "Hồ Chí Minh", "Hồ Chí Minh"};
+        int[] imageIds = {R.drawable.login, R.drawable.login, R.drawable.login, R.drawable.login};
 
         for (int i = 0; i < classNames.length; i++) {
             if ((selectedServiceType.isEmpty() || types[i].contains(selectedServiceType)) &&
@@ -92,9 +131,25 @@ public class datLop extends AppCompatActivity {
                 classLayout.setOrientation(LinearLayout.VERTICAL);
                 classLayout.setPadding(15, 15, 15, 15);
                 classLayout.setBackground(getResources().getDrawable(R.drawable.bottom_nav_gradient));
-                classLayout.setLayoutParams(new LinearLayout.LayoutParams(
+
+                // Thiết lập khoảng cách giữa các lớp học
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 20, 0, 20); // Tạo khoảng cách trên và dưới giữa các lớp học
+                classLayout.setLayoutParams(params);
+
+
+                // Thêm ImageView cho ảnh đại diện của lớp
+                ImageView classImage = new ImageView(this);
+                classImage.setImageResource(imageIds[i]);
+                LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        200  // chiều cao ảnh, tùy chỉnh theo nhu cầu
+                );
+                classImage.setLayoutParams(imageParams);
+                classLayout.addView(classImage);
+
 
                 TextView classNameView = new TextView(this);
                 classNameView.setText(classNames[i]);
@@ -122,9 +177,25 @@ public class datLop extends AppCompatActivity {
                 cityView.setTextColor(getResources().getColor(R.color.my_color2));
                 classLayout.addView(cityView);
 
+                // Đặt sự kiện onClickListener cho từng lớp học
+                int finalI = i; // Biến tạm cho phép truy cập trong onClickListener
+                classLayout.setOnClickListener(v -> {
+                    Intent intent = new Intent(datLop.this, thongTinDatLop.class);
+                    intent.putExtra("className", classNames[finalI]);
+                    intent.putExtra("classCode", "798435"); // Mã lớp ví dụ
+                    intent.putExtra("dateTime", startTimes[finalI] + " " + cities[finalI]);
+                    intent.putExtra("duration", durations[finalI]);  //khoảng thời gian
+                    intent.putExtra("type", types[finalI]);
+                    intent.putExtra("location", locations[finalI]);
+                    intent.putExtra("maxSeats", 20); // Truyền số lượng chỗ tối đa
+
+                    startActivity(intent);
+                });
+
                 classesContainer.addView(classLayout);
             }
         }
+
     }
 
     private void showFilterDialog() {

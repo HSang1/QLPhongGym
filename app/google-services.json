@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "560030814563",
+    "project_id": "csdlqlphonggym",
+    "storage_bucket": "csdlqlphonggym.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560030814563:android:bfd9ef73111072d460c356",
+        "android_client_info": {
+          "package_name": "com.example.qlphonggym"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUsrLiHmf-87PKeqyjQ7dz5gBb7_ZOEj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

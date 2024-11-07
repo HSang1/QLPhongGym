@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B9D8FB"
     tools:context=".trangChu">
 
     <!-- Nội dung chính có thể cuộn được -->
@@ -19,6 +20,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
@@ -108,12 +110,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/upcomingClassItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="BODY COMBAT - 23/10/2024, 6:10 PM" />
+
             </LinearLayout>
 
             <!-- News Section -->
@@ -349,8 +346,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="#0005CB"
-        android:layout_marginBottom="2.4dp"
+        android:background="#050000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -385,13 +381,13 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/calendar" />
+                android:src="@drawable/store" />
 
             <TextView
-                android:id="@+id/txtDatLich"
+                android:id="@+id/txtCuaHang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đặt lịch"
+                android:text="Cửa hàng"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -427,13 +423,13 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/baseline" />
+                android:src="@drawable/notifications" />
 
             <TextView
-                android:id="@+id/txtHopThu"
+                android:id="@+id/txtThongBao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hộp thư"
+                android:text="Thông báo"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
