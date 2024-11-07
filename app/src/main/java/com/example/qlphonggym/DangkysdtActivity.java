@@ -1,12 +1,10 @@
 package com.example.qlphonggym;
 
-import android.os.Bundle;
-
 import android.content.Intent;
-
-//Them dong nay
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,32 +12,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
 
 public class DangkysdtActivity extends AppCompatActivity {
 
+    private static final String TAG = DangkysdtActivity.class.getName();
+
     private EditText txtSDT;
     private CheckBox checkBox;
-    private Button button3;
+    private Button buttonXacThucSDT;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.dangkysdt);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         txtSDT = findViewById(R.id.txtSDT);
         checkBox = findViewById(R.id.checkBox);
-        button3 = findViewById(R.id.button3);
+        buttonXacThucSDT = findViewById(R.id.buttonXacThucSDT);
+        mAuth = FirebaseAuth.getInstance();
 
         txtSDT.addTextChangedListener(new TextWatcher() {
             @Override
@@ -56,36 +56,20 @@ public class DangkysdtActivity extends AppCompatActivity {
             }
         });
 
-        // Sự kiện lắng nghe cho CheckBox
+        // Lắng nghe sự kiện CheckBox
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> validateInput());
 
-        // Thêm sự kiện OnClickListener cho nút Tiếp tục
-        button3.setOnClickListener(view -> {
+        // Sự kiện bấm nút xác thực số điện thoại
+        buttonXacThucSDT.setOnClickListener(view -> {
             if (!checkBox.isChecked()) {
                 Toast.makeText(this, "Chưa đồng ý điều khoản sử dụng!", Toast.LENGTH_SHORT).show();
             } else if (!txtSDT.getText().toString().matches("^(03[2-9]|07[0|5-9]|08[1-5|8-9]|09[0-4])\\d{7}$")) {
                 Toast.makeText(this, "Số điện thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
             } else {
-                // Lấy số điện thoại và truyền qua dangKy
                 String phoneNumber = txtSDT.getText().toString();
-                Intent intent = new Intent(DangkysdtActivity.this, dangKy.class);
-                intent.putExtra("PHONE_NUMBER", phoneNumber); // Truyền số điện thoại
-                startActivity(intent);
-                finish(); // Đóng DangkysdtActivity
+                sendVerificationCode(phoneNumber);  // Gửi mã OTP đến số điện thoại
             }
         });
-
-        // Khởi tạo TextView "Quay lại" và thiết lập sự kiện onClick
-        TextView txtQuayLai = findViewById(R.id.txtTroLai);
-        txtQuayLai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DangkysdtActivity.this, Taikhoan.class); // Chuyển sang màn hình Trang Chủ
-                startActivity(intent);
-                finish(); // Đóng Activity hiện tại để tránh quay lại màn hình này khi bấm nút Back
-            }
-        });
-
     }
 
     private void validateInput() {
@@ -94,6 +78,46 @@ public class DangkysdtActivity extends AppCompatActivity {
         boolean isPhoneNumberLengthValid = phoneNumber.length() == 10;
         boolean isCheckboxChecked = checkBox.isChecked();
 
-        button3.setEnabled(isPhoneNumberValid && isPhoneNumberLengthValid && isCheckboxChecked);
+        buttonXacThucSDT.setEnabled(isPhoneNumberValid && isPhoneNumberLengthValid && isCheckboxChecked);
     }
+
+    // Gửi mã OTP
+    private void sendVerificationCode(String phoneNumber) {
+        // Kiểm tra nếu số điện thoại bắt đầu với "0", thay thế bằng "+84"
+        if (phoneNumber.startsWith("0")) {
+            phoneNumber = "+84" + phoneNumber.substring(1);  // Bỏ "0" và thay bằng "+84"
+        }
+
+        String finalPhoneNumber = phoneNumber;
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber(phoneNumber) // Số điện thoại đã được chuẩn hóa
+                .setTimeout(60L, TimeUnit.SECONDS) // Thời gian hết hạn
+                .setActivity(this) // Hoạt động (Activity cho callback)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                        // Xử lý khi xác minh thành công
+                    }
+
+                    @Override
+                    public void onVerificationFailed(FirebaseException e) {
+                        // Xử lý khi xác minh thất bại
+                        Log.e(TAG, "Verification failed: " + e.getMessage());
+                        Toast.makeText(DangkysdtActivity.this, "Xác minh thất bại: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                        super.onCodeSent(verificationId, token);
+                        Intent intent = new Intent(DangkysdtActivity.this, XacThucOTP_DienThoai.class);
+                        intent.putExtra("PHONE_NUMBER", finalPhoneNumber);  // Truyền số điện thoại đã được chuẩn hóa
+                        intent.putExtra("VERIFICATION_ID", verificationId); // Truyền mã xác minh
+                        startActivity(intent);  // Chuyển sang màn hình nhập OTP
+                    }
+                }) // Callbacks
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+
 }

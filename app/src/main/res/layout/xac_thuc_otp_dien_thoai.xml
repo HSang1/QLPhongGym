@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DangkysdtActivity">
-
+    tools:context=".XacThucOTP_DienThoai">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Xin chào! Anh (Chị) vui lòng nhập và xác thực số điện thoại để đăng ký tài khoản"
+                android:text="Vui lòng nhập mã OTP "
                 android:textSize="18sp"
                 android:textColor="@android:color/black"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -60,39 +59,29 @@
                 android:paddingEnd="16dp"  />
 
             <EditText
-                android:id="@+id/txtSDT"
+                android:id="@+id/txtOTP"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="60dp"
-                android:drawableLeft="@drawable/phone_24"
                 android:ems="10"
-                android:hint="Nhập Số Điện Thoại"
+                android:hint="Nhập OTP"
                 android:inputType="number"
                 android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tôi đã đọc và đồng ý với Điều khoản sử dụng của PTS GYM"
-                android:textColor="@android:color/black"
-                app:layout_constraintTop_toBottomOf="@+id/etPhoneNumber"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp" />
 
             <Button
-                android:id="@+id/buttonXacThucSDT"
+                android:id="@+id/buttonXacThucOTP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="3dp"
                 android:backgroundTint="#03A9F4"
-                android:text="Tiếp tục"
+                android:text="Xác nhận"
                 android:textColor="@color/white"
                 android:enabled="false"/>
         </LinearLayout>
 
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
