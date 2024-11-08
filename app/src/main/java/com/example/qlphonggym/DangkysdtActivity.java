@@ -53,7 +53,9 @@ public class DangkysdtActivity extends AppCompatActivity {
                 Toast.makeText(this, "Số điện thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
             } else {
                 // Khi điều kiện hợp lệ, chuyển đến trang đăng ký
+                String phoneNumber = txtSDT.getText().toString(); // Lấy số điện thoại
                 Intent intent = new Intent(DangkysdtActivity.this, dangKy.class);
+                intent.putExtra("PHONE_NUMBER", phoneNumber); // Truyền số điện thoại qua Intent
                 startActivity(intent);
             }
         });

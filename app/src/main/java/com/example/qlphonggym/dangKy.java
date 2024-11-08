@@ -14,21 +14,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.example.qlphonggym.CSDL.CSDL_Users; // Import lớp CSDL_Users
 
 public class dangKy extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private FirebaseDatabase database; // Firebase Realtime Database
+    private DatabaseReference usersRef; // Tham chiếu đến Realtime Database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dangky);
 
-        // Khởi tạo Firebase Auth và Firestore
+        // Khởi tạo Firebase Auth và Realtime Database
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        database = FirebaseDatabase.getInstance();
+        usersRef = database.getReference("users"); // Tham chiếu đến node "users" trong Realtime Database
 
         // Khởi tạo Spinner cho Thành Phố
         Spinner spinnerCity = findViewById(R.id.spinner);
@@ -39,7 +43,7 @@ public class dangKy extends AppCompatActivity {
 
         // Nhận số điện thoại từ DangkysdtActivity
         Intent intent = getIntent();
-        String phoneNumber = intent.getStringExtra("PHONE_NUMBER");
+        String phoneNumber = intent.getStringExtra("PHONE_NUMBER"); // Nhận số điện thoại từ Intent
 
         // Khởi tạo các thành phần trong form đăng ký
         Button btnDangKy = findViewById(R.id.btDangKy);
@@ -72,16 +76,15 @@ public class dangKy extends AppCompatActivity {
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, task -> {
                             if (task.isSuccessful()) {
-                                // Đăng ký thành công, lưu thông tin vào Firestore
+                                // Đăng ký thành công, lưu thông tin vào Realtime Database
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 if (user != null) {
                                     String userId = user.getUid();
-                                    // Tạo một đối tượng người dùng
-                                    User userInfo = new User(username, phoneNumber, email, address, city);
+                                    // Tạo đối tượng CSDL_Users với số điện thoại
+                                    CSDL_Users userInfo = new CSDL_Users(username, phoneNumber, email, address, city);
 
-                                    // Lưu vào Firestore
-                                    db.collection("users").document(userId)
-                                            .set(userInfo)
+                                    // Lưu vào Realtime Database tại node "users/{userId}"
+                                    usersRef.child(userId).setValue(userInfo)
                                             .addOnSuccessListener(aVoid -> {
                                                 // Gửi email xác thực
                                                 user.sendEmailVerification()
@@ -108,22 +111,5 @@ public class dangKy extends AppCompatActivity {
                         });
             }
         });
-    }
-
-    // Lớp User để lưu thông tin người dùng vào Firestore
-    public static class User {
-        String username;
-        String phoneNumber;
-        String email;
-        String address;
-        String city;
-
-        public User(String username, String phoneNumber, String email, String address, String city) {
-            this.username = username;
-            this.phoneNumber = phoneNumber;
-            this.email = email;
-            this.address = address;
-            this.city = city;
-        }
     }
 }
