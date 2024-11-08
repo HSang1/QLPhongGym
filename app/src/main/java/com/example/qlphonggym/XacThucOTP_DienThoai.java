@@ -4,24 +4,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.concurrent.TimeUnit;
 
 public class XacThucOTP_DienThoai extends AppCompatActivity {
 
+    private static final String TAG = XacThucOTP_DienThoai.class.getName();
+
     private EditText txtOTP;
-    private Button buttonXacThucOTP;
+    private Button buttonXacNhanOTP;
     private FirebaseAuth mAuth;
     private String verificationId;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,59 +36,39 @@ public class XacThucOTP_DienThoai extends AppCompatActivity {
         setContentView(R.layout.xac_thuc_otp_dien_thoai);
 
         txtOTP = findViewById(R.id.txtOTP);
-        buttonXacThucOTP = findViewById(R.id.buttonXacThucOTP);
+        buttonXacNhanOTP = findViewById(R.id.buttonXacThucOTP);
         mAuth = FirebaseAuth.getInstance();
 
-        // Lấy số điện thoại và mã xác minh từ intent
-        String phoneNumber = getIntent().getStringExtra("PHONE_NUMBER");
-        verificationId = getIntent().getStringExtra("VERIFICATION_ID");
+        // Lấy dữ liệu từ Intent
+        Intent intent = getIntent();
+        phoneNumber = intent.getStringExtra("PHONE_NUMBER");
+        verificationId = intent.getStringExtra("VERIFICATION_ID");
 
-        // Kiểm tra khi người dùng nhập OTP
-        buttonXacThucOTP.setOnClickListener(v -> {
-            String otp = txtOTP.getText().toString();
-            if (otp.isEmpty() || otp.length() < 6) {
-                Toast.makeText(XacThucOTP_DienThoai.this, "Mã OTP không hợp lệ", Toast.LENGTH_SHORT).show();
+        // Xử lý khi nhấn nút xác nhận OTP
+        buttonXacNhanOTP.setOnClickListener(view -> {
+            String otpCode = txtOTP.getText().toString();
+            if (otpCode.isEmpty()) {
+                Toast.makeText(XacThucOTP_DienThoai.this, "Vui lòng nhập mã OTP", Toast.LENGTH_SHORT).show();
             } else {
-                // Xác thực OTP
-                verifyOTP(verificationId, otp);
-            }
-        });
-
-        // Đảm bảo mã OTP có đủ 6 ký tự
-        txtOTP.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() == 6) {
-                    buttonXacThucOTP.setEnabled(true);  // Kích hoạt nút xác thực khi có đủ 6 ký tự
-                } else {
-                    buttonXacThucOTP.setEnabled(false);  // Nếu thiếu ký tự, nút xác thực không hoạt động
-                }
+                verifyOTP(otpCode);
             }
         });
     }
 
     // Xác thực mã OTP
-    private void verifyOTP(String verificationId, String otp) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
-
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = task.getResult().getUser();
-                // Chuyển sang trang đăng ký nếu OTP chính xác
-                Intent intent = new Intent(XacThucOTP_DienThoai.this, dangKy.class);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(XacThucOTP_DienThoai.this, "Xác thực OTP thất bại", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void verifyOTP(String otpCode) {
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otpCode);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Xác thực thành công, chuyển sang màn hình đăng ký
+                        Intent intent = new Intent(XacThucOTP_DienThoai.this, dangKy.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // Xác thực thất bại
+                        Toast.makeText(XacThucOTP_DienThoai.this, "Mã OTP không hợp lệ", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
