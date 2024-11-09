@@ -44,7 +44,7 @@
             android:name=".quanlyTaiKhoan_admin"
             android:exported="false" />
         <activity
-            android:name=".giaoDienUser"
+            android:name=".hoSo_user"
             android:exported="false" />
         <activity
             android:name=".QRdatLop"

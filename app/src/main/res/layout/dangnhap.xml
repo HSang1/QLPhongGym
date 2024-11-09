@@ -103,7 +103,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/txtHoTen"
+                    android:id="@+id/txtTaiKhoan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/done_icon"

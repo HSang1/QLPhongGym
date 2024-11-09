@@ -47,7 +47,8 @@ public class dangKy extends AppCompatActivity {
 
         // Khởi tạo các thành phần trong form đăng ký
         Button btnDangKy = findViewById(R.id.btDangKy);
-        EditText txtHoTen = findViewById(R.id.txtHoTen);
+        EditText txtHoTen = findViewById(R.id.txtHoVaTen); // Lấy tên người dùng
+        EditText txtTaiKhoan = findViewById(R.id.txtTaiKhoan);
         EditText txtEmail = findViewById(R.id.txtEmail);
         EditText txtAddress = findViewById(R.id.txtDiaChi);
         EditText txtPassword = findViewById(R.id.txtMK); // Thêm trường nhập mật khẩu
@@ -62,14 +63,15 @@ public class dangKy extends AppCompatActivity {
 
         // Xử lý sự kiện khi nhấn nút Đăng Ký
         btnDangKy.setOnClickListener(v -> {
-            String username = txtHoTen.getText().toString();
+            String fullname = txtHoTen.getText().toString(); // Lấy tên người dùng
+            String username = txtTaiKhoan.getText().toString();
             String email = txtEmail.getText().toString();
             String address = txtAddress.getText().toString();
             String city = spinnerCity.getSelectedItem().toString(); // Lấy thành phố từ Spinner
             String password = txtPassword.getText().toString(); // Lấy mật khẩu từ trường nhập
 
             // Kiểm tra xem tất cả các trường có đầy đủ không
-            if (username.isEmpty() || email.isEmpty() || address.isEmpty() || password.isEmpty()) {
+            if (username.isEmpty() || email.isEmpty() || address.isEmpty() || password.isEmpty() || fullname.isEmpty()) {
                 Toast.makeText(dangKy.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             } else {
                 // Tạo tài khoản Firebase bằng email và mật khẩu
@@ -80,8 +82,8 @@ public class dangKy extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 if (user != null) {
                                     String userId = user.getUid();
-                                    // Tạo đối tượng CSDL_Users với số điện thoại
-                                    CSDL_Users userInfo = new CSDL_Users(username, phoneNumber, email, address, city);
+                                    // Tạo đối tượng CSDL_Users với số điện thoại và fullName
+                                    CSDL_Users userInfo = new CSDL_Users(username, phoneNumber, email, address, city, fullname);
 
                                     // Lưu vào Realtime Database tại node "users/{userId}"
                                     usersRef.child(userId).setValue(userInfo)
@@ -96,7 +98,7 @@ public class dangKy extends AppCompatActivity {
                                                             }
                                                         });
 
-                                                // Chuyển sang trang chủ
+                                                // Chuyển sang trang đăng nhập hoặc màn hình khác
                                                 Intent intent1 = new Intent(dangKy.this, trangChu.class);
                                                 startActivity(intent1);
                                                 finish();

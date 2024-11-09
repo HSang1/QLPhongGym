@@ -6,16 +6,23 @@ public class CSDL_Users {
     private String email;
     private String address;
     private String city;
+    private String fullName; // Thêm trường fullName
 
-    public CSDL_Users(String username, String phoneNumber, String email, String address, String city) {
+    // Constructor
+    public CSDL_Users() {
+        // Constructor mặc định cần thiết để Firebase sử dụng
+    }
+
+    public CSDL_Users(String username, String phoneNumber, String email, String address, String city, String fullName) {
         this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
         this.city = city;
+        this.fullName = fullName; // Khởi tạo giá trị fullName
     }
 
-    // Các getter và setter
+    // Getters and Setters
     public String getUsername() {
         return username;
     }
@@ -54,5 +61,13 @@ public class CSDL_Users {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

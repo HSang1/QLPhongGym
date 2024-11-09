@@ -48,7 +48,7 @@
                     app:srcCompat="@drawable/account_circle_24" /> <!-- Thêm marginEnd để tạo khoảng cách với TextView -->
 
                 <TextView
-                    android:id="@+id/txtHoTen"
+                    android:id="@+id/txtHoVaTen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -434,6 +434,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/TaiKhoan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

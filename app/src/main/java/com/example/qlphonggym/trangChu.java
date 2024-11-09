@@ -1,59 +1,90 @@
 package com.example.qlphonggym;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-//khai bao them dong nay
-import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.content.SharedPreferences;
-import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class trangChu extends AppCompatActivity {
 
     private LinearLayout upcomingClassesSection;
+    private LinearLayout taiKhoanSection;  // Biến đại diện cho LinearLayout TaiKhoan
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference usersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.trangchu);
 
+        // Khởi tạo Firebase
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        usersRef = database.getReference("users");
 
+
+        // Xử lý tấm nền (EdgeToEdge) để có giao diện đẹp trên các thiết bị có thanh trạng thái
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Lấy TextView và Button từ giao diện
-        TextView txtTaiKhoan = findViewById(R.id.txtTaiKhoan);
-        TextView txtHoTen = findViewById(R.id.txtHoTen);
+        // Lấy các thành phần giao diện
+        TextView txtHoVaTen = findViewById(R.id.txtHoVaTen);
         Button btnDatLop = findViewById(R.id.btDatLop);
-
-        //Đây là biến đại diện cho LinearLayout đó trong mã Java. Sau khi liên kết, bạn có thể tương tác
-        // với LinearLayout này thông qua biến upcomingClassesSection,
-        // chẳng hạn như thêm các TextView hoặc thay đổi thuộc tính của nó.
         upcomingClassesSection = findViewById(R.id.upcomingClassesSection);
+        taiKhoanSection = findViewById(R.id.TaiKhoan);  // Lấy LinearLayout TaiKhoan từ layout
 
         // Kiểm tra trạng thái đăng ký của người dùng từ SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         boolean isRegistered = sharedPreferences.getBoolean("IS_REGISTERED", false);
         String username = sharedPreferences.getString("USERNAME", null);
 
-        // Cập nhật TextView txtHoTen để hiển thị tên đăng nhập hoặc "Đăng nhập" nếu chưa đăng nhập
+        // Lấy tên đầy đủ từ Firebase và hiển thị "Xin chào"
         if (isRegistered && username != null && !username.isEmpty()) {
-            txtHoTen.setText("Xin chào, " + username);
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null) {
+                // Lấy thông tin người dùng từ Firebase
+                usersRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Lấy full name từ Firebase
+                        String fullName = dataSnapshot.child("fullName").getValue(String.class);
+
+                        if (fullName != null && !fullName.isEmpty()) {
+                            txtHoVaTen.setText("Xin chào, " + fullName);
+                        } else {
+                            txtHoVaTen.setText("Xin chào, " + username); // Nếu không có fullName, dùng username
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(trangChu.this, "Lỗi khi lấy thông tin người dùng", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         } else {
-            txtHoTen.setText("Đăng nhập");
+            txtHoVaTen.setText("Đăng nhập");
         }
 
         // Hiển thị lớp học sắp diễn ra nếu đã đặt chỗ
@@ -61,27 +92,21 @@ public class trangChu extends AppCompatActivity {
             displayUpcomingClass();
         }
 
-        // Thiết lập sự kiện onClick cho phần "Tài khoản"
-        txtTaiKhoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                if (isRegistered) {
-                    // Nếu người dùng đã đăng ký, chuyển sang màn hình giaoDienUser để hiển thị thông tin tài khoản
-                    intent = new Intent(trangChu.this, giaoDienUser.class);
-                } else {
-                    // Nếu chưa đăng ký, chuyển sang màn hình taiKhoan để đăng ký tài khoản
-                    intent = new Intent(trangChu.this, Taikhoan.class);
-                }
-                startActivity(intent);
-            }
+        // Thiết lập sự kiện onClick cho Button "Đặt lớp"
+        btnDatLop.setOnClickListener(v -> {
+            Intent intent = new Intent(trangChu.this, datLop.class); // Chuyển sang màn hình Đặt lớp
+            startActivity(intent);
         });
 
-        // Thiết lập sự kiện onClick cho Button "Đặt lớp"
-        btnDatLop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(trangChu.this, datLop.class); // Chuyển sang màn hình Đặt lớp
+        // Thiết lập sự kiện click cho LinearLayout TaiKhoan
+        taiKhoanSection.setOnClickListener(v -> {
+            if (isRegistered) {
+                // Nếu người dùng đã đăng nhập, mở màn hình hoso_user.xml
+                Intent intent = new Intent(trangChu.this, hoSo_user.class); // Giả sử bạn tạo Activity HoSoUserActivity
+                startActivity(intent);
+            } else {
+                // Nếu người dùng chưa đăng nhập, mở màn hình taikhoan.xml
+                Intent intent = new Intent(trangChu.this, Taikhoan.class); // Giả sử bạn tạo Activity TaiKhoanActivity
                 startActivity(intent);
             }
         });
@@ -106,10 +131,8 @@ public class trangChu extends AppCompatActivity {
             // Thêm TextView vào upcomingClassesSection
             upcomingClassesSection.addView(upcomingClassInfo);
         } else {
+            // Hiển thị Toast nếu không có lớp học sắp diễn ra
             Toast.makeText(this, "Không có lớp học nào sắp diễn ra", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 }

@@ -55,7 +55,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -72,8 +72,28 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="457dp"
+                        android:layout_height="470dp"
                         android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="50dp"
+                            android:text="Họ và tên"
+                            android:textColor="@color/black" />
+
+                        <EditText
+                            android:id="@+id/txtHoVaTen"
+                            android:layout_width="333dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="49dp"
+                            android:drawableLeft="@drawable/person_24"
+                            android:ems="10"
+                            android:hint="Nhập họ và tên"
+                            android:inputType="text"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/textView3"
@@ -84,7 +104,7 @@
                             android:textColor="@color/black" />
 
                         <EditText
-                            android:id="@+id/txtHoTen"
+                            android:id="@+id/txtTaiKhoan"
                             android:layout_width="333dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
@@ -94,6 +114,8 @@
                             android:hint="Nhập Tên Đăng Nhập"
                             android:inputType="text"
                             android:textColor="@color/black" />
+
+
 
                         <TextView
                             android:id="@+id/textView4"

@@ -1,10 +1,10 @@
 package com.example.qlphonggym;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class dangNhap extends AppCompatActivity {
 
-    private EditText txtHoTen, txtMatKhau;
+    private EditText txtTaiKhoan, txtMatKhau;
     private ImageView imgAnHienMatKhau;
     private boolean isPasswordVisible = false;
     private FirebaseAuth mAuth;
@@ -41,7 +41,7 @@ public class dangNhap extends AppCompatActivity {
         userRef = database.getReference("users"); // Trỏ đến nhánh "users" trong Realtime Database
 
         // Ánh xạ các view
-        txtHoTen = findViewById(R.id.txtHoTen);
+        txtTaiKhoan = findViewById(R.id.txtTaiKhoan);
         txtMatKhau = findViewById(R.id.txtMatKhau);
         imgAnHienMatKhau = findViewById(R.id.imgAnHienMatKhau);
         MaterialButton btnDangNhap = findViewById(R.id.btnDangNhap);
@@ -61,7 +61,7 @@ public class dangNhap extends AppCompatActivity {
 
         // Xử lý sự kiện nhấn nút "Đăng nhập"
         btnDangNhap.setOnClickListener(v -> {
-            String inputUsername = txtHoTen.getText().toString().trim().toLowerCase();
+            String inputUsername = txtTaiKhoan.getText().toString().trim().toLowerCase();
             String inputPassword = txtMatKhau.getText().toString();
 
             // Kiểm tra nếu các trường nhập liệu rỗng
@@ -95,10 +95,18 @@ public class dangNhap extends AppCompatActivity {
                                                     if (currentUser != null && currentUser.isEmailVerified()) {
                                                         // Đăng nhập thành công và email đã xác thực
                                                         Toast.makeText(dangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+
+                                                        // Lưu trạng thái đăng nhập vào SharedPreferences
+                                                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putBoolean("IS_REGISTERED", true);  // Đánh dấu người dùng đã đăng nhập
+                                                        editor.putString("USERNAME", inputUsername);  // Lưu tên người dùng
+                                                        editor.apply();  // Lưu thay đổi
+
                                                         // Chuyển đến màn hình chính
                                                         Intent intent = new Intent(dangNhap.this, trangChu.class);
                                                         startActivity(intent);
-                                                        finish();
+                                                        finish(); // Đóng màn hình đăng nhập
                                                     } else {
                                                         // Nếu chưa xác thực email, yêu cầu người dùng xác thực
                                                         currentUser.sendEmailVerification()
