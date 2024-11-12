@@ -26,6 +26,8 @@ public class chucnang_admin extends AppCompatActivity {
         ImageView imageHoSo = findViewById(R.id.imageHoSo);
         ImageView imageTrangChu = findViewById(R.id.imageTrangChu);
         ImageView imageThongBao = findViewById(R.id.imageThongBao);
+        ImageView imageQuanLyUser = findViewById(R.id.quanly_user);
+        ImageView imageQuanLyDanhMuc = findViewById(R.id.imageQuanLyDanhMuc);
 
         imageHoSo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,12 +47,33 @@ public class chucnang_admin extends AppCompatActivity {
             }
         });
 
+
         imageThongBao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(chucnang_admin.this, thongbao_admin.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_2_trai_qua_phai, R.anim.slide_1_trai_qua_phai);
+            }
+        });
+
+
+
+        imageQuanLyUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLyUser_Admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        imageQuanLyDanhMuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLyDanhMuc_Admin.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

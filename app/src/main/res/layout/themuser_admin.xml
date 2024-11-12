@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".themUser_Admin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="@drawable/gradient_background"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/txtReturn"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="-1dp"
+            android:layout_marginTop="-5dp"
+            android:drawableStart="@drawable/back_24_icon"
+            android:gravity="start"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:text=" Quay lại"
+            android:textColor="@color/black"
+
+            android:textSize="50px" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ĐĂNG KÝ TÀI KHOẢN"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="36sp"
+
+            android:layout_marginTop="40dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_marginTop="100dp"
+            android:alpha="0.95"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="32dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTenNguoiDung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người dùng:"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp" />
+
+            <EditText
+                android:id="@+id/edtTenNguoiDung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tên người dùng"
+                android:layout_below="@id/tvTenNguoiDung"
+
+                android:layout_alignParentLeft="true"
+                android:padding="10dp" />
+
+            <!-- Tài khoản -->
+            <TextView
+                android:id="@+id/tvTaiKhoan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tài khoản:"
+                android:textSize="16sp"
+                android:layout_below="@id/edtTenNguoiDung"
+
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/edtTaiKhoan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tài khoản"
+                android:layout_below="@id/tvTaiKhoan"
+
+                android:layout_alignParentLeft="true"
+                android:padding="10dp" />
+
+            <!-- Mật khẩu -->
+            <TextView
+                android:id="@+id/tvMatKhau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mật khẩu:"
+                android:textSize="16sp"
+                android:layout_below="@id/edtTaiKhoan"
+
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/edtMatKhau"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập mật khẩu"
+                android:inputType="textPassword"
+                android:layout_below="@id/tvMatKhau"
+
+                android:layout_alignParentLeft="true"
+                android:padding="10dp" />
+
+            <!-- Quyền (User, Admin) -->
+            <TextView
+                android:id="@+id/tvQuyen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quyền:"
+                android:textSize="16sp"
+                android:layout_below="@id/edtMatKhau"
+
+                android:layout_alignParentLeft="true" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupQuyen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvQuyen"
+
+                android:layout_alignParentLeft="true">
+
+                <RadioButton
+                    android:id="@+id/radioUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radioAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admin" />
+            </RadioGroup>
+
+            <!-- SĐT -->
+            <TextView
+                android:id="@+id/tvSDT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SĐT:"
+                android:textSize="16sp"
+                android:layout_below="@id/radioGroupQuyen"
+
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/edtSDT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập số điện thoại"
+                android:inputType="phone"
+                android:layout_below="@id/tvSDT"
+
+                android:layout_alignParentLeft="true"
+                android:padding="10dp" />
+
+            <!-- Địa chỉ -->
+            <TextView
+                android:id="@+id/tvDiaChi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ:"
+                android:textSize="16sp"
+                android:layout_below="@id/edtSDT"
+
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/edtDiaChi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập địa chỉ"
+                android:layout_below="@id/tvDiaChi"
+
+                android:layout_alignParentLeft="true"
+                android:padding="10dp" />
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:textSize="16sp"
+                android:layout_below="@id/edtDiaChi"
+
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập email"
+                android:inputType="textEmailAddress"
+                android:layout_below="@id/tvEmail"
+
+                android:layout_alignParentLeft="true"
+                android:padding="10dp" />
+
+            <!-- Nút Đăng ký -->
+            <Button
+                android:id="@+id/btnDangKy"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Đăng ký"
+                android:layout_below="@id/edtEmail"
+                android:layout_marginTop="10dp"
+                android:padding="12dp"
+                android:layout_alignParentBottom="true" />
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

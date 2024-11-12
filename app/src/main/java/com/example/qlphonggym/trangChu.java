@@ -25,10 +25,11 @@ import com.google.firebase.database.ValueEventListener;
 public class trangChu extends AppCompatActivity {
 
     private LinearLayout upcomingClassesSection;
-    private LinearLayout taiKhoanSection;  // Biến đại diện cho LinearLayout TaiKhoan
+    private LinearLayout taiKhoanSection;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference usersRef;
+    private TextView txtHoVaTen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,14 @@ public class trangChu extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         usersRef = database.getReference("users");
 
+        // Lấy các thành phần giao diện
+        txtHoVaTen = findViewById(R.id.txtHoVaTen);
+        Button btnDatLop = findViewById(R.id.btDatLop);
+        upcomingClassesSection = findViewById(R.id.upcomingClassesSection);
+        taiKhoanSection = findViewById(R.id.TaiKhoan);
+
+        // Đảm bảo người dùng luôn đăng xuất mỗi lần mở ứng dụng
+       // mAuth.signOut();
 
         // Xử lý tấm nền (EdgeToEdge) để có giao diện đẹp trên các thiết bị có thanh trạng thái
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -48,32 +57,29 @@ public class trangChu extends AppCompatActivity {
             return insets;
         });
 
-        // Lấy các thành phần giao diện
-        TextView txtHoVaTen = findViewById(R.id.txtHoVaTen);
-        Button btnDatLop = findViewById(R.id.btDatLop);
-        upcomingClassesSection = findViewById(R.id.upcomingClassesSection);
-        taiKhoanSection = findViewById(R.id.TaiKhoan);  // Lấy LinearLayout TaiKhoan từ layout
-
         // Kiểm tra trạng thái đăng ký của người dùng từ SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         boolean isRegistered = sharedPreferences.getBoolean("IS_REGISTERED", false);
         String username = sharedPreferences.getString("USERNAME", null);
 
-        // Lấy tên đầy đủ từ Firebase và hiển thị "Xin chào"
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
         if (isRegistered && username != null && !username.isEmpty()) {
+            // Người dùng đã đăng nhập, lấy thông tin người dùng từ Firebase
             FirebaseUser user = mAuth.getCurrentUser();
             if (user != null) {
-                // Lấy thông tin người dùng từ Firebase
                 usersRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Lấy full name từ Firebase
-                        String fullName = dataSnapshot.child("fullName").getValue(String.class);
-
-                        if (fullName != null && !fullName.isEmpty()) {
-                            txtHoVaTen.setText("Xin chào, " + fullName);
+                        // Kiểm tra xem dữ liệu có tồn tại
+                        if (dataSnapshot.exists()) {
+                            String fullName = dataSnapshot.child("fullName").getValue(String.class);
+                            if (fullName != null && !fullName.isEmpty()) {
+                                txtHoVaTen.setText("Xin chào, " + fullName);
+                            } else {
+                                txtHoVaTen.setText("Xin chào, " + username);
+                            }
                         } else {
-                            txtHoVaTen.setText("Xin chào, " + username); // Nếu không có fullName, dùng username
+                            txtHoVaTen.setText("Thông tin người dùng không tồn tại.");
                         }
                     }
 
@@ -101,12 +107,10 @@ public class trangChu extends AppCompatActivity {
         // Thiết lập sự kiện click cho LinearLayout TaiKhoan
         taiKhoanSection.setOnClickListener(v -> {
             if (isRegistered) {
-                // Nếu người dùng đã đăng nhập, mở màn hình hoso_user.xml
-                Intent intent = new Intent(trangChu.this, hoSo_user.class); // Giả sử bạn tạo Activity HoSoUserActivity
+                Intent intent = new Intent(trangChu.this, hoSo_user.class); // Mở hồ sơ người dùng
                 startActivity(intent);
             } else {
-                // Nếu người dùng chưa đăng nhập, mở màn hình taikhoan.xml
-                Intent intent = new Intent(trangChu.this, Taikhoan.class); // Giả sử bạn tạo Activity TaiKhoanActivity
+                Intent intent = new Intent(trangChu.this, Taikhoan.class); // Mở màn hình đăng nhập
                 startActivity(intent);
             }
         });
@@ -134,5 +138,30 @@ public class trangChu extends AppCompatActivity {
             // Hiển thị Toast nếu không có lớp học sắp diễn ra
             Toast.makeText(this, "Không có lớp học nào sắp diễn ra", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // Đăng nhập vào Firebase và lưu thông tin vào SharedPreferences
+    public void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Đăng nhập thành công
+                        FirebaseUser user = mAuth.getCurrentUser();
+
+                        // Lưu thông tin vào SharedPreferences
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("IS_REGISTERED", true);
+                        editor.putString("USERNAME", user.getDisplayName()); // Hoặc bạn có thể dùng user.getEmail() nếu muốn
+                        editor.apply();
+
+                        // Cập nhật giao diện người dùng với tên người dùng
+                        txtHoVaTen.setText("Xin chào, " + user.getDisplayName());
+                        Toast.makeText(trangChu.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Đăng nhập thất bại
+                        Toast.makeText(trangChu.this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

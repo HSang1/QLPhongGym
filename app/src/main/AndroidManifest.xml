@@ -6,13 +6,9 @@
         android:name="android.hardware.telephony"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Các quyền truy cập SMS -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Các quyền truy cập SMS -->
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-
-
-
 
     <application
         android:allowBackup="true"
@@ -26,7 +22,28 @@
         android:theme="@style/Theme.QLPhongGym"
         tools:targetApi="31">
         <activity
-            android:name=".XacThucOTP_DienThoai"
+            android:name=".SuaDanhMuc_admin"
+            android:exported="false" />
+        <activity
+            android:name=".themDanhMuc_admin"
+            android:exported="false" />
+        <activity
+            android:name=".danhmuc_item"
+            android:exported="false" />
+        <activity
+            android:name=".QuanLyDanhMuc_Admin"
+            android:exported="false" />
+        <activity
+            android:name=".SuaThongTinUser"
+            android:exported="false" />
+        <activity
+            android:name=".UserItem"
+            android:exported="false" />
+        <activity
+            android:name=".QuanLyUser_Admin"
+            android:exported="false" />
+        <activity
+            android:name=".ThemUser_Admin"
             android:exported="false" />
         <activity
             android:name=".hoSo_admin"

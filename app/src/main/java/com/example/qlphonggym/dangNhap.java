@@ -76,16 +76,19 @@ public class dangNhap extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                // Lấy email từ dữ liệu người dùng
+                                // Lấy email và role từ dữ liệu người dùng
                                 String email = null;
+                                String role = null;
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     email = snapshot.child("email").getValue(String.class);
-                                    Log.d("FirebaseQuery", "Found email: " + email);
-                                    break;  // Chỉ cần lấy email đầu tiên tìm thấy
+                                    role = snapshot.child("role").getValue(String.class);  // Lấy trường "role"
+                                    Log.d("FirebaseQuery", "Found email: " + email + ", Role: " + role);
+                                    break;  // Chỉ cần lấy email và role đầu tiên tìm thấy
                                 }
 
                                 if (email != null) {
                                     // Đăng nhập với Firebase bằng email và mật khẩu
+                                    String finalRole = role;
                                     mAuth.signInWithEmailAndPassword(email, inputPassword)
                                             .addOnCompleteListener(dangNhap.this, task -> {
                                                 if (task.isSuccessful()) {
@@ -103,8 +106,15 @@ public class dangNhap extends AppCompatActivity {
                                                         editor.putString("USERNAME", inputUsername);  // Lưu tên người dùng
                                                         editor.apply();  // Lưu thay đổi
 
-                                                        // Chuyển đến màn hình chính
-                                                        Intent intent = new Intent(dangNhap.this, trangChu.class);
+                                                        // Chuyển hướng đến màn hình phù hợp tùy vào role
+                                                        Intent intent;
+                                                        if ("admin".equalsIgnoreCase(finalRole)) {
+                                                            // Nếu là admin, chuyển đến trang chủ admin
+                                                            intent = new Intent(dangNhap.this, trangchu_admin.class);
+                                                        } else {
+                                                            // Nếu không phải admin, chuyển đến trang chủ người dùng
+                                                            intent = new Intent(dangNhap.this, trangChu.class);
+                                                        }
                                                         startActivity(intent);
                                                         finish(); // Đóng màn hình đăng nhập
                                                     } else {

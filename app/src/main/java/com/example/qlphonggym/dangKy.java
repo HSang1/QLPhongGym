@@ -62,6 +62,7 @@ public class dangKy extends AppCompatActivity {
         });
 
         // Xử lý sự kiện khi nhấn nút Đăng Ký
+
         btnDangKy.setOnClickListener(v -> {
             String fullname = txtHoTen.getText().toString(); // Lấy tên người dùng
             String username = txtTaiKhoan.getText().toString();
@@ -82,8 +83,8 @@ public class dangKy extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 if (user != null) {
                                     String userId = user.getUid();
-                                    // Tạo đối tượng CSDL_Users với số điện thoại và fullName
-                                    CSDL_Users userInfo = new CSDL_Users(username, phoneNumber, email, address, city, fullname);
+                                    // Tạo đối tượng CSDL_Users với quyền "user"
+                                    CSDL_Users userInfo = new CSDL_Users(username, phoneNumber, email, address, city, fullname, "user"); // Gán quyền "user"
 
                                     // Lưu vào Realtime Database tại node "users/{userId}"
                                     usersRef.child(userId).setValue(userInfo)
@@ -113,5 +114,6 @@ public class dangKy extends AppCompatActivity {
                         });
             }
         });
+
     }
 }
