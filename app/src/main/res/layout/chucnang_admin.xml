@@ -77,6 +77,29 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
+                        <ImageView
+                            android:id="@+id/imageView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="114dp"
+                            app:srcCompat="@drawable/donghocat" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Quản lý lớp học"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
 
                         <ImageView
                             android:id="@+id/quanly_user"
@@ -117,6 +140,24 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="Chức năng bổ sung"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -139,24 +180,6 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="Chức năng bổ sung"
-                    android:textColor="@color/black"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="40dp"
-                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -202,29 +225,6 @@
                             android:textColor="@color/black"
                             android:textSize="35px"
                             android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView12"
-                            android:layout_width="match_parent"
-                            android:layout_height="114dp"
-                            app:srcCompat="@drawable/donghocat" />
-
-                        <TextView
-                            android:id="@+id/textView17"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="Sẽ được cập nhật sớm nhất"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-
                     </LinearLayout>
 
 
