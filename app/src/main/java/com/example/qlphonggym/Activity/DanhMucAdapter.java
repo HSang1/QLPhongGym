@@ -12,8 +12,10 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qlphonggym.CSDL.DanhMuc;
+import com.example.qlphonggym.QuanLyDanhMuc_Admin;
 import com.example.qlphonggym.R;
 import com.example.qlphonggym.SuaDanhMuc_admin;
+import com.example.qlphonggym.chucnang_admin;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,11 +26,17 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucAdapter.DanhMucV
     private Context context;
     private List<DanhMuc> danhMucList;
     private DatabaseReference danhMucRef;
+    private OnDanhMucChangeListener listener;  // Thêm listener để thông báo khi có thay đổi
 
-    public DanhMucAdapter(Context context, List<DanhMuc> danhMucList) {
+    public interface OnDanhMucChangeListener {
+        void onDanhMucChanged();
+    }
+
+    public DanhMucAdapter(Context context, List<DanhMuc> danhMucList, OnDanhMucChangeListener listener) {
         this.context = context;
         this.danhMucList = danhMucList;
         this.danhMucRef = FirebaseDatabase.getInstance().getReference("DanhMuc");
+        this.listener = listener;
     }
 
     @Override
@@ -51,11 +59,17 @@ public class DanhMucAdapter extends RecyclerView.Adapter<DanhMucAdapter.DanhMucV
 
         // Nút Xóa danh mục
         holder.btnDelete.setOnClickListener(v -> {
+            // Xóa danh mục trong Firebase
             danhMucRef.child(danhMuc.getId()).removeValue()
                     .addOnSuccessListener(aVoid -> {
+                        // Cập nhật lại danh sách trong Adapter
                         danhMucList.remove(position);
-                        notifyItemRemoved(position);
+                        notifyItemRemoved(position); // Cập nhật lại RecyclerView
                         Toast.makeText(context, "Xóa danh mục thành công", Toast.LENGTH_SHORT).show();
+                        // Thông báo cho Activity cập nhật lại danh sách
+                        if (listener != null) {
+                            listener.onDanhMucChanged();  // Gọi callback khi danh mục bị xóa
+                        }
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(context, "Lỗi khi xóa danh mục: " + e.getMessage(), Toast.LENGTH_SHORT).show();

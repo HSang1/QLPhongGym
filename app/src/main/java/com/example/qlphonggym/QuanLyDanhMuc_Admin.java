@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuanLyDanhMuc_Admin extends AppCompatActivity {
+public class QuanLyDanhMuc_Admin extends AppCompatActivity implements DanhMucAdapter.OnDanhMucChangeListener {
 
     private RecyclerView recyclerView;
     private DanhMucAdapter adapter;
@@ -40,13 +40,12 @@ public class QuanLyDanhMuc_Admin extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("DanhMuc");
 
         // Khởi tạo nút Thêm danh mục
-      Button btnThemDanhMuc = findViewById(R.id.btThemDanhMuc);
+        Button btnThemDanhMuc = findViewById(R.id.btThemDanhMuc);
         btnThemDanhMuc.setOnClickListener(v -> {
             Intent intent = new Intent(QuanLyDanhMuc_Admin.this, themDanhMuc_admin.class);
             startActivity(intent);
         });
 
-        // Lấy dữ liệu từ Firebase
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -64,7 +63,7 @@ public class QuanLyDanhMuc_Admin extends AppCompatActivity {
 
                     // Nếu danh sách không trống, khởi tạo adapter
                     if (adapter == null) {
-                        adapter = new DanhMucAdapter(QuanLyDanhMuc_Admin.this, danhMucList);
+                        adapter = new DanhMucAdapter(QuanLyDanhMuc_Admin.this, danhMucList, QuanLyDanhMuc_Admin.this);
                         recyclerView.setAdapter(adapter);
                     } else {
                         // Nếu adapter đã tồn tại, chỉ cần cập nhật lại dữ liệu
@@ -80,6 +79,17 @@ public class QuanLyDanhMuc_Admin extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 // Xử lý lỗi Firebase nếu có
                 Toast.makeText(QuanLyDanhMuc_Admin.this, "Lỗi: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Implement callback khi danh mục thay đổi (xóa hoặc sửa)
+    @Override
+    public void onDanhMucChanged() {
+        runOnUiThread(() -> {
+            // Cập nhật lại dữ liệu trong Activity (QuanLyDanhMuc_Admin)
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
             }
         });
     }
