@@ -24,6 +24,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
+        <!-- Danh mục sản phẩm -->
+        <TextView
+            android:id="@+id/danhMucSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh mục: Điện tử"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="8dp" />
         <!-- Tên sản phẩm -->
         <TextView
             android:id="@+id/tenSanPham"
@@ -55,6 +64,7 @@
             android:textSize="14sp"
             android:maxLines="2"
             android:ellipsize="end" />
+
 
     </LinearLayout>
 

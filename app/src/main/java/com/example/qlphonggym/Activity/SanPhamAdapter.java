@@ -47,8 +47,9 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
 
         // Hiển thị dữ liệu vào các thành phần giao diện
         holder.tvTenSanPham.setText(sanPham.getTenSanPham());
-        holder.tvGiaSanPham.setText(sanPham.getGiaSanPham());
+        holder.tvGiaSanPham.setText("Giá: " + sanPham.getGiaSanPham() + " VND");
         holder.tvMoTaSanPham.setText(sanPham.getMoTaSanPham());
+        holder.tvDanhMuc.setText("Danh mục: " + sanPham.getDanhMucId());  // Hiển thị danh mục
 
         // Hiển thị ảnh sản phẩm bằng Glide
         Glide.with(context)
@@ -82,7 +83,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     }
 
     public static class SanPhamViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTenSanPham, tvGiaSanPham, tvMoTaSanPham;
+        TextView tvTenSanPham, tvGiaSanPham, tvMoTaSanPham, tvDanhMuc;
         Button btnEdit, btnDelete;
         ImageView imgSanPham;
 
@@ -91,6 +92,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             tvTenSanPham = itemView.findViewById(R.id.tenSanPham);
             tvGiaSanPham = itemView.findViewById(R.id.giaSanPham);
             tvMoTaSanPham = itemView.findViewById(R.id.moTaSanPham);
+            tvDanhMuc = itemView.findViewById(R.id.danhMucSanPham); // TextView cho danh mục
             imgSanPham = itemView.findViewById(R.id.imgSanPham);
             btnEdit = itemView.findViewById(R.id.btSuaSanPham);
             btnDelete = itemView.findViewById(R.id.btXoaSanPham);

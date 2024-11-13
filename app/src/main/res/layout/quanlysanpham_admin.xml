@@ -19,7 +19,7 @@
 
     <!-- Danh sách người dùng -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/danhSachDanhMuc"
+        android:id="@+id/danhSachSanPham"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
