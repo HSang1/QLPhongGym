@@ -28,6 +28,7 @@ public class chucnang_admin extends AppCompatActivity {
         ImageView imageThongBao = findViewById(R.id.imageThongBao);
         ImageView imageQuanLyUser = findViewById(R.id.quanly_user);
         ImageView imageQuanLyDanhMuc = findViewById(R.id.imageQuanLyDanhMuc);
+        ImageView imageQuanLySanPham = findViewById(R.id.imageQuanLySanPham);
 
         imageHoSo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +73,14 @@ public class chucnang_admin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(chucnang_admin.this, QuanLyDanhMuc_Admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        imageQuanLySanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLySanPham_admin.class);
                 startActivity(intent);
                 finish();
             }

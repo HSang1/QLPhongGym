@@ -49,6 +49,20 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore:25.1.1")
+    implementation("com.google.firebase:firebase-storage:21.0.1")
+    implementation ("com.github.bumptech.glide:glide:4.15.1")  // Thêm Glide vào
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+
+    // All:
+    implementation ("com.cloudinary:cloudinary-android:3.0.2")
+
+// Download + Preprocess:
+    implementation ("com.cloudinary:cloudinary-android-download:3.0.2")
+    implementation ("com.cloudinary:cloudinary-android-preprocess:3.0.2")
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

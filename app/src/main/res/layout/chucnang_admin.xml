@@ -165,7 +165,7 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imageView7"
+                            android:id="@+id/imageQuanLySanPham"
                             android:layout_width="match_parent"
                             android:layout_height="114dp"
                             app:srcCompat="@drawable/quanlygiohang" />

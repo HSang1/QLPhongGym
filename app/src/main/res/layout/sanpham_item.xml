@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- Hiển thị ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/imgSanPham"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_vertical" />
+
+    <!-- LinearLayout chứa thông tin sản phẩm -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <!-- Tên sản phẩm -->
+        <TextView
+            android:id="@+id/tenSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Giá sản phẩm -->
+        <TextView
+            android:id="@+id/giaSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá: 100.000 VND"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_green_dark"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Mô tả sản phẩm -->
+        <TextView
+            android:id="@+id/moTaSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mô tả sản phẩm ngắn gọn..."
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+
+    <!-- Các nút Sửa và Xóa -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_gravity="center_vertical">
+
+        <!-- Nút Sửa -->
+        <Button
+            android:id="@+id/btSuaSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Sửa"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Nút Xóa -->
+        <Button
+            android:id="@+id/btXoaSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Xóa"
+            android:textColor="@android:color/holo_red_dark"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -48,7 +48,7 @@ public class trangChu extends AppCompatActivity {
         taiKhoanSection = findViewById(R.id.TaiKhoan);
 
         // Đảm bảo người dùng luôn đăng xuất mỗi lần mở ứng dụng
-       // mAuth.signOut();
+        // mAuth.signOut();
 
         // Xử lý tấm nền (EdgeToEdge) để có giao diện đẹp trên các thiết bị có thanh trạng thái
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -77,6 +77,13 @@ public class trangChu extends AppCompatActivity {
                                 txtHoVaTen.setText("Xin chào, " + fullName);
                             } else {
                                 txtHoVaTen.setText("Xin chào, " + username);
+                            }
+
+                            // Kiểm tra vai trò người dùng
+                            String role = dataSnapshot.child("role").getValue(String.class);
+                            if (role != null && role.equals("Admin")) {
+                                Intent intent = new Intent(trangChu.this, trangchu_admin.class);
+                                startActivity(intent);
                             }
                         } else {
                             txtHoVaTen.setText("Thông tin người dùng không tồn tại.");
