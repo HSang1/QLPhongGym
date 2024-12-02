@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#929191"
+    tools:context=".thongTinDatPT">
+
+    <TextView
+        android:id="@+id/txtReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:drawableStart="@drawable/back_27"
+        android:gravity="start"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:text=" Quay lại"
+        android:textColor="@color/white"
+        android:textSize="50px" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/PT_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/login"
+                android:scaleType="centerCrop" />
+
+            <!-- Class Name -->
+            <TextView
+                android:id="@+id/PT_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên Lớp Học"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="16dp"
+                android:padding="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/gradient_text"
+                android:layout_marginTop="8dp">
+
+                <!-- Buổi -->
+                <TextView
+                    android:id="@+id/session"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Buổi: " />
+
+            </LinearLayout>
+
+            <!-- Date and Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/gradient_text"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/calendar" />
+                <TextView
+                    android:id="@+id/date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text=" Ngày: " />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/gradient_text"
+                android:layout_marginTop="8dp">
+                <!-- Thành phố -->
+                <TextView
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Thành phố: " />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/gradient_text"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Địa điểm: " />
+
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/session_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:rowCount="5"
+                android:columnCount="4"
+                android:padding="16dp"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:id="@+id/bookPT_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Đặt chỗ" />
+
+            <!-- Nút Hủy đặt chỗ, ẩn lúc đầu -->
+            <Button
+                android:id="@+id/cancelPT_booking_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hủy đặt chỗ"
+                android:visibility="gone"
+                android:backgroundTint="@color/cardview_shadow_start_color" />
+
+            <!-- Nút Quét để check-in, ẩn lúc đầu -->
+            <Button
+                android:id="@+id/check_inPT_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quét để check-in"
+                android:visibility="gone"
+                android:backgroundTint="@color/cardview_dark_background" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

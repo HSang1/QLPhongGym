@@ -149,6 +149,8 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
+                                android:id="@+id/BaiBao1"
+                                android:scaleType="centerCrop"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -156,30 +158,31 @@
                                 <ImageView
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
+                                    android:scaleType="centerCrop"
                                     android:layout_marginLeft="5dp"
-                                    app:srcCompat="@drawable/login" />
+                                    app:srcCompat="@drawable/bao1_1" />
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1"
                                     android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:id="@+id/textView17"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Dành cho người ăn chay"
+                                        android:text="Chế độ dinh dưỡng dành cho người ăn chay"
                                         android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="17dp"/>
+                                        android:textSize="17dp"
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="30/10/2024"
-                                        android:textColor="@color/black"/>
+                                        android:textColor="@color/black" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -192,6 +195,7 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
+                                android:id="@+id/BaiBao2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -199,29 +203,30 @@
                                 <ImageView
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
+                                    android:scaleType="centerCrop"
                                     android:layout_marginLeft="5dp"
-                                    app:srcCompat="@drawable/login" />
+                                    app:srcCompat="@drawable/bao2_1" />
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1"
                                     android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Tin tức về phòng tập"
+                                        android:text="Chế độ dinh dưỡng lành mạnh"
                                         android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="17dp"/>
+                                        android:textSize="17dp"
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Phòng tập hiện đại với nhiều tiện nghi"
-                                        android:textColor="@color/black"/>
+                                        android:text="23/10/2024"
+                                        android:textColor="@color/black" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -256,6 +261,7 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
+                                android:id="@+id/BaiBao3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -263,29 +269,30 @@
                                 <ImageView
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
+                                    android:scaleType="centerCrop"
                                     android:layout_marginLeft="5dp"
-                                    app:srcCompat="@drawable/login" />
+                                    app:srcCompat="@drawable/bao3_1" />
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1"
                                     android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Nâng cấp hệ thống phòng gym"
+                                        android:text="Giới thiệu phòng tập PTS GYM"
                                         android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="17dp"/>
+                                        android:textSize="17dp"
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="30/10/2024"
-                                        android:textColor="@color/black"/>
+                                        android:text="22/12/2024"
+                                        android:textColor="@color/black" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -298,6 +305,7 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
+                                android:id="@+id/BaiBao4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -305,29 +313,30 @@
                                 <ImageView
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
+                                    android:scaleType="centerCrop"
                                     android:layout_marginLeft="5dp"
-                                    app:srcCompat="@drawable/login" />
+                                    app:srcCompat="@drawable/bao4_1" />
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="1"
                                     android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Tin tức về phòng tập"
+                                        android:text="Các thiết bị hiện đại của phòng tập"
                                         android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="17dp"/>
+                                        android:textSize="17dp"
+                                        android:textStyle="bold" />
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Phòng tập hiện đại với nhiều tiện nghi"
-                                        android:textColor="@color/black"/>
+                                        android:text="12/12/2024"
+                                        android:textColor="@color/black" />
                                 </LinearLayout>
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
@@ -352,6 +361,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
+            android:id="@+id/homeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -359,6 +369,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/homeIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/home" />
@@ -372,6 +383,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/storeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -379,6 +391,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/cuaHang"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/store" />
@@ -414,6 +427,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/notificationButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -421,6 +435,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/notificationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/notifications" />
@@ -442,6 +457,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/taikhoanIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/account" />

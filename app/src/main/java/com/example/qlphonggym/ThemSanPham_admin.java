@@ -1,7 +1,6 @@
 package com.example.qlphonggym;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -31,15 +30,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ThemSanPham_admin extends AppCompatActivity {
 
-    private EditText edtTenSanPham, edtGiaSanPham, edtMoTaSanPham;
+    private EditText edtTenSanPham, edtGiaSanPham, edtMoTaSanPham, edtSoLuongNhap;
     private Spinner spinnerDanhMuc;
     private ImageView imgSanPham;
     private Button btnChonAnh, btnThemSanPham;
@@ -68,6 +63,7 @@ public class ThemSanPham_admin extends AppCompatActivity {
         edtTenSanPham = findViewById(R.id.edtTenSanPham);
         edtGiaSanPham = findViewById(R.id.edtGiaSanPham);
         edtMoTaSanPham = findViewById(R.id.edtMoTaSanPham);
+        edtSoLuongNhap = findViewById(R.id.edtSoLuongNhap);
         spinnerDanhMuc = findViewById(R.id.spinnerDanhMuc);
         imgSanPham = findViewById(R.id.imgSanPham);
         btnChonAnh = findViewById(R.id.btnChonAnh);
@@ -76,7 +72,7 @@ public class ThemSanPham_admin extends AppCompatActivity {
         // Khởi tạo Firebase
         dbRefDanhMuc = FirebaseDatabase.getInstance().getReference("DanhMuc");
         dbRefSanPham = FirebaseDatabase.getInstance().getReference("SanPham");
-        firebaseStorage = FirebaseStorage.getInstance(); // Khởi tạo Firebase Storage
+        firebaseStorage = FirebaseStorage.getInstance();
 
         // Kiểm tra quyền truy cập bộ nhớ
         checkStoragePermission();
@@ -88,7 +84,6 @@ public class ThemSanPham_admin extends AppCompatActivity {
         btnChonAnh.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
-            // Sử dụng ActivityResultLauncher thay cho startActivityForResult
             selectImage.launch(intent);
         });
 
@@ -97,44 +92,63 @@ public class ThemSanPham_admin extends AppCompatActivity {
             String tenSanPham = edtTenSanPham.getText().toString().trim();
             String giaSanPham = edtGiaSanPham.getText().toString().trim();
             String moTaSanPham = edtMoTaSanPham.getText().toString().trim();
-            String danhMucId = spinnerDanhMuc.getSelectedItem().toString(); // Lấy tên danh mục từ Spinner
+            String soLuongNhapStr = edtSoLuongNhap.getText().toString().trim();
+            String danhMucName = spinnerDanhMuc.getSelectedItem().toString(); // Lấy tên danh mục từ Spinner
 
-            if (tenSanPham.isEmpty() || giaSanPham.isEmpty() || moTaSanPham.isEmpty()) {
+            // Kiểm tra xem tất cả các trường thông tin đã được điền đầy đủ chưa
+            if (tenSanPham.isEmpty() || giaSanPham.isEmpty() || moTaSanPham.isEmpty() || soLuongNhapStr.isEmpty()) {
                 Toast.makeText(ThemSanPham_admin.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (imageUri != null) {
-                // Tải ảnh lên Firebase Storage
-                StorageReference storageRef = firebaseStorage.getReference().child("images/" + System.currentTimeMillis() + ".jpg");
-                UploadTask uploadTask = storageRef.putFile(imageUri);
+            // Chuyển đổi số lượng nhập từ String sang int
+            int soLuongNhap = Integer.parseInt(soLuongNhapStr);
+            int soLuongConLai = soLuongNhap; // Số lượng còn lại bằng số lượng nhập
 
-                uploadTask.addOnSuccessListener(taskSnapshot -> {
-                    // Lấy URL của ảnh đã upload
-                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String imageUrl = uri.toString();
+            // Lấy danh mục ID từ danh sách danhMucIdList
+            ArrayList<String> danhMucIdList = (ArrayList<String>) spinnerDanhMuc.getTag(); // Lấy danh sách ID
+            int index = spinnerDanhMuc.getSelectedItemPosition();  // Lấy vị trí của danh mục trong Spinner
+            String danhMucIdFromDB = danhMucIdList.get(index);  // Lấy ID tương ứng với tên danh mục
 
-                        // Tạo đối tượng sản phẩm
-                        String sanPhamId = dbRefSanPham.push().getKey();
-                        SanPham sanPham = new SanPham(sanPhamId, tenSanPham, giaSanPham, moTaSanPham, imageUrl, danhMucId);
+            int motSao = 0, haiSao = 0, baSao = 0, bonSao = 0, namSao = 0; // Các biến cho đánh giá sao
+            double diemTrungBinh = 0.0;
 
-                        // Thêm sản phẩm vào Firebase Database
-                        if (sanPhamId != null) {
-                            dbRefSanPham.child(sanPhamId).setValue(sanPham)
-                                    .addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(ThemSanPham_admin.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                                            finish(); // Trở về màn hình trước
-                                        } else {
-                                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                                            Toast.makeText(ThemSanPham_admin.this, "Lỗi khi thêm sản phẩm: " + errorMessage, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+
+            // Kiểm tra xem có chọn ảnh không
+            if (danhMucIdFromDB != null) {
+                if (imageUri != null) {
+                    // Tải ảnh lên Firebase Storage
+                    StorageReference storageRef = firebaseStorage.getReference().child("images/" + System.currentTimeMillis() + ".jpg");
+                    UploadTask uploadTask = storageRef.putFile(imageUri);
+
+                    uploadTask.addOnSuccessListener(taskSnapshot -> {
+                        // Lấy URL của ảnh đã upload
+                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String imageUrl = uri.toString();
+
+                            // Tạo sản phẩm và thêm vào Firebase
+                            String sanPhamId = dbRefSanPham.push().getKey();
+                            SanPham sanPham = new SanPham(sanPhamId, tenSanPham, giaSanPham, moTaSanPham,
+                                    imageUrl, danhMucIdFromDB, soLuongNhap, soLuongConLai, motSao, haiSao, baSao, bonSao, namSao, diemTrungBinh);
+
+                            if (sanPhamId != null) {
+                                dbRefSanPham.child(sanPhamId).setValue(sanPham)
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                Toast.makeText(ThemSanPham_admin.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                                                finish(); // Trở về màn hình trước
+                                            } else {
+                                                String errorMessage = task1.getException() != null ? task1.getException().getMessage() : "Unknown error";
+                                                Toast.makeText(ThemSanPham_admin.this, "Lỗi khi thêm sản phẩm: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        });
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(ThemSanPham_admin.this, "Tải ảnh thất bại: "
+                                + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
-                }).addOnFailureListener(e -> {
-                    Toast.makeText(ThemSanPham_admin.this, "Tải ảnh thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                }
             }
         });
     }
@@ -148,28 +162,29 @@ public class ThemSanPham_admin extends AppCompatActivity {
         }
     }
 
+    // Lấy danh mục từ Firebase
     private void getDanhMucFromFirebase() {
         dbRefDanhMuc.get().addOnSuccessListener(dataSnapshot -> {
             ArrayList<String> danhMucList = new ArrayList<>();
+            ArrayList<String> danhMucIdList = new ArrayList<>();
+
+            // Lấy tên và id danh mục từ Firebase
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                // Lấy tên danh mục từ trường "tenDanhMuc"
                 String danhMucName = snapshot.child("tenDanhMuc").getValue(String.class);
-                if (danhMucName != null) {
-                    danhMucList.add(danhMucName);
+                String danhMucId = snapshot.getKey();  // Lấy ID của danh mục
+                if (danhMucName != null && danhMucId != null) {
+                    danhMucList.add(danhMucName);  // Thêm tên danh mục vào list
+                    danhMucIdList.add(danhMucId);  // Thêm ID danh mục vào list
                 }
             }
 
-            // Kiểm tra xem danhMucList có dữ liệu hay không
-            if (danhMucList.isEmpty()) {
-                Toast.makeText(ThemSanPham_admin.this, "Danh mục trống!", Toast.LENGTH_SHORT).show();
-            } else {
-                // Điền dữ liệu vào Spinner
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(ThemSanPham_admin.this, android.R.layout.simple_spinner_item, danhMucList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerDanhMuc.setAdapter(adapter);
-            }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(ThemSanPham_admin.this, "Lỗi khi lấy danh mục", Toast.LENGTH_SHORT).show();
+            // Thiết lập spinner cho danh mục
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, danhMucList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerDanhMuc.setAdapter(adapter);
+
+            // Lưu danh mục ID vào tag của spinner để sau này lấy ra
+            spinnerDanhMuc.setTag(danhMucIdList);
         });
     }
 }

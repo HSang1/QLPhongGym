@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- TextView cho tiêu đề "Góp ý" -->
+    <TextView
+        android:id="@+id/textViewGopY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Góp ý"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp" />
+
+
+
+    <EditText
+        android:id="@+id/etNhanXet"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:hint="Nhập góp ý của bạn"
+        android:gravity="top|start"
+        android:inputType="textMultiLine|textCapSentences"
+        android:padding="10dp"
+        android:background="@android:drawable/edit_text"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:layout_below="@id/textViewGopY"
+        android:layout_marginTop="10dp"/>
+
+
+    <Button
+        android:id="@+id/btnGuiGopY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gửi góp ý"
+        android:layout_below="@id/etNhanXet"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

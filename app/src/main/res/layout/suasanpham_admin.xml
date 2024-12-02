@@ -2,9 +2,165 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".SuaSanPham_admin">
+
+    <!-- TextView và Spinner cho danh mục -->
+    <TextView
+        android:id="@+id/tvDanhMuc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh mục sản phẩm"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerDanhMuc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDanhMuc" />
+
+    <!-- TextView và ImageView cho ảnh sản phẩm -->
+    <TextView
+        android:id="@+id/tvAnhSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ảnh sản phẩm"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/spinnerDanhMuc" />
+
+    <ImageView
+        android:id="@+id/imgSanPham"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="Ảnh sản phẩm"
+        app:layout_constraintTop_toBottomOf="@id/tvAnhSanPham" />
+
+    <Button
+        android:id="@+id/btnThayDoiAnh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thay đổi ảnh"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/imgSanPham"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- TextView và EditText cho tên sản phẩm -->
+    <TextView
+        android:id="@+id/tvTenSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên sản phẩm"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/btnThayDoiAnh" />
+
+    <EditText
+        android:id="@+id/edtTenSanPham"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập tên sản phẩm"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTenSanPham"
+        android:inputType="text"/>
+
+    <!-- TextView và EditText cho giá sản phẩm -->
+    <TextView
+        android:id="@+id/tvGiaSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giá sản phẩm"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/edtTenSanPham"/>
+
+    <EditText
+        android:id="@+id/edtGiaSanPham"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập giá sản phẩm"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGiaSanPham"
+        android:inputType="numberDecimal"/>
+
+    <!-- TextView và EditText cho mô tả sản phẩm -->
+    <TextView
+        android:id="@+id/tvMoTaSanPham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mô tả sản phẩm"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/edtGiaSanPham"/>
+
+    <EditText
+        android:id="@+id/edtMoTaSanPham"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập mô tả sản phẩm"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMoTaSanPham"
+        android:inputType="textMultiLine"
+        android:lines="4"/>
+
+    <!-- TextView và EditText cho số lượng còn lại -->
+    <TextView
+        android:id="@+id/tvSoLuongConLai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Số lượng còn lại"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/edtMoTaSanPham"/>
+
+    <EditText
+        android:id="@+id/edtSoLuongConLai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập số lượng còn lại"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSoLuongConLai"
+        android:inputType="number"/>
+
+    <!-- Button Cập nhật sản phẩm -->
+    <Button
+        android:id="@+id/btnCapNhat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Cập nhật sản phẩm"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/edtSoLuongConLai"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

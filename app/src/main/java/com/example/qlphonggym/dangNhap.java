@@ -29,6 +29,7 @@ public class dangNhap extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference userRef;  // Firebase Realtime Database reference
+    private TextView txtQuenMatKhau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class dangNhap extends AppCompatActivity {
         txtMatKhau = findViewById(R.id.txtMatKhau);
         imgAnHienMatKhau = findViewById(R.id.imgAnHienMatKhau);
         MaterialButton btnDangNhap = findViewById(R.id.btnDangNhap);
+        TextView txtQuenMatKhau = findViewById(R.id.QuenMatKhau);
 
         // Thiết lập sự kiện nhấn cho ImageView để ẩn/hiện mật khẩu
         imgAnHienMatKhau.setOnClickListener(v -> {
@@ -155,6 +157,12 @@ public class dangNhap extends AppCompatActivity {
             Intent intent = new Intent(dangNhap.this, Taikhoan.class);
             startActivity(intent);
             finish();
+        });
+
+
+        txtQuenMatKhau.setOnClickListener(v -> {
+            Intent intent = new Intent(dangNhap.this, QuenMatKhau.class);
+            startActivity(intent);
         });
     }
 }

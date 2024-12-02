@@ -9,11 +9,13 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Các quyền truy cập SMS -->
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
 
     <application
         android:allowBackup="true"
@@ -26,6 +28,133 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QLPhongGym"
         tools:targetApi="31">
+        <activity
+            android:name=".QRdatPT"
+            android:exported="false" />
+        <activity
+            android:name=".thongTinDatPT"
+            android:exported="false" />
+        <activity
+            android:name=".boLocDatPT"
+            android:exported="false" />
+        <activity
+            android:name=".datPT"
+            android:exported="false" />
+        <activity
+            android:name=".SuaPT_admin"
+            android:exported="false" />
+        <activity
+            android:name=".ThemDatPT_admin"
+            android:exported="false" />
+        <activity
+            android:name=".themPT_admin"
+            android:exported="false" />
+        <activity
+            android:name=".pt_item"
+            android:exported="false" />
+        <activity
+            android:name=".datpt_item"
+            android:exported="false" />
+        <activity
+            android:name=".QuanLyDatPT_admin"
+            android:exported="false" />
+        <activity
+            android:name=".QuanLyPT_Admin"
+            android:exported="false" />
+        <activity
+            android:name=".thongbaothanhtoan"
+            android:exported="false" />
+        <activity
+            android:name=".Baibao4"
+            android:exported="false" />
+        <activity
+            android:name=".Baibao3"
+            android:exported="false" />
+        <activity
+            android:name=".Baibao2"
+            android:exported="false" />
+        <activity
+            android:name=".Baibao1"
+            android:exported="false" />
+        <activity
+            android:name=".BinhLuan_item"
+            android:exported="false" />
+        <activity
+            android:name=".ThongKe"
+            android:exported="false" />
+        <activity
+            android:name=".thongke_item"
+            android:exported="false" />
+        <activity
+            android:name=".SuaHoSo"
+            android:exported="false" />
+        <activity
+            android:name=".NhanXet_Item"
+            android:exported="false" />
+        <activity
+            android:name=".NhanXet"
+            android:exported="false" />
+        <activity
+            android:name=".QuanLyDatLop_admin"
+            android:exported="false" />
+        <activity
+            android:name=".datlop_item"
+            android:exported="false" />
+        <activity
+            android:name=".ThemDatLop_admin"
+            android:exported="false" />
+        <activity
+            android:name=".lophoc_item"
+            android:exported="false" />
+        <activity
+            android:name=".SuaLopHoc_admin"
+            android:exported="false" />
+        <activity
+            android:name=".themLopHoc_admin"
+            android:exported="false" />
+        <activity
+            android:name=".QuanLyLopHoc_Admin"
+            android:exported="false" />
+        <activity
+            android:name=".ThanhToan"
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ChiTietUser"
+            android:exported="false" />
+        <activity
+            android:name=".GioHang_item"
+            android:exported="false" />
+        <activity
+            android:name=".GioHangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".QuenMatKhau"
+            android:exported="false" />
+        <activity
+            android:name=".ChiTietSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".DanhMuc_Item_CuaHang"
+            android:exported="false" />
+        <activity
+            android:name=".SanPhamCuaHang_item"
+            android:exported="false" />
+        <activity
+            android:name=".CuaHang"
+            android:exported="false" />
         <activity
             android:name=".SuaSanPham_admin"
             android:exported="false" />
@@ -106,6 +235,9 @@
             android:exported="false" />
         <activity
             android:name=".trangChu"
+            android:exported="false" />
+        <activity
+            android:name=".Splash_Screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".themUser_Admin">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="700dp"
             android:layout_marginTop="100dp"
             android:alpha="0.95"
             android:background="@color/white"
@@ -79,19 +79,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tài khoản:"
-                android:textSize="16sp"
-                android:layout_below="@id/edtTenNguoiDung"
-
-                android:layout_alignParentLeft="true" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edtTaiKhoan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nhập tài khoản"
-                android:layout_below="@id/tvTaiKhoan"
-
-                android:layout_alignParentLeft="true"
                 android:padding="10dp" />
 
             <!-- Mật khẩu -->
@@ -173,24 +167,22 @@
 
             <!-- Địa chỉ -->
             <TextView
-                android:id="@+id/tvDiaChi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Địa chỉ:"
-                android:textSize="16sp"
-                android:layout_below="@id/edtSDT"
-
-                android:layout_alignParentLeft="true" />
-
-            <EditText
-                android:id="@+id/edtDiaChi"
+                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nhập địa chỉ"
-                android:layout_below="@id/tvDiaChi"
+                android:text="Thành Phố/ Tỉnh"
+                android:padding="10dp"
+                android:textColor="@color/black" />
 
-                android:layout_alignParentLeft="true"
-                android:padding="10dp" />
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="10dp"
+                android:background="@drawable/spinner_background"
+                android:paddingLeft="10dp" />
 
             <!-- Email -->
             <TextView
@@ -199,8 +191,7 @@
                 android:layout_height="wrap_content"
                 android:text="Email:"
                 android:textSize="16sp"
-                android:layout_below="@id/edtDiaChi"
-
+                android:padding="10dp"
                 android:layout_alignParentLeft="true" />
 
             <EditText

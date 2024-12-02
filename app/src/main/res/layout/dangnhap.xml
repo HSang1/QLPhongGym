@@ -162,6 +162,7 @@
                         android:text="Lưu mật khẩu" />
 
                     <TextView
+                        android:id="@+id/QuenMatKhau"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

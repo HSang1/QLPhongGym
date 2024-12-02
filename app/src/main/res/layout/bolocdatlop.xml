@@ -23,13 +23,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Loại dịch vụ"
+        android:text="Lớp"
         android:textSize="16sp"
         android:paddingBottom="8dp" />
 
     <Spinner
 
-        android:id="@+id/service_type_spinner"
+        android:id="@+id/lop_spinner"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/spinner_background" />
@@ -53,13 +53,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Câu lạc bộ"
+        android:text="Địa điểm"
         android:textSize="16sp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp" />
 
     <Spinner
-        android:id="@+id/club_spinner"
+        android:id="@+id/diadiem_spinner"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/spinner_background" />
@@ -73,5 +73,12 @@
         android:backgroundTint="@color/design_default_color_primary"
         android:textColor="@android:color/white"
         android:layout_marginTop="24dp" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hủy áp dụng"
+        android:backgroundTint="@color/cardview_dark_background" />
 
 </LinearLayout>

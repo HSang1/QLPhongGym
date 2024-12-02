@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qlphonggym.CSDL.CSDL_Users;
+import com.example.qlphonggym.ChiTietUser;
 import com.example.qlphonggym.R;
-import com.example.qlphonggym.SuaThongTinUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,25 +42,34 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvFullName.setText(user.getFullName());
         holder.tvUsername.setText(user.getUsername());
 
-        // Nút Sửa thông tin
+        // Nút Xem thông tin chi tiết
+        holder.btnEdit.setText("Xem Chi Tiết");
         holder.btnEdit.setOnClickListener(v -> {
-            Intent editIntent = new Intent(context, SuaThongTinUser.class);
-            editIntent.putExtra("USER_ID", user.getUsername()); // Truyền ID người dùng để sửa
-            context.startActivity(editIntent);
+            // Chuyển đến màn hình chi tiết thông tin người dùng
+            Intent detailIntent = new Intent(context, ChiTietUser.class);
+            detailIntent.putExtra("USER_ID", user.getUsername()); // Truyền ID người dùng
+            context.startActivity(detailIntent);
         });
 
-        // Nút Xóa người dùng
-        holder.btnDelete.setOnClickListener(v -> {
-            usersRef.child(user.getUsername()).removeValue()
-                    .addOnSuccessListener(aVoid -> {
-                        userList.remove(position);
-                        notifyItemRemoved(position);
-                    })
-                    .addOnFailureListener(e -> {
-                        // Xử lý lỗi nếu có
-                    });
-        });
+        // Kiểm tra nếu là "admin", ẩn nút xóa
+        if ("admin".equals(user.getUsername())) {
+            holder.btnDelete.setVisibility(View.GONE); // Ẩn nút xóa
+        } else {
+            holder.btnDelete.setVisibility(View.VISIBLE); // Hiển thị nút xóa
+            // Nút Xóa người dùng
+            holder.btnDelete.setOnClickListener(v -> {
+                usersRef.child(user.getUsername()).removeValue()
+                        .addOnSuccessListener(aVoid -> {
+                            userList.remove(position);
+                            notifyItemRemoved(position);
+                        })
+                        .addOnFailureListener(e -> {
+                            // Xử lý lỗi nếu có
+                        });
+            });
+        }
     }
+
 
     @Override
     public int getItemCount() {

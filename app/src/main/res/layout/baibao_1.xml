@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Baibao1">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_height="400dp"
+                app:srcCompat="@drawable/bao1_1" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chế độ dinh dưỡng lành mạnh cho người ăn chay"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hiện nay, ăn chay lành mạnh đang là xu hướng ăn uống được nhiều người hướng đến thực hiện. Tuy nhiên, những người theo chế độ ăn chay vẫn cần phải đảm bảo bổ sung đầy đủ các chất dinh dưỡng cho cơ thể để có được một sức khỏe bền bỉ và dẻo dai."
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Ăn chay lành mạnh là gì?"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ăn chay là chế độ ăn không bao gồm thịt, gia cầm, cá hay bất kỳ thực phẩm nào từ động vật đã qua giết mổ, thay vào đó, người ăn chay thường chọn thực phẩm từ thực vật. Có nhiều kiểu ăn chay phổ biến, bao gồm Lacto-ovo (ăn sữa và trứng), Lacto (chỉ ăn sữa), Ovo (chỉ ăn trứng), và Vegan (không ăn bất kỳ sản phẩm nào từ động vật). Những người theo chế độ ăn chay thường vì nhiều lý do khác nhau như sở thích cá nhân, lý do sức khỏe, tín ngưỡng, hoặc quan tâm đến quyền động vật và môi trường."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/bao1_2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Thế nào là một chế độ ăn chay lành mạnh và cân bằng?"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Một chế độ ăn chay lành mạnh và cân bằng yêu cầu lên kế hoạch ăn uống cụ thể để đảm bảo cung cấp đầy đủ các chất dinh dưỡng. Người ăn chay nên chọn thực phẩm như bánh mì, khoai tây, mì ống, gạo, rau quả, sữa hoặc các thay thế sữa, đậu, trứng và các nguồn protein khác, cùng với dầu ăn lành mạnh. Đồng thời, cần hạn chế chất béo bão hòa, đường, muối và rượu, duy trì trọng lượng cơ thể khỏe mạnh và hướng đến một lối sống năng động. Áp dụng hướng dẫn EatWell giúp đảm bảo chế độ ăn chay đa dạng và cân bằng."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/bao1_3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Những chất dinh dưỡng quan trọng đối với người ăn chay lành mạnh"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Những chất dinh dưỡng quan trọng đối với người ăn chay lành mạnh bao gồm:
+Chất đạm: Cung cấp năng lượng và hỗ trợ nhiều chức năng cơ thể, có thể được bổ sung từ các nguồn thực vật như trứng, đậu, đậu phụ, sữa đông, và các loại hạt.
+Sắt: Cần thiết cho việc vận chuyển oxy và bảo vệ hệ miễn dịch. Người ăn chay nên bổ sung sắt từ đậu, rau xanh, ngũ cốc, và kết hợp với vitamin C để tăng cường hấp thụ.
+Canxi: Quan trọng cho sức khỏe xương và răng. Các nguồn canxi cho người ăn chay bao gồm sữa, phô mai, sữa chua, và các thực phẩm như rau xanh, đậu phụ, và ngũ cốc tăng cường canxi.
+Vitamin B12: Cần thiết cho hệ thần kinh và miễn dịch, có thể bổ sung từ ngũ cốc ăn sáng tăng cường hoặc các lựa chọn thay thế như chiết xuất nấm men.
+Axit béo omega-3: Giúp cải thiện sức khỏe tim mạch và não bộ, có thể lấy từ hạt chia, hạt lanh, quả óc chó, và dầu đậu nành."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/bao1_4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. Những lời khuyên về dinh dưỡng cho người ăn chay và thuần chay"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dưới đây là một số lời khuyên về cách lựa chọn dinh dưỡng lành mạnh cho người ăn chay khoa học và thuần chay:
+
+Bổ sung carbohydrate: Nên chọn ngũ cốc nguyên hạt hoặc có hàm lượng chất xơ cao như gạo lứt, kiều mạch, mì ống nguyên cám, và khoai tây bỏ vỏ. Hạn chế thực phẩm chứa nhiều chất béo bão hòa và kiểm tra nhãn dinh dưỡng để lựa chọn ít chất béo, đường và muối.
+
+Trái cây và rau quả: Ăn ít nhất năm phần trái cây khác nhau mỗi ngày, bao gồm trái cây tươi, đông lạnh, hoặc sấy khô không có đường thêm. Bổ sung rau vào bữa ăn chính và chuẩn bị sẵn trái cây để làm món ăn nhẹ lành mạnh.
+
+Sữa và các chất thay thế sữa: Lựa chọn sữa thay thế giàu canxi như sữa đậu nành hoặc nước yến mạch, đặc biệt là cho người ăn thuần chay. Hạn chế phô mai nhiều muối và chất béo bão hòa, thay vào đó chọn các loại phô mai ít béo hoặc sữa chua nguyên chất ít béo.
+
+Đậu, trứng và các protein khác: Bổ sung protein từ đậu, đậu tây, đậu lăng, đậu phụ, Quorn TM (mycoprotein) và trứng.
+
+Dầu và chất phết bánh: Chọn dầu ít chất béo bão hòa và giàu chất béo không bão hòa như dầu ô liu, tránh sử dụng quá nhiều dầu dừa, dầu cọ và bơ sữa trâu.
+
+Thực phẩm nên hạn chế: Giảm tiêu thụ bánh quy, bánh ngọt, kem, khoai tây chiên giòn và đồ uống có đường. Nếu có thói quen thêm đường vào đồ ăn, nên giảm dần lượng đường sử dụng."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tóm lại, để duy trì sức khỏe và cân bằng dinh dưỡng, người ăn chay nên lựa chọn chế độ ăn uống lành mạnh và đa dạng, phù hợp với nhu cầu dinh dưỡng của cơ thể."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Trần Huỳnh Sang"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quên mật khẩu"
+        android:textSize="24sp"
+        android:layout_marginBottom="32dp"/>
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập email của bạn"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/email_24"
+        android:background="@android:drawable/edit_text"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnResetMatKhau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gửi liên kết reset mật khẩu"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_blue_light"
+        android:padding="12dp" />
+
+
+    <TextView
+        android:id="@+id/QuayVeTrangDangNhap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quay lại đăng nhập"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

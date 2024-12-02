@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThemDatLop_admin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:paddingBottom="20dp"
+            android:text="Thêm lớp học" />
+
+        <!-- Spinner để chọn danh mục -->
+        <Spinner
+            android:id="@+id/spinnerLopHoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Tên sản phẩm -->
+        <EditText
+            android:id="@+id/edtTenLopHoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên lớp học" />
+
+        <!-- Giá sản phẩm -->
+
+        <EditText
+            android:id="@+id/edtThoiGianBatDau"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Bắt đầu" />
+
+        <EditText
+            android:id="@+id/edtThoiLuong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Thời gian" />
+
+        <EditText
+            android:id="@+id/edtThanhPho"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Thành Phố" />
+
+        <EditText
+            android:id="@+id/edtDiaDiem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Địa điểm" />
+
+        <TextView
+            android:id="@+id/txtChonNgay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn ngày xuất hiện"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:id="@+id/checkboxGroup1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <CheckBox
+                android:id="@+id/checkboxMonday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 2" />
+
+            <CheckBox
+                android:id="@+id/checkboxTuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 3" />
+
+            <CheckBox
+                android:id="@+id/checkboxWednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 4" />
+
+            <CheckBox
+                android:id="@+id/checkboxThursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 5" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/checkboxGroup2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+            <CheckBox
+                android:id="@+id/checkboxFriday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 6" />
+
+            <CheckBox
+                android:id="@+id/checkboxSaturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 7" />
+
+            <CheckBox
+                android:id="@+id/checkboxSunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chủ nhật" />
+
+    </LinearLayout>
+
+
+
+        <!-- Ảnh sản phẩm -->
+        <TextView
+            android:id="@+id/textViewAnhLopHoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn ảnh sản phẩm"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"/>
+
+        <!-- Button chọn ảnh -->
+        <Button
+            android:id="@+id/btnChonAnhLop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chọn ảnh" />
+
+        <!-- Hiển thị ảnh -->
+        <ImageView
+            android:id="@+id/imgDatLop"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <!-- Nút thêm sản phẩm -->
+        <Button
+            android:id="@+id/btnThemLopHoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm lớp học" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

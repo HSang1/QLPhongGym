@@ -16,7 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ChildEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,22 +57,47 @@ public class QuanLySanPham_admin extends AppCompatActivity {
 
     // Phương thức lấy danh sách sản phẩm từ Firebase
     private void getSanPhamFromFirebase() {
-        dbRefSanPham.addValueEventListener(new ValueEventListener() {
+        dbRefSanPham.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                sanPhamList.clear();  // Xóa danh sách cũ
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String previousChildName) {
+                SanPham sanPham = dataSnapshot.getValue(SanPham.class);
+                if (sanPham != null) {
+                    sanPhamList.add(sanPham);  // Thêm sản phẩm mới vào danh sách
+                    sanPhamAdapter.notifyItemInserted(sanPhamList.size() - 1);  // Cập nhật RecyclerView
+                }
+            }
 
-                // Duyệt qua tất cả các sản phẩm
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    SanPham sanPham = snapshot.getValue(SanPham.class);
-                    if (sanPham != null) {
-                        // Dùng danhMucId như tên danh mục và thêm sản phẩm vào danh sách
-                        sanPhamList.add(sanPham);
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String previousChildName) {
+                SanPham updatedSanPham = dataSnapshot.getValue(SanPham.class);
+                if (updatedSanPham != null) {
+                    for (int i = 0; i < sanPhamList.size(); i++) {
+                        if (sanPhamList.get(i).getIdSanPham().equals(updatedSanPham.getIdSanPham())) {
+                            sanPhamList.set(i, updatedSanPham);  // Cập nhật sản phẩm trong danh sách
+                            sanPhamAdapter.notifyItemChanged(i);  // Cập nhật RecyclerView
+                            break;
+                        }
                     }
                 }
+            }
 
-                // Cập nhật RecyclerView
-                sanPhamAdapter.notifyDataSetChanged();
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                SanPham removedSanPham = dataSnapshot.getValue(SanPham.class);
+                if (removedSanPham != null) {
+                    for (int i = 0; i < sanPhamList.size(); i++) {
+                        if (sanPhamList.get(i).getIdSanPham().equals(removedSanPham.getIdSanPham())) {
+                            sanPhamList.remove(i);  // Xóa sản phẩm khỏi danh sách
+                            sanPhamAdapter.notifyItemRemoved(i);  // Cập nhật RecyclerView
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String previousChildName) {
+                // Không cần xử lý khi có sự thay đổi vị trí của các phần tử
             }
 
             @Override

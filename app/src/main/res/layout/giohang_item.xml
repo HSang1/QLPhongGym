@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- LinearLayout bao quanh sản phẩm -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Hình ảnh sản phẩm -->
+        <ImageView
+            android:id="@+id/imageSanPhamGioHang"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/placeholder"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop" />
+
+        <!-- Thông tin sản phẩm: Tên, Giá, Số lượng -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tenSanPhamGioHang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên sản phẩm"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/giaSanPhamGioHang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giá"
+                android:textColor="#E53935"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- LinearLayout chứa các nút +, số lượng, dấu - và căn phải -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Dấu - -->
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:text="Số lượng:" />
+
+        <ImageView
+            android:id="@+id/btnGiamSoLuongSanPhamGioHang"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/minus" />
+
+
+        <!-- Số lượng -->
+        <TextView
+            android:id="@+id/soLuongSanPhamGioHang"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="#B1ABAB"
+            android:text="1"
+            android:textSize="16sp" />
+
+        <!-- Dấu + -->
+        <ImageView
+            android:id="@+id/btnTangSoLuongSanPhamGioHang"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/plus" />
+
+    </LinearLayout>
+
+    <!-- LinearLayout để chứa tổng giá và nút xóa -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <!-- Tổng giá nằm bên trái -->
+        <TextView
+            android:id="@+id/tongGiaSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng sản phẩm: 0 VNĐ"
+            android:textSize="14sp"
+            android:textColor="#4CAF50"
+            android:layout_weight="1"
+            android:layout_marginEnd="16dp" />
+
+        <Button
+            android:id="@+id/btXoaSPGioHang"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#F80C0C"
+            android:text="Xóa"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:drawableEnd="@drawable/thungrac"
+             />
+    </LinearLayout>
+
+</LinearLayout>

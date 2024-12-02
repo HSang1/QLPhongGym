@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- New article about modern equipment at PTS Gym -->
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/bao4_1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Các thiết bị hiện đại tại PTS Gym"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PTS Gym luôn chú trọng đến việc trang bị các thiết bị tập luyện tiên tiến, hiện đại, giúp tối ưu hóa quá trình tập luyện của khách hàng. Các máy móc, thiết bị tại đây đều được nhập khẩu từ các thương hiệu uy tín, cam kết đem lại hiệu quả tập luyện cao và an toàn tuyệt đối."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/bao4_2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Các loại máy tập tại PTS Gym"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PTS Gym sở hữu một bộ sưu tập các thiết bị tập luyện hiện đại từ các thương hiệu nổi tiếng như Technogym, Life Fitness và Precor. Những chiếc máy chạy bộ, xe đạp tập, máy tập tạ, máy tập cơ bắp đều được trang bị các công nghệ mới nhất, hỗ trợ theo dõi tiến trình và đảm bảo hiệu quả luyện tập tối đa."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/bao4_3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Công nghệ tích hợp trên thiết bị"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mỗi thiết bị tập luyện tại PTS Gym đều tích hợp công nghệ thông minh, giúp khách hàng theo dõi quá trình tập luyện, từ số bước đi, tốc độ, quãng đường cho đến lượng calo tiêu thụ. Điều này giúp người tập dễ dàng theo dõi tiến độ và điều chỉnh chế độ tập luyện của mình để đạt hiệu quả cao nhất."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chúng tôi luôn đảm bảo rằng các thiết bị không chỉ có tính năng vượt trội mà còn được bảo trì và vệ sinh thường xuyên, để đem lại một trải nghiệm tuyệt vời nhất cho khách hàng. PTS Gym cam kết cung cấp một môi trường tập luyện an toàn và chất lượng, mang đến cho bạn kết quả tốt nhất trong suốt quá trình rèn luyện."
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Trần Huỳnh Sang"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

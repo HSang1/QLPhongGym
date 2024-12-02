@@ -1,5 +1,6 @@
 package com.example.qlphonggym;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,18 +52,19 @@ public class QuanLyUser_Admin extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Xử lý khi có lỗi trong việc đọc dữ liệu
                 Toast.makeText(QuanLyUser_Admin.this, "Lỗi khi lấy dữ liệu: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        // Nút thêm người dùng
-        Button btnAddUser = findViewById(R.id.btnAddUser);
-        btnAddUser.setOnClickListener(v -> {
-            // Chuyển đến màn hình thêm người dùng
-            // Intent intent = new Intent(QuanLyUserActivity.this, AddUserActivity.class);
-            // startActivity(intent);
+        Button btThemUser = findViewById(R.id.btThemUser);
+        btThemUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(QuanLyUser_Admin.this, ThemUser_Admin.class);
+                startActivity(intent);
+            }
         });
     }
 }

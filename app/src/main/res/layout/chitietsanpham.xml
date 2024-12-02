@@ -1,0 +1,224 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Các phần thông tin sản phẩm (giữ nguyên phần bạn đã có) -->
+        <ImageView
+            android:id="@+id/imageSanPham10"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Ảnh sản phẩm" />
+
+        <TextView
+            android:id="@+id/tenDanhMuc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên danh mục"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tenSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/giaSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá sản phẩm"
+            android:textSize="18sp"
+            android:textColor="#E53935"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/moTaSanPham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mô tả sản phẩm"
+            android:textSize="14sp"
+            android:textColor="#555555"
+            android:layout_marginBottom="16dp"
+            android:lineSpacingExtra="4dp" />
+
+        <TextView
+            android:id="@+id/soLuongConLai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số lượng còn lại"
+            android:textSize="14sp"
+            android:textColor="#4CAF50"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/buttonThemVaoGioHangSP"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:text="Thêm vào giỏ hàng"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#E53935"
+            android:textSize="16sp" />
+
+        <!-- Phần đánh giá sao sản phẩm -->
+        <TextView
+            android:id="@+id/saoSanPham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chưa có đánh giá!"
+            android:textSize="16sp"
+            android:textColor="#FFC107"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp" />
+
+        <RatingBar
+            android:id="@+id/ratingTrungBinh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="0"
+            android:layout_marginBottom="16dp"
+            android:isIndicator="true" />
+
+        <!-- Phần tiến trình đánh giá sao -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- 5 sao -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 sao"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+            <ProgressBar
+                android:id="@+id/progressBarSao5"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#4CAF50"
+                android:paddingRight="20dp"
+                android:progressDrawable="@android:drawable/progress_horizontal"
+                android:progress="0" />
+
+            <!-- 4 sao -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 sao"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+            <ProgressBar
+                android:id="@+id/progressBarSao4"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#4CAF50"
+                android:paddingRight="20dp"
+                android:progress="0" />
+
+            <!-- 3 sao -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 sao"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+            <ProgressBar
+                android:id="@+id/progressBarSao3"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#4CAF50"
+                android:paddingRight="20dp"
+                android:progress="0" />
+
+            <!-- 2 sao -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 sao"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+            <ProgressBar
+                android:id="@+id/progressBarSao2"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="20dp"
+                android:backgroundTint="#4CAF50"
+                android:progress="0"  />
+
+            <!-- 1 sao -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 sao"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+            <ProgressBar
+                android:id="@+id/progressBarSao1"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#4CAF50"
+                android:paddingRight="20dp"
+
+                android:progress="0" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tenDanhGia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đánh giá của bạn"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold" />
+
+        <!-- RatingBar cho đánh giá của người dùng -->
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="0"
+            android:layout_marginBottom="16dp"
+            android:stepSize="1.0"
+            android:isIndicator="false" />
+
+        <!-- Nút gửi đánh giá -->
+        <Button
+            android:id="@+id/buttonGuiDanhGia"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Gửi Đánh Giá"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+</ScrollView>

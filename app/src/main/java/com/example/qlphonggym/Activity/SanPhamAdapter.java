@@ -46,15 +46,33 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
         SanPham sanPham = sanPhamList.get(position);
 
         // Hiển thị dữ liệu vào các thành phần giao diện
-        holder.tvTenSanPham.setText(sanPham.getTenSanPham());
+        holder.tvTenSanPham.setText("Tên sản phẩm: " + sanPham.getTenSanPham());
         holder.tvGiaSanPham.setText("Giá: " + sanPham.getGiaSanPham() + " VND");
-        holder.tvMoTaSanPham.setText(sanPham.getMoTaSanPham());
-        holder.tvDanhMuc.setText("Danh mục: " + sanPham.getDanhMucId());  // Hiển thị danh mục
+        holder.tvMoTaSanPham.setText("Mô tả: " + sanPham.getMoTaSanPham());
 
         // Hiển thị ảnh sản phẩm bằng Glide
         Glide.with(context)
                 .load(sanPham.getImageUrl()) // Dùng link ảnh từ Firebase Storage
                 .into(holder.imgSanPham);
+
+        // Hiển thị số lượng còn lại
+        holder.tvSoLuongConLai.setText("Số lượng còn lại: " + sanPham.getSoLuongConLai());
+
+        // Lấy Danh mục từ danhMucId và hiển thị
+        String danhMucId = sanPham.getDanhMucId();
+        FirebaseDatabase.getInstance().getReference("DanhMuc").child(danhMucId)
+                .get()
+                .addOnSuccessListener(dataSnapshot -> {
+                    if (dataSnapshot.exists()) {
+                        String danhMucName = dataSnapshot.child("tenDanhMuc").getValue(String.class);
+                        if (danhMucName != null) {
+                            holder.tvDanhMuc.setText("Danh mục: " + danhMucName); // Hiển thị tên danh mục
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Lỗi khi lấy danh mục: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
 
         // Nút Sửa sản phẩm
         holder.btnEdit.setOnClickListener(v -> {
@@ -83,7 +101,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     }
 
     public static class SanPhamViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTenSanPham, tvGiaSanPham, tvMoTaSanPham, tvDanhMuc;
+        TextView tvTenSanPham, tvGiaSanPham, tvMoTaSanPham, tvDanhMuc, tvSoLuongConLai;
         Button btnEdit, btnDelete;
         ImageView imgSanPham;
 
@@ -93,6 +111,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             tvGiaSanPham = itemView.findViewById(R.id.giaSanPham);
             tvMoTaSanPham = itemView.findViewById(R.id.moTaSanPham);
             tvDanhMuc = itemView.findViewById(R.id.danhMucSanPham); // TextView cho danh mục
+            tvSoLuongConLai = itemView.findViewById(R.id.soLuongConLai); // TextView cho số lượng còn lại
             imgSanPham = itemView.findViewById(R.id.imgSanPham);
             btnEdit = itemView.findViewById(R.id.btSuaSanPham);
             btnDelete = itemView.findViewById(R.id.btXoaSanPham);

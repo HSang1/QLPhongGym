@@ -29,6 +29,11 @@ public class chucnang_admin extends AppCompatActivity {
         ImageView imageQuanLyUser = findViewById(R.id.quanly_user);
         ImageView imageQuanLyDanhMuc = findViewById(R.id.imageQuanLyDanhMuc);
         ImageView imageQuanLySanPham = findViewById(R.id.imageQuanLySanPham);
+        ImageView imageQuanLyLopHoc = findViewById(R.id.imageQuanLyLopHoc);
+        ImageView imageQuanLyDatLop = findViewById(R.id.imageQuanLyDatLop);
+        ImageView imageQuanLyPT = findViewById(R.id.imageQuanLyPT);
+        ImageView imageQuanLyDatPT = findViewById(R.id.imageQuanLyDatPT);
+        ImageView imageQuanLyDonHang = findViewById(R.id.quanLyDonHang);
 
         imageHoSo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +82,55 @@ public class chucnang_admin extends AppCompatActivity {
                 finish();
             }
         });
+
         imageQuanLySanPham.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(chucnang_admin.this, QuanLySanPham_admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        imageQuanLyLopHoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLyLopHoc_Admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        imageQuanLyDatLop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLyDatLop_admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        imageQuanLyPT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLyPT_Admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        imageQuanLyDatPT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, QuanLyDatPT_admin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        imageQuanLyDonHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(chucnang_admin.this, ThongKe.class);
                 startActivity(intent);
                 finish();
             }

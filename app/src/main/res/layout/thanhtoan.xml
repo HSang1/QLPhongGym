@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:scrollbars="vertical">
+
+    <!-- Tiêu đề trang Thanh Toán -->
+    <TextView
+        android:id="@+id/tvThanhToanTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thanh Toán ZaloPay"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+
+    <!-- Hiển thị mã QR -->
+    <ImageView
+        android:id="@+id/imgQRCode"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/zalopay" /> <!-- Mã QR sẽ được tạo động ở đây -->
+
+    <TextView
+        android:id="@+id/tvTongTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 VND"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp" />
+    <!-- Nút thanh toán -->
+    <Button
+        android:id="@+id/btnThanhToan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thanh Toán"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FF5722"
+        android:textColor="#FFFFFF"
+        android:padding="14dp"/>
+
+    <!-- Nút quay lại -->
+    <Button
+        android:id="@+id/btnQuayLai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quay lại"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#9E9E9E"
+        android:textColor="#FFFFFF"
+        android:padding="14dp"/>
+
+</LinearLayout>

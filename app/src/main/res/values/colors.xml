@@ -2,10 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="sang">#F5F5F5</color>
     <color name="my_color">#35B6F2</color>
     <color name="my_color2">#021494</color>
     <color name="color_admin">#F69F1E</color>
     <color name="color_admin_chucnang">#f0f0f0</color>
     <color name="color_admin_hoso"> #041FA0 </color>
+    <color name="choose">#00BCD4</color>
+    <color name="selected_item_color">#00BCD4</color>
+    <color name="default_item_color">#FFFFFF</color>
+    <color name="nav_item_selected">#00FF00</color> <!-- Xanh lá cây -->
+    <color name="nav_item_unselected">#FFFFFF</color> <!-- Trắng -->
+    <color name="blue">#2196F3</color>
 </resources>

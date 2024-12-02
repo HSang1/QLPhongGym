@@ -1,19 +1,18 @@
 package com.example.qlphonggym;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 
-//khai báo dòng sau
-import android.view.View;
-import android.widget.TextView;
-import android.widget.ImageView;
-import android.widget.Toast;
-import com.google.zxing.qrcode.QRCodeWriter;
-import android.graphics.Bitmap;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 public class QRdatLop extends AppCompatActivity {
 

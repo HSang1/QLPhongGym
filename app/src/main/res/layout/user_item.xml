@@ -33,12 +33,13 @@
         android:id="@+id/btnEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sửa" />
+        android:text="Xem chi tiết" />
 
     <Button
         android:id="@+id/btnDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#F80C0C"
         android:text="Xóa"
         android:layout_marginLeft="8dp" />
 </LinearLayout>

@@ -180,25 +180,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="50dp"
-                            android:text="Địa Chỉ"
-                            android:textColor="@color/black" />
-
-                        <EditText
-                            android:id="@+id/txtDiaChi"
-                            android:layout_width="333dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="49dp"
-                            android:drawableLeft="@drawable/location_24"
-                            android:ems="10"
-                            android:hint="Nhập Địa Chỉ"
-                            android:inputType="text"
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="50dp"
                             android:text="Email"
                             android:textColor="@color/black" />
 

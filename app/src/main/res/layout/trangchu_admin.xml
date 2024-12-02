@@ -59,7 +59,7 @@
 
 
                                 <TextView
-                                    android:id="@+id/textView26"
+                                    android:id="@+id/textViewThanhVien"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -111,7 +111,7 @@
 
 
                                 <TextView
-                                    android:id="@+id/textView29"
+                                    android:id="@+id/textViewPT"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -176,7 +176,7 @@
 
 
                                 <TextView
-                                    android:id="@+id/textView34"
+                                    android:id="@+id/textViewTheTap"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -191,7 +191,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:layout_weight="1"
-                                    android:text="Số lớp học hàng ngày"
+                                    android:text="Thẻ tập đã cung cấp"
                                     android:gravity="center"
                                     android:textSize="50px" />
 
@@ -228,7 +228,7 @@
 
 
                                 <TextView
-                                    android:id="@+id/textView30"
+                                    android:id="@+id/textViewSanPham"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -243,7 +243,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:layout_weight="1"
-                                    android:text="Doanh thu tháng này"
+                                    android:text="Sản phẩm trong cửa hàng"
                                     android:gravity="center"
                                     android:textSize="50px" />
 

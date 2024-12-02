@@ -24,6 +24,7 @@ public class hoSo_user extends AppCompatActivity {
 
     // Các TextView trong hoso_user.xml để hiển thị thông tin
     private TextView emailValueText, phoneValueText, addressValueText, fullnameValueText, usernameText;  // Cập nhật thêm fullnameValueText
+    private TextView forgotPasswordText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,9 @@ public class hoSo_user extends AppCompatActivity {
         emailValueText = findViewById(R.id.emailValueText);
         phoneValueText = findViewById(R.id.phoneValueText);
         addressValueText = findViewById(R.id.addressValueText);
-        fullnameValueText = findViewById(R.id.textfullnameValueText);  // Ánh xạ cho fullname
-        usernameText = findViewById(R.id.textusernameValueText);  // Ánh xạ cho username
+        fullnameValueText = findViewById(R.id.textfullnameValueText);
+        usernameText = findViewById(R.id.textusernameValueText);
+        forgotPasswordText = findViewById(R.id.forgotPasswordText);
 
         // Lấy thông tin người dùng đã đăng nhập
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -52,6 +54,14 @@ public class hoSo_user extends AppCompatActivity {
             // Nếu không có người dùng đăng nhập, thông báo lỗi
             Toast.makeText(this, "Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
         }
+
+
+       TextView QuayLai = findViewById(R.id.txtQuayLaiTrangChu);
+        QuayLai.setOnClickListener(v -> {
+            Intent intent = new Intent(hoSo_user.this, trangChu.class);
+            startActivity(intent);
+            finish();
+        });
 
         // Lấy Button Đăng xuất và thiết lập sự kiện click cho Button Đăng xuất
         Button btnDangXuat = findViewById(R.id.btDangXuat);
@@ -71,6 +81,40 @@ public class hoSo_user extends AppCompatActivity {
             startActivity(intent);
             finish();  // Kết thúc Activity hoSo_user để không quay lại màn hình này nữa
         });
+
+        Button btnSuaHoSo = findViewById(R.id.btSuaHoSo);
+        btnSuaHoSo.setOnClickListener(v -> {
+            Intent intent = new Intent(hoSo_user.this, SuaHoSo.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // Sự kiện khi người dùng bấm vào "Quên mật khẩu"
+        forgotPasswordText.setOnClickListener(v -> {
+            String email = mAuth.getCurrentUser().getEmail();  // Lấy email của người dùng
+
+            if (email != null) {
+                mAuth.sendPasswordResetEmail(email)  // Gửi yêu cầu đổi mật khẩu qua email
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(hoSo_user.this, "Đã gửi email đổi mật khẩu đến gmail của bạn", Toast.LENGTH_SHORT).show();
+
+                                // Đăng xuất người dùng
+                                mAuth.signOut();
+
+                                // Quay về trang đăng nhập
+                                Intent intent = new Intent(hoSo_user.this, trangChu.class);
+                                startActivity(intent);
+                                finish();  // Kết thúc Activity hiện tại
+                            } else {
+                                Toast.makeText(hoSo_user.this, "Lỗi gửi email đổi mật khẩu.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                Toast.makeText(hoSo_user.this, "Không tìm thấy email của bạn.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void loadUserProfile(String userId) {
@@ -81,7 +125,6 @@ public class hoSo_user extends AppCompatActivity {
                     String username = dataSnapshot.child("username").getValue(String.class);
                     String email = dataSnapshot.child("email").getValue(String.class);
                     String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
-                    String address = dataSnapshot.child("address").getValue(String.class);
                     String city = dataSnapshot.child("city").getValue(String.class);
                     String fullname = dataSnapshot.child("fullName").getValue(String.class);
 
@@ -90,7 +133,7 @@ public class hoSo_user extends AppCompatActivity {
                     emailValueText.setText(email);
                     phoneValueText.setText(phoneNumber);
                     fullnameValueText.setText(fullname);  // Đảm bảo đặt đúng tên biến ở đây
-                    addressValueText.setText(address);
+                    addressValueText.setText(city);
                 } else {
                     Toast.makeText(hoSo_user.this, "Không tìm thấy hồ sơ người dùng.", Toast.LENGTH_SHORT).show();
                 }

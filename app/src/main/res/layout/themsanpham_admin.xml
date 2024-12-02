@@ -44,6 +44,12 @@
             android:layout_height="wrap_content"
             android:hint="Giá sản phẩm"
             android:inputType="numberDecimal" />
+        <EditText
+            android:id="@+id/edtSoLuongNhap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số lượng nhập"
+            android:inputType="number" />
 
         <!-- Mô tả sản phẩm -->
         <EditText
