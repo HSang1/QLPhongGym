@@ -2,12 +2,14 @@ package com.example.qlphonggym;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +30,19 @@ public class dangKy extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database; // Firebase Realtime Database
     private DatabaseReference usersRef; // Tham chiếu đến Realtime Database
+    // Thêm biến boolean
+    private boolean isPasswordVisible = false;
+    private boolean isConfirmPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dangky);
+
+        // Ánh xạ các View
+        EditText txtConfirmPassword = findViewById(R.id.txtXacNhanMK);
+        ImageView imgAnHienMK = findViewById(R.id.imgAnHienMK);
+        ImageView imgAnHienXacNhanMK = findViewById(R.id.imgAnHienXacNhanMK);
 
         // Khởi tạo Firebase Auth và Realtime Database
         mAuth = FirebaseAuth.getInstance();
@@ -63,6 +73,32 @@ public class dangKy extends AppCompatActivity {
             Intent backIntent = new Intent(dangKy.this, DangkysdtActivity.class);
             startActivity(backIntent);
             finish();
+        });
+
+        // Xử lý sự kiện ẩn/hiện mật khẩu
+        imgAnHienMK.setOnClickListener(v -> {
+            if (isPasswordVisible) {
+                txtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                imgAnHienMK.setImageResource(R.drawable.baseline_remove_red_eye_24);
+            } else {
+                txtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                imgAnHienMK.setImageResource(R.drawable.baseline_visibility_off_24);
+            }
+            isPasswordVisible = !isPasswordVisible;
+            txtPassword.setSelection(txtPassword.getText().length());
+        });
+
+        // Xử lý sự kiện ẩn/hiện xác nhận mật khẩu
+        imgAnHienXacNhanMK.setOnClickListener(v -> {
+            if (isConfirmPasswordVisible) {
+                txtConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                imgAnHienXacNhanMK.setImageResource(R.drawable.baseline_remove_red_eye_24);
+            } else {
+                txtConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                imgAnHienXacNhanMK.setImageResource(R.drawable.baseline_visibility_off_24);
+            }
+            isConfirmPasswordVisible = !isConfirmPasswordVisible;
+            txtConfirmPassword.setSelection(txtConfirmPassword.getText().length());
         });
 
         btnDangKy.setOnClickListener(v -> {

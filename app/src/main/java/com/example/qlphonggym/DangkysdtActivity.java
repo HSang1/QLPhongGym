@@ -47,26 +47,38 @@ public class DangkysdtActivity extends AppCompatActivity {
 
         // Xử lý khi nhấn nút xác thực số điện thoại
         buttonXacThucSDT.setOnClickListener(view -> {
-            if (!checkBox.isChecked()) {
-                Toast.makeText(this, "Chưa đồng ý điều khoản sử dụng!", Toast.LENGTH_SHORT).show();
-            } else if (!txtSDT.getText().toString().matches("^(03[2-9]|05[6|8]|07[0|6-9]|08[1-6|8-9]|09[0-4|6-8])\\d{7}$")) {
-                Toast.makeText(this, "Số điện thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
+            String phoneNumber = txtSDT.getText().toString().trim();
+            boolean isPhoneNumberValid = phoneNumber.matches("^(03[2-9]|05[6|8]|07[0|6-9]|08[1-6|8-9]|09[0-4|6-8])\\d{7}$");
+            boolean isCheckboxChecked = checkBox.isChecked();
+
+            if (phoneNumber.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập số điện thoại.", Toast.LENGTH_SHORT).show();
+                txtSDT.requestFocus();
+            } else if (!phoneNumber.matches("\\d{10}")) {
+                Toast.makeText(this, "Số điện thoại phải có đúng 10 chữ số.", Toast.LENGTH_SHORT).show();
+                txtSDT.requestFocus();
+            } else if (!isPhoneNumberValid) {
+                Toast.makeText(this, "Số điện thoại không đúng định dạng. Vui lòng nhập lại!", Toast.LENGTH_SHORT).show();
+                txtSDT.requestFocus();
+            } else if (!isCheckboxChecked) {
+                Toast.makeText(this, "Bạn chưa đồng ý với các điều khoản sử dụng.", Toast.LENGTH_SHORT).show();
+                checkBox.requestFocus();
             } else {
-                // Khi điều kiện hợp lệ, chuyển đến trang đăng ký
-                String phoneNumber = txtSDT.getText().toString(); // Lấy số điện thoại
                 Intent intent = new Intent(DangkysdtActivity.this, dangKy.class);
                 intent.putExtra("PHONE_NUMBER", phoneNumber); // Truyền số điện thoại qua Intent
                 startActivity(intent);
             }
         });
+
+
     }
 
     private void validateInput() {
-        String phoneNumber = txtSDT.getText().toString();
+        String phoneNumber = txtSDT.getText().toString().trim();
         boolean isPhoneNumberValid = phoneNumber.matches("^(03[2-9]|05[6|8]|07[0|6-9]|08[1-6|8-9]|09[0-4|6-8])\\d{7}$");
-        boolean isPhoneNumberLengthValid = phoneNumber.length() == 10;
         boolean isCheckboxChecked = checkBox.isChecked();
 
-        buttonXacThucSDT.setEnabled(isPhoneNumberValid && isPhoneNumberLengthValid && isCheckboxChecked);
+        // Chỉ bật nút nếu cả số điện thoại và checkbox hợp lệ
+        buttonXacThucSDT.setEnabled(isPhoneNumberValid && isCheckboxChecked);
     }
 }
