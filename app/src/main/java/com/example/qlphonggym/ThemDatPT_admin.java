@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.qlphonggym.CSDL.DatPT;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,12 +28,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ThemDatPT_admin extends AppCompatActivity {
 
-    private EditText edtThanhPho, edtDiaDiem;
-    private Spinner spinnerPT;
+    private Spinner spinnerPT, spinnerThanhPho, spinnerDiaDiem;
+    private ArrayAdapter<String> diaDiemAdapter;
     private ImageView imgDatPT;
     private Button btnChonAnhPT, btnThemPT;
     private Uri imageUri;
@@ -49,6 +49,9 @@ public class ThemDatPT_admin extends AppCompatActivity {
 
     private DatabaseReference dbRefPT, dbRefDatPT;
     private FirebaseStorage firebaseStorage;
+
+    // Khai báo danh sách địa điểm theo thành phố
+    private final HashMap<String, List<String>> diaDiemMap = new HashMap<>();
 
     // Khai báo ActivityResultLauncher
     private final ActivityResultLauncher<Intent> selectImage = registerForActivityResult(
@@ -83,9 +86,8 @@ public class ThemDatPT_admin extends AppCompatActivity {
         checkboxEvening = findViewById(R.id.checkboxEvening);
         checkboxNight = findViewById(R.id.checkboxNight);
 
-
-        edtThanhPho = findViewById(R.id.edtThanhPho);
-        edtDiaDiem = findViewById(R.id.edtDiaDiem);
+        spinnerThanhPho = findViewById(R.id.spinnerThanhPho);
+        spinnerDiaDiem = findViewById(R.id.spinnerDiaDiem);
         spinnerPT = findViewById(R.id.spinnerPT);
         imgDatPT = findViewById(R.id.imgDatPT);
         btnChonAnhPT = findViewById(R.id.btnChonAnhPT);
@@ -96,81 +98,68 @@ public class ThemDatPT_admin extends AppCompatActivity {
         dbRefDatPT = FirebaseDatabase.getInstance().getReference("DatPT");
         firebaseStorage = FirebaseStorage.getInstance(); // Khởi tạo Firebase Storage
 
+        // Thiết lập danh sách địa điểm theo thành phố
+        setupDiaDiemMap();
+
+        // Thiết lập Spinner Thành phố và Địa điểm
+        setupThanhPhoSpinner();
+
         // Kiểm tra quyền truy cập bộ nhớ
         checkStoragePermission();
 
-        // Lấy danh mục từ Firebase và điền vào Spinner
+        // Lấy danh mục PT từ Firebase và điền vào Spinner
         getPTFromFirebase();
 
         // Chọn ảnh sản phẩm
         btnChonAnhPT.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
-            // Sử dụng ActivityResultLauncher thay cho startActivityForResult
             selectImage.launch(intent);
         });
 
-        // Thêm sản phẩm
-        btnThemPT.setOnClickListener(v -> {
-            String thanhPho = edtThanhPho.getText().toString().trim();
-            String diaDiem = edtDiaDiem.getText().toString().trim();
-            String pTId = spinnerPT.getSelectedItem().toString(); // Lấy tên danh mục từ Spinner
+        // Thêm PT
+        btnThemPT.setOnClickListener(v -> addPT());
+    }
 
-            // Tạo danh sách ngày được chọn
-            List<String> days = new ArrayList<>();
-            if (checkboxMonday.isChecked()) days.add("Monday");
-            if (checkboxTuesday.isChecked()) days.add("Tuesday");
-            if (checkboxWednesday.isChecked()) days.add("Wednesday");
-            if (checkboxThursday.isChecked()) days.add("Thursday");
-            if (checkboxFriday.isChecked()) days.add("Friday");
-            if (checkboxSaturday.isChecked()) days.add("Saturday");
-            if (checkboxSunday.isChecked()) days.add("Sunday");
+    // Phương thức thiết lập danh sách địa điểm theo thành phố
+    private void setupDiaDiemMap() {
+        diaDiemMap.put("Hồ Chí Minh", Arrays.asList("Gò Vấp", "Bình Thạnh", "Quận 1", "Quận 3", "Quận 7"));
+        diaDiemMap.put("Hà Nội", Arrays.asList("Hoàng Mai", "Cầu Giấy", "Đống Đa"));
+    }
 
-            // Tạo danh sách buổi được chọn
-            List<String> sessions = new ArrayList<>();
-            if (checkboxMorning.isChecked()) sessions.add("Morning");
-            if (checkboxAfternoon.isChecked()) sessions.add("Afternoon");
-            if (checkboxEvening.isChecked()) sessions.add("Evening");
-            if (checkboxNight.isChecked()) sessions.add("Night");
+    // Phương thức thiết lập Spinner Thành phố và Địa điểm
+    private void setupThanhPhoSpinner() {
+        List<String> thanhPhoList = new ArrayList<>(diaDiemMap.keySet());
+        ArrayAdapter<String> thanhPhoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, thanhPhoList);
+        thanhPhoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerThanhPho.setAdapter(thanhPhoAdapter);
 
-            if (thanhPho.isEmpty() || diaDiem.isEmpty() || days.isEmpty() || sessions.isEmpty()) {
-                Toast.makeText(ThemDatPT_admin.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
+        diaDiemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
+        diaDiemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDiaDiem.setAdapter(diaDiemAdapter);
+
+        spinnerThanhPho.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedCity = thanhPhoList.get(position);
+                updateDiaDiemSpinner(selectedCity);
             }
 
-            if (imageUri != null) {
-                // Tải ảnh lên Firebase Storage
-                StorageReference storageRef = firebaseStorage.getReference().child("images/" + System.currentTimeMillis() + ".jpg");
-                UploadTask uploadTask = storageRef.putFile(imageUri);
-
-                uploadTask.addOnSuccessListener(taskSnapshot -> {
-                    // Lấy URL của ảnh đã upload
-                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String imageUrl = uri.toString();
-
-                        // Tạo đối tượng sản phẩm
-                        String datPTId = dbRefDatPT.push().getKey();
-                        DatPT datPT = new DatPT(datPTId, thanhPho, diaDiem, imageUrl, pTId, days, sessions);
-
-                        // Thêm sản phẩm vào Firebase Database
-                        if (datPTId != null) {
-                            dbRefDatPT.child(datPTId).setValue(datPT)
-                                    .addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(ThemDatPT_admin.this, "Thêm PT thành công", Toast.LENGTH_SHORT).show();
-                                            finish(); // Trở về màn hình trước
-                                        } else {
-                                            String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                                            Toast.makeText(ThemDatPT_admin.this, "Lỗi khi thêm PT: " + errorMessage, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
-                    });
-                }).addOnFailureListener(e -> {
-                    Toast.makeText(ThemDatPT_admin.this, "Tải ảnh thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                diaDiemAdapter.clear();
             }
         });
+    }
+
+    // Phương thức cập nhật Spinner Địa điểm
+    private void updateDiaDiemSpinner(String city) {
+        List<String> diaDiemList = diaDiemMap.get(city);
+        diaDiemAdapter.clear();
+        if (diaDiemList != null) {
+            diaDiemAdapter.addAll(diaDiemList);
+        }
+        diaDiemAdapter.notifyDataSetChanged();
     }
 
     // Phương thức kiểm tra quyền truy cập bộ nhớ
@@ -182,28 +171,67 @@ public class ThemDatPT_admin extends AppCompatActivity {
         }
     }
 
+    // Lấy danh mục PT từ Firebase và điền vào Spinner
     private void getPTFromFirebase() {
         dbRefPT.get().addOnSuccessListener(dataSnapshot -> {
             ArrayList<String> pTList = new ArrayList<>();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                // Lấy tên danh mục từ trường "tenPT"
+            for (com.google.firebase.database.DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 String pTName = snapshot.child("tenPT").getValue(String.class);
                 if (pTName != null) {
                     pTList.add(pTName);
                 }
             }
 
-            // Kiểm tra xem danhMucList có dữ liệu hay không
-            if (pTList.isEmpty()) {
-                Toast.makeText(ThemDatPT_admin.this, "Danh mục trống!", Toast.LENGTH_SHORT).show();
-            } else {
-                // Điền dữ liệu vào Spinner
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(ThemDatPT_admin.this, android.R.layout.simple_spinner_item, pTList);
+            if (!pTList.isEmpty()) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pTList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerPT.setAdapter(adapter);
             }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(ThemDatPT_admin.this, "Lỗi khi lấy danh mục", Toast.LENGTH_SHORT).show();
-        });
+        }).addOnFailureListener(e -> Toast.makeText(this, "Lỗi khi lấy danh mục PT", Toast.LENGTH_SHORT).show());
+    }
+
+    // Thêm PT vào Firebase
+    private void addPT() {
+        String thanhPho = spinnerThanhPho.getSelectedItem().toString();
+        String diaDiem = spinnerDiaDiem.getSelectedItem().toString();
+        String pTId = spinnerPT.getSelectedItem().toString();
+
+        List<String> days = new ArrayList<>();
+        if (checkboxMonday.isChecked()) days.add("Monday");
+        if (checkboxTuesday.isChecked()) days.add("Tuesday");
+        if (checkboxWednesday.isChecked()) days.add("Wednesday");
+        if (checkboxThursday.isChecked()) days.add("Thursday");
+        if (checkboxFriday.isChecked()) days.add("Friday");
+        if (checkboxSaturday.isChecked()) days.add("Saturday");
+        if (checkboxSunday.isChecked()) days.add("Sunday");
+
+        List<String> sessions = new ArrayList<>();
+        if (checkboxMorning.isChecked()) sessions.add("Sáng");
+        if (checkboxAfternoon.isChecked()) sessions.add("Trưa");
+        if (checkboxEvening.isChecked()) sessions.add("Chiều");
+        if (checkboxNight.isChecked()) sessions.add("Tối");
+
+        if (days.isEmpty() || sessions.isEmpty() || imageUri == null) {
+            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StorageReference storageRef = firebaseStorage.getReference().child("images/" + System.currentTimeMillis() + ".jpg");
+        storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            String imageUrl = uri.toString();
+            String datPTId = dbRefDatPT.push().getKey();
+            DatPT datPT = new DatPT(datPTId, thanhPho, diaDiem, imageUrl, pTId, days, sessions);
+
+            if (datPTId != null) {
+                dbRefDatPT.child(datPTId).setValue(datPT).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Thêm PT thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Thêm PT thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        })).addOnFailureListener(e -> Toast.makeText(this, "Tải ảnh thất bại", Toast.LENGTH_SHORT).show());
     }
 }

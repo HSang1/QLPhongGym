@@ -38,9 +38,9 @@ public class QuanLyPT_Admin extends AppCompatActivity {
         pTList = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference("PT");
 
-        // Khởi tạo nút Thêm danh mục
-        Button btnThemDanhMuc = findViewById(R.id.btThemPT);
-        btnThemDanhMuc.setOnClickListener(v -> {
+        // Khởi tạo nút Thêm PT
+        Button btnThemPT = findViewById(R.id.btThemPT);
+        btnThemPT.setOnClickListener(v -> {
             Intent intent = new Intent(QuanLyPT_Admin.this, themPT_admin.class);
             startActivity(intent);
         });
@@ -55,9 +55,9 @@ public class QuanLyPT_Admin extends AppCompatActivity {
                 // Kiểm tra dữ liệu có tồn tại hay không
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                       PT pT = snapshot.getValue(PT.class);
-                        if (pT != null) {
-                            pTList.add(pT); // Thêm danh mục vào danh sách
+                        PT pt = snapshot.getValue(PT.class);
+                        if (pt != null) {
+                            pTList.add(pt); // Thêm PT vào danh sách
                         }
                     }
 
@@ -71,7 +71,7 @@ public class QuanLyPT_Admin extends AppCompatActivity {
                     }
                 } else {
                     // Nếu không có dữ liệu, hiển thị thông báo
-                    Toast.makeText(QuanLyPT_Admin.this, "Không có danh mục nào", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuanLyPT_Admin.this, "Không có PT nào", Toast.LENGTH_SHORT).show();
                 }
             }
 

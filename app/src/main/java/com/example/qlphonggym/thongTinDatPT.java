@@ -39,7 +39,7 @@ import java.util.Locale;
 public class thongTinDatPT extends AppCompatActivity {
 
     private TextView PTNameView, dateTimeView, locationView, sessionView,cityView;
-    private Button bookPTButton, cancelPTBookingButton, checkInPTButton;
+    private Button bookPTButton, cancelPTBookingButton;
     private DatabaseReference bookingRef;
     private String currentUserId;
 
@@ -66,17 +66,15 @@ public class thongTinDatPT extends AppCompatActivity {
         TextView txtQuayLai = findViewById(R.id.txtReturn);
         sessionView = findViewById(R.id.session);
         cityView = findViewById(R.id.city);
-        ImageView classImageView = findViewById(R.id.PT_image);
         PTNameView = findViewById(R.id.PT_name);
         dateTimeView = findViewById(R.id.date_time);
         locationView = findViewById(R.id.location);
         bookPTButton = findViewById(R.id.bookPT_button);
         cancelPTBookingButton = findViewById(R.id.cancelPT_booking_button);
-        checkInPTButton = findViewById(R.id.check_inPT_button);
 
         // Lấy dữ liệu từ Intent
         String PTId = getIntent().getStringExtra("PTId");
-        String session = translateVietnameseSession(getIntent().getStringExtra("Session"));
+        String session = getIntent().getStringExtra("Session");
         String date = getIntent().getStringExtra("Date");
         String city = getIntent().getStringExtra("City");
         String location = getIntent().getStringExtra("Location");
@@ -93,8 +91,7 @@ public class thongTinDatPT extends AppCompatActivity {
         Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.placeholder_image)
-                .error(R.drawable.placeholder_image)
-                .into(classImageView);
+                .error(R.drawable.placeholder_image);
 
         // Kiểm tra trạng thái đặt chỗ
         checkBookingStatus(PTId, date, session);
@@ -109,40 +106,30 @@ public class thongTinDatPT extends AppCompatActivity {
         cancelPTBookingButton.setOnClickListener(v -> cancelBooking(PTId, session, date));
     }
 
-    private String translateVietnameseSession(String session) {
-        switch (session) {
-            case "Morning":
-                return "Sáng";
-            case "Afternoon":
-                return "Trưa";
-            case "Evening":
-                return "Chiều";
-            case "Night":
-                return "Tối";
-            default:
-                return session; // Giữ nguyên nếu không khớp
-        }
-    }
 
 
     private void handleBooking(String PTId, String session, String date, String location, String city) {
         bookingRef.orderByChild("PTId").equalTo(PTId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int bookingCount = 0;
+                int sessionBookingCount = 0; // Đếm số lượng người đặt trong buổi cụ thể của PT
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String bookingDate = snapshot.child("date").getValue(String.class);
                     String bookedSession = snapshot.child("session").getValue(String.class);
+                    String bookedPTId = snapshot.child("PTId").getValue(String.class);
 
-                    if (bookingDate != null && bookedSession != null &&
-                            bookingDate.equals(date) && bookedSession.equals(session)) {
-                        bookingCount++;
+                    // Kiểm tra nếu PT, ngày, và buổi trùng khớp
+                    if (bookingDate != null && bookingDate.equals(date) &&
+                            bookedSession != null && bookedSession.equals(session) &&
+                            bookedPTId != null && bookedPTId.equals(PTId)) {
+                        sessionBookingCount++;
                     }
                 }
 
-                if (bookingCount >= 3) {
-                    Toast.makeText(thongTinDatPT.this, "Lớp đã đủ 3 người, không thể đặt thêm!", Toast.LENGTH_SHORT).show();
+                // Nếu buổi cụ thể của PT đã đủ 3 người, không cho phép đặt thêm
+                if (sessionBookingCount >= 3) {
+                    Toast.makeText(thongTinDatPT.this, "Buổi này đã đủ 3 người, vui lòng chọn buổi khác hoặc PT khác!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -212,17 +199,20 @@ public class thongTinDatPT extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean isBookedByCurrentUser = false;
-                int bookingCount = 0;
+                int sessionBookingCount = 0;
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String userId = snapshot.child("userId").getValue(String.class);
                     String bookingDate = snapshot.child("date").getValue(String.class);
                     String bookedSession = snapshot.child("session").getValue(String.class);
+                    String bookedPTId = snapshot.child("PTId").getValue(String.class);
 
-                    if (bookingDate != null && bookingDate.equals(date)) {
-                        bookingCount++;
-                        if (userId != null && userId.equals(currentUserId) &&
-                                bookedSession != null && bookedSession.equals(session)) {
+                    // Kiểm tra nếu PT, ngày, và buổi trùng khớp
+                    if (bookingDate != null && bookingDate.equals(date) &&
+                            bookedSession != null && bookedSession.equals(session) &&
+                            bookedPTId != null && bookedPTId.equals(PTId)) {
+                        sessionBookingCount++;
+                        if (userId != null && userId.equals(currentUserId)) {
                             isBookedByCurrentUser = true;
                         }
                     }
@@ -231,10 +221,10 @@ public class thongTinDatPT extends AppCompatActivity {
                 if (isBookedByCurrentUser) {
                     bookPTButton.setVisibility(View.GONE);
                     cancelPTBookingButton.setVisibility(View.VISIBLE);
-                } else if (bookingCount >= 3) {
+                } else if (sessionBookingCount >= 3) {
                     bookPTButton.setVisibility(View.GONE);
                     cancelPTBookingButton.setVisibility(View.GONE);
-                    Toast.makeText(thongTinDatPT.this, "Lớp đã đủ 3 người, không thể đặt thêm!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(thongTinDatPT.this, "Buổi này đã đủ 3 người, không thể đặt thêm!", Toast.LENGTH_SHORT).show();
                 } else {
                     bookPTButton.setVisibility(View.VISIBLE);
                     cancelPTBookingButton.setVisibility(View.GONE);

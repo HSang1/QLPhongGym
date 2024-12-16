@@ -4,8 +4,8 @@ public class PT {
     private String id;
     private String tenPT;
 
+    // Constructor mặc định (cần thiết cho Firebase)
     public PT() {
-        // Constructor mặc định cho Firebase
     }
 
     public PT(String id, String tenPT) {
@@ -13,6 +13,7 @@ public class PT {
         this.tenPT = tenPT;
     }
 
+    // Getter và Setter cho 'id'
     public String getId() {
         return id;
     }
@@ -21,11 +22,12 @@ public class PT {
         this.id = id;
     }
 
+    // Getter và Setter cho 'tenPT'
     public String getTenPT() {
         return tenPT;
     }
 
-    public void setTenPT(String tenLopHoc) {
+    public void setTenPT(String tenPT) {
         this.tenPT = tenPT;
     }
 }

@@ -27,15 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <!-- Danh mục sản phẩm -->
-        <TextView
-            android:id="@+id/pTDatPT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lớp học: Điện tử"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="8dp" />
+
         <!-- Tên sản phẩm -->
         <TextView
             android:id="@+id/pTId"

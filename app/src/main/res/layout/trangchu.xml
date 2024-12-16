@@ -405,28 +405,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/btnScanQR"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:background="@drawable/qr_code_scanner_24"
-                android:layout_margin="4dp"
-                android:scaleType="centerInside" />
-
-            <TextView
-                android:id="@+id/txtQR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quét mã"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/notificationButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

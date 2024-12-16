@@ -95,18 +95,6 @@
         <item>Giá cao đến thấp</item>
         <item>Sản phẩm bán chạy</item>
     </string-array>
-    <string-array name="sessions">
-        <item>Sáng</item>
-        <item>Trưa</item>
-        <item>Chiều</item>
-        <item>Tối</item>
-    </string-array>
 
-    <string-array name="pts">
-        <item>PT buổi sáng</item>
-        <item>PT buổi trưa</item>
-        <item>PT buổi chiều</item>
-        <item>PT buổi tối</item>
-    </string-array>
 
 </resources>

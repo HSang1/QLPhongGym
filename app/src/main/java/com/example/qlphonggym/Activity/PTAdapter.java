@@ -39,29 +39,34 @@ public class PTAdapter extends RecyclerView.Adapter<PTAdapter.PTViewHolder> {
 
     @Override
     public void onBindViewHolder(PTViewHolder holder, int position) {
-        PT pT = pTList.get(position);
-        holder.tvTenPT.setText(pT.getTenPT());
+        PT pt = pTList.get(+position);
+        if (pt != null && pt.getTenPT() != null) {
+            holder.tvTenPT.setText(pt.getTenPT()); // Hiển thị tên PT
+        } else {
+            holder.tvTenPT.setText("Tên PT không có");
+        }
 
-        // Nút Sửa danh mục
+        // Nút Sửa PT
         holder.btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(context, SuaPT_admin.class);
-            intent.putExtra("PT_ID", pT.getId()); // Truyền ID của danh mục
+            intent.putExtra("PT_ID", pt.getId()); // Truyền ID của PT
             context.startActivity(intent);
         });
 
-        // Nút Xóa danh mục
+        // Nút Xóa PT
         holder.btnDelete.setOnClickListener(v -> {
-            pTRef.child(pT.getId()).removeValue()
+            pTRef.child(pt.getId()).removeValue()
                     .addOnSuccessListener(aVoid -> {
                         pTList.remove(position);
                         notifyItemRemoved(position);
-                        Toast.makeText(context, "Xóa danh mục thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Xóa PT thành công", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Lỗi khi xóa danh mục: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Lỗi khi xóa PT: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
     }
+
 
     @Override
     public int getItemCount() {

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".QuanLyPT_Admin">
+    android:id="@+id/main"
+    android:padding="16dp">
 
     <!-- Tiêu đề màn hình -->
     <TextView
@@ -19,7 +17,7 @@
         android:layout_gravity="center"
         android:paddingBottom="20dp" />
 
-    <!-- Danh sách người dùng -->
+    <!-- Danh sách PT -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/danhSachPT"
         android:layout_width="match_parent"
@@ -27,12 +25,11 @@
         android:layout_weight="1"
         android:paddingBottom="16dp" />
 
-    <!-- Nút Thêm người dùng -->
+    <!-- Nút Thêm PT -->
     <Button
         android:id="@+id/btThemPT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm loại PT"
+        android:text="Thêm PT"
         android:textSize="16sp" />
-
 </LinearLayout>

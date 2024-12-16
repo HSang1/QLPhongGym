@@ -19,21 +19,6 @@
         android:textColor="@color/black"
         android:textSize="50px" />
 
-    <!-- Spinner for Session -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Buổi"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
-
-    <Spinner
-
-        android:id="@+id/session_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/spinner_background" />
-
     <!-- Spinner for City -->
     <TextView
         android:layout_width="wrap_content"

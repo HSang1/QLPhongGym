@@ -29,9 +29,6 @@
         android:theme="@style/Theme.QLPhongGym"
         tools:targetApi="31">
         <activity
-            android:name=".QRdatPT"
-            android:exported="false" />
-        <activity
             android:name=".thongTinDatPT"
             android:exported="false" />
         <activity

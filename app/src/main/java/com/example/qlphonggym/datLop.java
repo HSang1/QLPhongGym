@@ -11,7 +11,9 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.widget.Button;
@@ -36,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class datLop extends AppCompatActivity {
+    private final HashMap<String, List<String>> diaDiemMap = new HashMap<>(); // Danh sách thành phố và địa điểm
+    private ArrayAdapter<String> diaDiemAdapter; // Adapter cho địa điểm
     private LinearLayout datesContainer;
     private LinearLayout classesContainer;
 
@@ -67,6 +71,9 @@ public class datLop extends AppCompatActivity {
 
         datesContainer = findViewById(R.id.dates_container);
         classesContainer = findViewById(R.id.classes_container);
+
+        // Khởi tạo danh sách địa điểm theo Thành phố
+        setupDiaDiemMap();
 
 
         // Lấy thứ hiện tại và ngày hiện tại
@@ -163,6 +170,12 @@ public class datLop extends AppCompatActivity {
             // Di chuyển sang ngày tiếp theo
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
+    }
+
+    private void setupDiaDiemMap() {
+        diaDiemMap.put("Hồ Chí Minh", Arrays.asList("Quận 1", "Quận 3","Quận 7", "Gò Vấp", "Bình Thạnh"));
+
+        diaDiemMap.put("Hà Nội", Arrays.asList("Hoàng Mai", "Cầu Giấy", "Đống Đa"));
     }
 
 
@@ -326,44 +339,68 @@ public class datLop extends AppCompatActivity {
         classesContainer.addView(classLayout);
     }
 
+    // Cập nhật Spinner Địa điểm khi chọn thành phố
+    private void updateDiaDiemSpinner(String city) {
+        List<String> diaDiemList = diaDiemMap.get(city);
+        diaDiemAdapter.clear();
+        if (diaDiemList != null) {
+            diaDiemAdapter.addAll(diaDiemList);
+        }
+        diaDiemAdapter.notifyDataSetChanged();
+    }
 
 
+
+    // Hiển thị hộp thoại lọc lớp học
     private void showFilterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Bộ lọc");
+        builder.setTitle("Bộ lọc lớp học");
 
+        // Inflate layout cho bộ lọc
         View view = getLayoutInflater().inflate(R.layout.bolocdatlop, null);
         builder.setView(view);
 
-        Spinner lopSpinner = view.findViewById(R.id.lop_spinner);
+        // Khai báo Spinner
         Spinner citySpinner = view.findViewById(R.id.city_spinner);
         Spinner diadiemSpinner = view.findViewById(R.id.diadiem_spinner);
 
-        ArrayAdapter<CharSequence> lopAdapter = ArrayAdapter.createFromResource(this,
-                R.array.lops, android.R.layout.simple_spinner_item);
-        lopAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        lopSpinner.setAdapter(lopAdapter);
-
-        ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.cities, android.R.layout.simple_spinner_item);
+        // Thiết lập Adapter cho Spinner Thành phố
+        List<String> thanhPhoList = new ArrayList<>(diaDiemMap.keySet());
+        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, thanhPhoList);
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citySpinner.setAdapter(cityAdapter);
 
-        ArrayAdapter<CharSequence> diadiemAdapter = ArrayAdapter.createFromResource(this,
-                R.array.diadiems, android.R.layout.simple_spinner_item);
-        diadiemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        diadiemSpinner.setAdapter(diadiemAdapter);
+        // Thiết lập Adapter cho Spinner Địa điểm
+        diaDiemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
+        diaDiemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        diadiemSpinner.setAdapter(diaDiemAdapter);
 
+        // Sự kiện khi chọn thành phố
+        citySpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedCity = thanhPhoList.get(position);
+                updateDiaDiemSpinner(selectedCity); // Cập nhật địa điểm tương ứng
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                diaDiemAdapter.clear();
+            }
+        });
+
+        // Nút áp dụng lọc
         Button applyButton = view.findViewById(R.id.apply_button);
         Button cancelButton = view.findViewById(R.id.cancel_button);
 
         AlertDialog dialog = builder.create();
 
         applyButton.setOnClickListener(v -> {
-            selectedLop = lopSpinner.getSelectedItem().toString();
-            selectedCity = citySpinner.getSelectedItem().toString();
-            selectedDiaDiem = diadiemSpinner.getSelectedItem().toString();
+            // Lấy giá trị bộ lọc
+            selectedCity = citySpinner.getSelectedItem() != null ? citySpinner.getSelectedItem().toString() : "";
+            selectedDiaDiem = diadiemSpinner.getSelectedItem() != null ? diadiemSpinner.getSelectedItem().toString() : "";
 
+            // Cập nhật danh sách lớp học với bộ lọc
             String selectedDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(Calendar.getInstance().getTime());
             String selectedDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
 
@@ -371,20 +408,16 @@ public class datLop extends AppCompatActivity {
             dialog.dismiss();
         });
 
+        // Nút hủy bộ lọc
         cancelButton.setOnClickListener(v -> {
-            // Đặt lại các giá trị bộ lọc về mặc định (không có bộ lọc nào được áp dụng)
-            selectedLop = "";
             selectedCity = "";
             selectedDiaDiem = "";
 
-            // Lấy ngày hiện tại
+            // Hiển thị tất cả lớp học
             String selectedDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(Calendar.getInstance().getTime());
             String selectedDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
 
-            // Gọi lại renderClasses để hiển thị tất cả lớp học
             renderClasses(selectedDay, selectedDate);
-
-            // Đóng hộp thoại bộ lọc
             dialog.dismiss();
         });
 

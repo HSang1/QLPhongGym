@@ -30,12 +30,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ThemDatLop_admin extends AppCompatActivity {
 
-    private EditText edtTenLopHoc, edtThoiGianBatDau, edtThoiLuong, edtThanhPho, edtDiaDiem;
-    private Spinner spinnerLopHoc;
+    private EditText edtTenLopHoc;
+    private Spinner spinnerLopHoc, spinnerThanhPho, spinnerDiaDiem, spinnerThoiGianBatDau, spinnerThoiLuong;
     private ImageView imgDatLop;
     private Button btnChonAnhLop, btnThemLopHoc;
     private Uri imageUri;
@@ -46,6 +48,9 @@ public class ThemDatLop_admin extends AppCompatActivity {
 
     private DatabaseReference dbRefLopHoc, dbRefDatLop;
     private FirebaseStorage firebaseStorage;
+
+    // Khai báo danh sách địa điểm theo thành phố
+    private final HashMap<String, List<String>> diaDiemMap = new HashMap<>();
 
     // Khai báo ActivityResultLauncher
     private final ActivityResultLauncher<Intent> selectImage = registerForActivityResult(
@@ -76,14 +81,26 @@ public class ThemDatLop_admin extends AppCompatActivity {
 
 
         edtTenLopHoc = findViewById(R.id.edtTenLopHoc);
-        edtThoiGianBatDau = findViewById(R.id.edtThoiGianBatDau);
-        edtThoiLuong = findViewById(R.id.edtThoiLuong);
-        edtThanhPho = findViewById(R.id.edtThanhPho);
-        edtDiaDiem = findViewById(R.id.edtDiaDiem);
+        spinnerThoiGianBatDau = findViewById(R.id.spinnerThoiGianBatDau);
+        spinnerThoiLuong = findViewById(R.id.spinnerThoiLuong);
+        spinnerThanhPho = findViewById(R.id.spinnerThanhPho);
+        spinnerDiaDiem = findViewById(R.id.spinnerDiaDiem);
         spinnerLopHoc = findViewById(R.id.spinnerLopHoc);
         imgDatLop = findViewById(R.id.imgDatLop);
         btnChonAnhLop = findViewById(R.id.btnChonAnhLop);
         btnThemLopHoc = findViewById(R.id.btnThemLopHoc);
+
+        // Dữ liệu cho Spinner Thời gian bắt đầu
+        List<String> thoiGianBatDauList = Arrays.asList("8h00", "10h00", "12h30", "13h00", "14h00", "15h00", "16h00", "18h00", "19h00", "20h00");
+        ArrayAdapter<String> thoiGianBatDauAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, thoiGianBatDauList);
+        thoiGianBatDauAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerThoiGianBatDau.setAdapter(thoiGianBatDauAdapter);
+
+        // Dữ liệu cho Spinner Thời lượng
+        List<String> thoiLuongList = Arrays.asList("45 phút", "60 phút", "75 phút");
+        ArrayAdapter<String> thoiLuongAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, thoiLuongList);
+        thoiLuongAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerThoiLuong.setAdapter(thoiLuongAdapter);
 
         // Khởi tạo Firebase
         dbRefLopHoc = FirebaseDatabase.getInstance().getReference("LopHoc");
@@ -96,6 +113,12 @@ public class ThemDatLop_admin extends AppCompatActivity {
         // Lấy danh mục từ Firebase và điền vào Spinner
         getLopHocFromFirebase();
 
+        // Thiết lập danh sách địa điểm theo thành phố
+        setupDiaDiemMap();
+
+        // Thiết lập Spinner Thành phố và Địa điểm
+        setupThanhPhoSpinner();
+
         // Chọn ảnh sản phẩm
         btnChonAnhLop.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
@@ -107,10 +130,10 @@ public class ThemDatLop_admin extends AppCompatActivity {
         // Thêm sản phẩm
         btnThemLopHoc.setOnClickListener(v -> {
             String tenLopHoc = edtTenLopHoc.getText().toString().trim();
-            String thoiGianBatDau = edtThoiGianBatDau.getText().toString().trim();
-            String thoiLuong = edtThoiLuong.getText().toString().trim();
-            String thanhPho = edtThanhPho.getText().toString().trim();
-            String diaDiem = edtDiaDiem.getText().toString().trim();
+            String thoiGianBatDau = spinnerThoiGianBatDau.getSelectedItem().toString();
+            String thoiLuong = spinnerThoiLuong.getSelectedItem().toString();
+            String thanhPho = spinnerThanhPho.getSelectedItem().toString();
+            String diaDiem = spinnerDiaDiem.getSelectedItem().toString();
             String lopHocId = spinnerLopHoc.getSelectedItem().toString(); // Lấy tên danh mục từ Spinner
 
             // Tạo danh sách ngày được chọn
@@ -160,6 +183,42 @@ public class ThemDatLop_admin extends AppCompatActivity {
                 }).addOnFailureListener(e -> {
                     Toast.makeText(ThemDatLop_admin.this, "Tải ảnh thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+            }
+        });
+    }
+
+    // Phương thức thiết lập danh sách địa điểm theo thành phố
+    private void setupDiaDiemMap() {
+        diaDiemMap.put("Hồ Chí Minh", Arrays.asList("Quận 1","Quận 3","Quận 7","Gò Vấp","Bình Thạnh"));
+        diaDiemMap.put("Hà Nội", Arrays.asList("Hoàng Mai", "Cầu Giấy", "Đống Đa"));
+    }
+
+    // Phương thức thiết lập Spinner Thành phố và Địa điểm
+    private void setupThanhPhoSpinner() {
+        List<String> thanhPhoList = new ArrayList<>(diaDiemMap.keySet());
+        ArrayAdapter<String> thanhPhoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, thanhPhoList);
+        thanhPhoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerThanhPho.setAdapter(thanhPhoAdapter);
+
+        ArrayAdapter<String> diaDiemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
+        diaDiemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDiaDiem.setAdapter(diaDiemAdapter);
+
+        spinnerThanhPho.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedCity = thanhPhoList.get(position);
+                List<String> diaDiemList = diaDiemMap.get(selectedCity);
+                diaDiemAdapter.clear();
+                if (diaDiemList != null) {
+                    diaDiemAdapter.addAll(diaDiemList);
+                }
+                diaDiemAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                diaDiemAdapter.clear();
             }
         });
     }

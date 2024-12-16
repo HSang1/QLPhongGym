@@ -24,22 +24,47 @@
             android:paddingBottom="20dp"
             android:text="Thêm PT " />
 
-        <!-- Spinner để chọn danh mục -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn PT"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Spinner để chọn PT -->
         <Spinner
             android:id="@+id/spinnerPT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/edtThanhPho"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn thành phố"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Spinner Thành phố -->
+        <Spinner
+            android:id="@+id/spinnerThanhPho"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:hint="Thành Phố" />
 
-        <EditText
-            android:id="@+id/edtDiaDiem"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chọn địa điểm"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Spinner Địa điểm -->
+        <Spinner
+            android:id="@+id/spinnerDiaDiem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:hint="Địa điểm" />
 
         <TextView
@@ -106,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chủ nhật" />
-
         </LinearLayout>
 
         <!-- Chọn buổi -->
@@ -150,8 +174,6 @@
                 android:text="Buổi tối" />
         </LinearLayout>
 
-
-
         <!-- Ảnh sản phẩm -->
         <TextView
             android:id="@+id/textViewAnhPT"
@@ -184,6 +206,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thêm PT" />
+
 
     </LinearLayout>
 

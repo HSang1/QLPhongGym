@@ -49,7 +49,7 @@ public class DangkysdtActivity extends AppCompatActivity {
         buttonXacThucSDT.setOnClickListener(view -> {
             if (!checkBox.isChecked()) {
                 Toast.makeText(this, "Chưa đồng ý điều khoản sử dụng!", Toast.LENGTH_SHORT).show();
-            } else if (!txtSDT.getText().toString().matches("^(03[2-9]|07[0|5-9]|08[1-5|8-9]|09[0-4])\\d{7}$")) {
+            } else if (!txtSDT.getText().toString().matches("^(03[2-9]|05[6|8]|07[0|6-9]|08[1-6|8-9]|09[0-4|6-8])\\d{7}$")) {
                 Toast.makeText(this, "Số điện thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
             } else {
                 // Khi điều kiện hợp lệ, chuyển đến trang đăng ký
@@ -63,7 +63,7 @@ public class DangkysdtActivity extends AppCompatActivity {
 
     private void validateInput() {
         String phoneNumber = txtSDT.getText().toString();
-        boolean isPhoneNumberValid = phoneNumber.matches("^(03[2-9]|07[0|5-9]|08[1-5|8-9]|09[0-4])\\d{7}$");
+        boolean isPhoneNumberValid = phoneNumber.matches("^(03[2-9]|05[6|8]|07[0|6-9]|08[1-6|8-9]|09[0-4|6-8])\\d{7}$");
         boolean isPhoneNumberLengthValid = phoneNumber.length() == 10;
         boolean isCheckboxChecked = checkBox.isChecked();
 

@@ -1,3 +1,4 @@
+
 package com.example.qlphonggym;
 
 import android.content.Intent;
@@ -26,16 +27,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class datPT extends AppCompatActivity {
+    private final HashMap<String, List<String>> diaDiemMap = new HashMap<>();
+    private ArrayAdapter<String> diaDiemAdapter;
+
     private LinearLayout datesContainer;
     private LinearLayout classesContainer;
-    private TextView selectedDateView;
 
     private String selectedPT = "";
-    private String selectedSession = "";
     private String selectedCity = "";
     private String selectedDiaDiem = "";
     private String selectedDay = "";
@@ -60,6 +66,9 @@ public class datPT extends AppCompatActivity {
         selectedDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         selectedDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
 
+
+        // Khởi tạo danh sách địa điểm theo Thành phố
+        setupDiaDiemMap();
 
         // Kết nối bộ lọc
         filterButton.setOnClickListener(v -> showFilterDialog());
@@ -150,6 +159,11 @@ public class datPT extends AppCompatActivity {
         }
     }
 
+    private void setupDiaDiemMap() {
+        diaDiemMap.put("Hồ Chí Minh", Arrays.asList("Quận 1", "Quận 3","Quận 7", "Gò Vấp", "Bình Thạnh"));
+        diaDiemMap.put("Hà Nội", Arrays.asList("Hoàng Mai", "Cầu Giấy", "Đống Đa"));
+    }
+
     private void renderClasses(String selectedDay, String selectedDate) {
         classesContainer.removeAllViews();
         DatabaseReference dbRefDatPT = FirebaseDatabase.getInstance().getReference("DatPT");
@@ -162,19 +176,19 @@ public class datPT extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     DatPT datPT = snapshot.getValue(DatPT.class);
 
-                    if (datPT != null && datPT.getDays().contains(selectedDay)) {
-                        if (filterMatches(datPT)) {
-                            for (String session : datPT.getSessions()) {
-                                addClassToUI(datPT, session);
-                                hasClass = true;
-                            }
+                    if (datPT != null && filterMatches(datPT)) {
+                        for (String session : datPT.getSessions()) {
+                            addClassToUI(datPT, session);
+                            hasClass = true;
                         }
                     }
                 }
 
                 if (!hasClass) {
                     TextView noClassMessage = new TextView(datPT.this);
-                    noClassMessage.setText("Không tìm thấy PT phù hợp.");
+                    noClassMessage.setText("Không tìm thấy PT phù hợp với bộ lọc.");
+                    noClassMessage.setPadding(10, 10, 10, 10);
+                    noClassMessage.setGravity(View.TEXT_ALIGNMENT_CENTER);
                     classesContainer.addView(noClassMessage);
                 }
             }
@@ -187,19 +201,14 @@ public class datPT extends AppCompatActivity {
     }
 
     private boolean filterMatches(DatPT datPT) {
-        boolean sessionMatches = selectedSession.isEmpty() ||
-                (datPT.getSessions() != null &&
-                        datPT.getSessions().contains(selectedSession));
 
-        boolean cityMatches = selectedCity.isEmpty() ||
-                (datPT.getThanhPho() != null &&
-                        datPT.getThanhPho().equalsIgnoreCase(selectedCity));
+        boolean cityMatches = selectedCity.isEmpty() || // Không lọc nếu rỗng
+                (datPT.getThanhPho() != null && datPT.getThanhPho().equalsIgnoreCase(selectedCity));
 
-        boolean locationMatches = selectedDiaDiem.isEmpty() ||
-                (datPT.getDiaDiem() != null &&
-                        datPT.getDiaDiem().equalsIgnoreCase(selectedDiaDiem));
+        boolean locationMatches = selectedDiaDiem.isEmpty() || // Không lọc nếu rỗng
+                (datPT.getDiaDiem() != null && datPT.getDiaDiem().equalsIgnoreCase(selectedDiaDiem));
 
-        return sessionMatches && cityMatches && locationMatches;
+        return cityMatches && locationMatches;
     }
 
     private void addClassToUI(DatPT datPT, String session) {
@@ -207,6 +216,13 @@ public class datPT extends AppCompatActivity {
         classLayout.setOrientation(LinearLayout.VERTICAL);
         classLayout.setPadding(15, 15, 15, 15);
         classLayout.setBackground(getResources().getDrawable(R.drawable.bottom_nav_gradient));
+
+        // Thiết lập khoảng cách giữa các lớp học
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 20, 0, 20);
+        classLayout.setLayoutParams(params);
 
         // Ảnh
         ImageView classImageView = new ImageView(this);
@@ -224,12 +240,9 @@ public class datPT extends AppCompatActivity {
         ptIdView.setPadding(0, 0, 0, 10);
         classLayout.addView(ptIdView);
 
-        // Dịch session sang tiếng Việt
-        String vietnameseSession = translateSession(session);
-
         // Buổi
         TextView sessionView = new TextView(this);
-        sessionView.setText("Buổi: " + vietnameseSession); // Hiển thị tiếng Việt
+        sessionView.setText("Buổi: " + session);
         sessionView.setTextSize(16);
         classLayout.addView(sessionView);
 
@@ -263,20 +276,13 @@ public class datPT extends AppCompatActivity {
         classesContainer.addView(classLayout);
     }
 
-    // Hàm chuyển đổi session sang tiếng Việt
-    private String translateSession(String session) {
-        switch (session) {
-            case "Morning":
-                return "Sáng";
-            case "Afternoon":
-                return "Trưa";
-            case "Evening":
-                return "Chiều";
-            case "Night":
-                return "Tối";
-            default:
-                return session; // Giữ nguyên nếu không khớp
+    private void updateDiaDiemSpinner(String city) {
+        List<String> diaDiemList = diaDiemMap.get(city);
+        diaDiemAdapter.clear();
+        if (diaDiemList != null) {
+            diaDiemAdapter.addAll(diaDiemList);
         }
+        diaDiemAdapter.notifyDataSetChanged();
     }
 
     private void showFilterDialog() {
@@ -286,39 +292,47 @@ public class datPT extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.bolocdatpt, null);
         builder.setView(view);
 
-        Spinner sessionSpinner = view.findViewById(R.id.session_spinner);
         Spinner citySpinner = view.findViewById(R.id.city_spinner);
         Spinner locationSpinner = view.findViewById(R.id.diadiem_spinner);
 
-        // Gắn Adapter cho Spinner
-        ArrayAdapter<String> sessionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                new String[]{"Sáng", "Trưa", "Chiều", "Tối"});
-        sessionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sessionSpinner.setAdapter(sessionAdapter);
-
-        ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.cities, android.R.layout.simple_spinner_item);
+        // Thiết lập Adapter cho Spinner Thành phố
+        List<String> thanhPhoList = new ArrayList<>(diaDiemMap.keySet());
+        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, thanhPhoList);
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citySpinner.setAdapter(cityAdapter);
 
-        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this,
-                R.array.diadiems, android.R.layout.simple_spinner_item);
-        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(locationAdapter);
+        // Thiết lập Adapter cho Spinner Địa điểm
+        diaDiemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
+        diaDiemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(diaDiemAdapter);
+
+        // Sự kiện chọn Thành phố
+        citySpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedCity = thanhPhoList.get(position);
+                updateDiaDiemSpinner(selectedCity);
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                diaDiemAdapter.clear();
+            }
+        });
 
         Button applyButton = view.findViewById(R.id.apply_button);
         Button cancelButton = view.findViewById(R.id.cancel_button);
 
         applyButton.setOnClickListener(v -> {
-            selectedSession = translateVietnameseSession(sessionSpinner.getSelectedItem().toString());
+            // Lấy giá trị từ Spinner
             selectedCity = citySpinner.getSelectedItem().toString();
             selectedDiaDiem = locationSpinner.getSelectedItem().toString();
-            renderClasses(selectedDay, selectedDate); // Làm mới danh sách lớp học
+
+            renderClasses(selectedDay, selectedDate);
             builder.create().dismiss();
         });
 
         cancelButton.setOnClickListener(v -> {
-            selectedSession = "";
             selectedCity = "";
             selectedDiaDiem = "";
             renderClasses(selectedDay, selectedDate); // Hiển thị tất cả lớp học
@@ -328,19 +342,5 @@ public class datPT extends AppCompatActivity {
         builder.create().show();
     }
 
-    // Hàm chuyển đổi session từ tiếng Việt về tiếng Anh để so khớp với dữ liệu Firebase
-    private String translateVietnameseSession(String session) {
-        switch (session) {
-            case "Sáng":
-                return "Morning";
-            case "Trưa":
-                return "Afternoon";
-            case "Chiều":
-                return "Evening";
-            case "Tối":
-                return "Night";
-            default:
-                return ""; // Không lọc nếu trống
-        }
-    }
+
 }

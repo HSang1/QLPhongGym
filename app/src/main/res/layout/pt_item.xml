@@ -1,56 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:context=".pt_item"
-    android:background="?android:attr/selectableItemBackground">
+    android:padding="10dp">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/tenPT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:text="Tên PT"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tenPT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Full Name"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+    <Button
+        android:id="@+id/btSuaPT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sửa"
+        android:textSize="14sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btSuaPT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sửa" />
-
-            <Button
-                android:id="@+id/btXoaPT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="Xóa" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/black" />
-
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btXoaPT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xóa"
+        android:textSize="14sp" />
 </LinearLayout>
