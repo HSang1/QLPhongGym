@@ -5,10 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B9D8FB"
+    android:background="#E5F5F7"
     tools:context=".trangChu">
 
-    <!-- Nội dung chính có thể cuộn được -->
 
     <!-- Bottom Navigation Section -->
     <ScrollView
@@ -352,7 +351,7 @@
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="#050000"
@@ -416,13 +415,13 @@
                 android:id="@+id/notificationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/notifications" />
+                android:src="@drawable/comment" />
 
             <TextView
                 android:id="@+id/txtThongBao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thông báo"
+                android:text="Nhận xét"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 

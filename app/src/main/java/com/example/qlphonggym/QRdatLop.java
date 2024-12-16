@@ -46,10 +46,10 @@ public class QRdatLop extends AppCompatActivity {
         // Kiểm tra dữ liệu và tạo nội dung QR
         if (classCode != null && dateTime != null && location != null && seatPosition != null) {
             // Kết hợp thông tin thành một chuỗi để hiển thị trong mã QR
-            String qrContent = "Ma Lop: " + classCode + "\n"
-                    + "Dia diem: " + location + "\n"
-                    + "Thoi gian: " + dateTime + "\n"
-                    + "Vi tri dat cho: " + seatPosition;
+            String qrContent = "Mã Lớp: " + classCode + "\n"
+                    + "Địa điểm: " + location + "\n"
+                    + "Thời gian: " + dateTime + "\n"
+                    + "Vị trí đặt chỗ: " + seatPosition;
             generateQRCode(qrContent);
         } else {
             Toast.makeText(this, "Không có thông tin để tạo mã QR.", Toast.LENGTH_SHORT).show();
@@ -60,10 +60,21 @@ public class QRdatLop extends AppCompatActivity {
     private void generateQRCode(String content) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try {
+            // Mã hóa nội dung sang UTF-8
+            String encodedContent;
+            try {
+                byte[] bytes = content.getBytes("UTF-8");
+                encodedContent = new String(bytes, "ISO-8859-1");
+            } catch (java.io.UnsupportedEncodingException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Lỗi mã hóa chuỗi.", Toast.LENGTH_SHORT).show();
+                return; // Dừng nếu có lỗi mã hóa
+            }
+
             // Tạo mã QR
             int size = 300;  // Kích thước mã QR
             Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
-            com.google.zxing.common.BitMatrix bitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, size, size);
+            com.google.zxing.common.BitMatrix bitMatrix = qrCodeWriter.encode(encodedContent, BarcodeFormat.QR_CODE, size, size);
 
             // Chuyển BitMatrix thành Bitmap để hiển thị
             for (int x = 0; x < size; x++) {
@@ -77,4 +88,5 @@ public class QRdatLop extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 }

@@ -55,8 +55,9 @@ public class trangChu extends AppCompatActivity {
         Button btnDatPT = findViewById(R.id.btTapPT);
         Button btnNhanXet = findViewById(R.id.btnNhanXet);
         upcomingClassesSection = findViewById(R.id.upcomingClassesSection);
-        taiKhoanSection = findViewById(R.id.TaiKhoan);
-        ImageView cuaHang = findViewById(R.id.cuaHang);
+        LinearLayout notificationButton = findViewById(R.id.notificationButton);
+        LinearLayout storeButton = findViewById(R.id.storeButton);
+        LinearLayout TaiKhoan = findViewById(R.id.TaiKhoan);
         LinearLayout baiBao1 = findViewById(R.id.BaiBao1);
         LinearLayout baiBao2 = findViewById(R.id.BaiBao2);
         LinearLayout baiBao3 = findViewById(R.id.BaiBao3);
@@ -137,13 +138,20 @@ public class trangChu extends AppCompatActivity {
             startActivity(intent);
         });
 
-        cuaHang.setOnClickListener(v -> {
-            Intent intent = new Intent(trangChu.this, CuaHang.class); // Chuyển sang màn hình Đặt lớp
+        // Thêm sự kiện click cho nút "Cửa Hàng"
+        storeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(trangChu.this, CuaHang.class); // Chuyển đến màn hình Nhận xét
+            startActivity(intent);
+        });
+
+        // Thêm sự kiện click cho nút "Nhận xét"
+        notificationButton.setOnClickListener(v -> {
+            Intent intent = new Intent(trangChu.this, NhanXet.class); // Chuyển đến màn hình Nhận xét
             startActivity(intent);
         });
 
         // Thiết lập sự kiện click cho LinearLayout TaiKhoan
-        taiKhoanSection.setOnClickListener(v -> {
+        TaiKhoan.setOnClickListener(v -> {
             if (isRegistered) {
                 Intent intent = new Intent(trangChu.this, hoSo_user.class); // Mở hồ sơ người dùng
                 startActivity(intent);

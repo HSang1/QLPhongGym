@@ -3,7 +3,9 @@ package com.example.qlphonggym;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,9 @@ public class hoSo_user extends AppCompatActivity {
         fullnameValueText = findViewById(R.id.textfullnameValueText);
         usernameText = findViewById(R.id.textusernameValueText);
         forgotPasswordText = findViewById(R.id.forgotPasswordText);
+        LinearLayout homeButton = findViewById(R.id.homeButton);
+        LinearLayout storeButton = findViewById(R.id.storeButton);
+        LinearLayout notificationButton = findViewById(R.id.notificationButton);
 
         // Lấy thông tin người dùng đã đăng nhập
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -55,13 +60,6 @@ public class hoSo_user extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
         }
 
-
-       TextView QuayLai = findViewById(R.id.txtQuayLaiTrangChu);
-        QuayLai.setOnClickListener(v -> {
-            Intent intent = new Intent(hoSo_user.this, trangChu.class);
-            startActivity(intent);
-            finish();
-        });
 
         // Lấy Button Đăng xuất và thiết lập sự kiện click cho Button Đăng xuất
         Button btnDangXuat = findViewById(R.id.btDangXuat);
@@ -113,6 +111,25 @@ public class hoSo_user extends AppCompatActivity {
             } else {
                 Toast.makeText(hoSo_user.this, "Không tìm thấy email của bạn.", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Nút Home: Chuyển về trang chủ
+        homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(hoSo_user.this, trangChu.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // Nút Store: Chuyển sang trang cửa hàng
+        storeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(hoSo_user.this, CuaHang.class); // Tạo activity CuaHang
+            startActivity(intent);
+        });
+
+        // Nút Thông báo: Chuyển sang trang thông báo
+        notificationButton.setOnClickListener(v -> {
+            Intent intent = new Intent(hoSo_user.this, NhanXet.class); // Tạo activity ThongBao
+            startActivity(intent);
         });
 
     }
