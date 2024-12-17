@@ -110,14 +110,7 @@
         android:paddingBottom="8dp"
         android:layout_gravity="center_vertical">
 
-        <!-- Nút Sửa -->
-        <Button
-            android:id="@+id/btSuaDatLop"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Sửa"
-            android:textColor="@android:color/holo_blue_dark"
-            android:layout_marginBottom="8dp"/>
+
 
         <!-- Nút Xóa -->
         <Button

@@ -13,6 +13,14 @@
       </SelectionState>
       <SelectionState runConfigName="AndroidStudioProjects.QLPhongGym.app">
         <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-12-17T08:40:38.184126300Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=0da3896f7d78" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="app.androidTest">
         <option name="selectionMode" value="DROPDOWN" />

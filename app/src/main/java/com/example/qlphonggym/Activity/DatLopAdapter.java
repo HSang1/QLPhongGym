@@ -65,12 +65,7 @@ public class DatLopAdapter extends RecyclerView.Adapter<DatLopAdapter.DatLopView
                 .load(datLop.getImageUrl()) // Dùng link ảnh từ Firebase Storage
                 .into(holder.imgDatLop);
 
-        // Nút Sửa sản phẩm
-        holder.btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(context, SuaSanPham_admin.class);
-            intent.putExtra("DATLOP_ID", datLop.getIdDatLop()); // Truyền ID sản phẩm
-            context.startActivity(intent);
-        });
+
 
         // Nút Xóa sản phẩm
         holder.btnDelete.setOnClickListener(v -> {
@@ -106,7 +101,7 @@ public class DatLopAdapter extends RecyclerView.Adapter<DatLopAdapter.DatLopView
             tvLopHoc = itemView.findViewById(R.id.lopHocDatLop); // TextView cho danh mục
             tvDays = itemView.findViewById(R.id.days); // Thêm TextView cho ngày
             imgDatLop = itemView.findViewById(R.id.imgDatLop);
-            btnEdit = itemView.findViewById(R.id.btSuaDatLop);
+
             btnDelete = itemView.findViewById(R.id.btXoaDatLop);
         }
     }

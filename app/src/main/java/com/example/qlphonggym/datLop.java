@@ -200,8 +200,7 @@ public class datLop extends AppCompatActivity {
                         System.out.println("Địa điểm: " + datLop.getDiaDiem());
 
                         // Điều kiện lọc
-                        if ((selectedLop.isEmpty() || datLop.getTenLopHoc().equalsIgnoreCase(selectedLop)) &&
-                                (selectedCity.isEmpty() || datLop.getThanhPho().equalsIgnoreCase(selectedCity)) &&
+                        if ((selectedCity.isEmpty() || datLop.getThanhPho().equalsIgnoreCase(selectedCity)) &&
                                 (selectedDiaDiem.isEmpty() || datLop.getDiaDiem().equalsIgnoreCase(selectedDiaDiem)) &&
                                 datLop.getDays() != null && datLop.getDays().contains(selectedDay)) {
 

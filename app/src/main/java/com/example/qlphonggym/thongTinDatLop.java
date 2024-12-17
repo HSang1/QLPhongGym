@@ -1,5 +1,4 @@
 package com.example.qlphonggym;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,7 +8,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-//khai báo thêm dòng này
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,10 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class thongTinDatLop extends AppCompatActivity {
 
@@ -82,7 +77,7 @@ public class thongTinDatLop extends AppCompatActivity {
         locationView.setText("Địa điểm: " + location);
 
         // Thêm nút chỗ ngồi
-        renderSeats(maxSeats, classCode);
+        renderSeats(maxSeats, className);
 
         // Quay lại màn hình trước
         txtQuayLai.setOnClickListener(v -> {
@@ -98,18 +93,18 @@ public class thongTinDatLop extends AppCompatActivity {
                 .into(classImageView);
 
         // Kiểm tra trạng thái đặt chỗ
-        checkBookingStatus(classCode);
+        checkBookingStatus(className);
 
         // Đặt chỗ
-        bookButton.setOnClickListener(v -> handleBooking(className, classCode, date, location));
+        bookButton.setOnClickListener(v -> handleBooking(className, date, location));
 
         // Hủy đặt chỗ
-        cancelBookingButton.setOnClickListener(v -> cancelBooking(classCode, maxSeats));
+        cancelBookingButton.setOnClickListener(v -> cancelBooking(className, maxSeats));
 
         // Check-in
         checkInButton.setOnClickListener(v -> {
             Intent intent = new Intent(thongTinDatLop.this, QRdatLop.class);
-            intent.putExtra("classCode", classCode);
+            intent.putExtra("className", className);
             intent.putExtra("dateTime", date);
             intent.putExtra("location", location);
             intent.putExtra("seatPosition", String.format("%02d", selectedSeat));
@@ -120,153 +115,167 @@ public class thongTinDatLop extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Lấy classCode từ Intent đã truyền trước đó
-        String classCode = getIntent().getStringExtra("classCode");
+        // Lấy className từ Intent đã truyền trước đó
+        String className = getIntent().getStringExtra("className");
         // Kiểm tra trạng thái đặt chỗ để cập nhật giao diện
-        checkBookingStatus(classCode);
+        checkBookingStatus(className);
     }
 
-
-    private void handleBooking(String className, String classCode, String dateTime, String location) {
+    private void handleBooking(String className, String dateTime, String location) {
         if (selectedSeat != -1) {
             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            bookingRef.orderByChild("classCode").equalTo(classCode).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    boolean isAlreadyBooked = false;
+            bookingRef.orderByChild("className").equalTo(className)  // Sử dụng className thay vì classCode
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            boolean isAlreadyBooked = false;
 
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String userId = snapshot.child("userId").getValue(String.class);
-                        String bookingDate = snapshot.child("bookingDate").getValue(String.class);
-                        // Kiểm tra nếu trạng thái đặt chỗ trùng ngày và thuộc người dùng hiện tại
-                        if (userId != null && userId.equals(currentUserId) &&
-                                bookingDate != null && bookingDate.equals(dateTime)) {
-                            isAlreadyBooked = true;
-                            break;
-                        }
-                    }
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String userId = snapshot.child("userId").getValue(String.class);
+                                String bookingDate = snapshot.child("bookingDate").getValue(String.class);
 
-                    if (!isAlreadyBooked) {
-                        HashMap<String, Object> bookingDetails = new HashMap<>();
-                        bookingDetails.put("userId", currentUserId);
-                        bookingDetails.put("className", className);
-                        bookingDetails.put("classCode", classCode);
-                        bookingDetails.put("dateTime", dateTime);
-                        bookingDetails.put("location", location);
-                        bookingDetails.put("seatPosition", selectedSeat);
-                        bookingDetails.put("bookingDate", dateTime); // Ngày đặt chỗ
-
-                        bookingRef.push().setValue(bookingDetails).addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(thongTinDatLop.this, "Đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
-                                bookButton.setVisibility(View.GONE);
-                                cancelBookingButton.setVisibility(View.VISIBLE);
-                                checkInButton.setVisibility(View.VISIBLE);
-                            } else {
-                                Toast.makeText(thongTinDatLop.this, "Lỗi khi đặt chỗ!", Toast.LENGTH_SHORT).show();
+                                // Kiểm tra trùng tên lớp (className) và ngày (bookingDate)
+                                if (userId != null && userId.equals(currentUserId) &&
+                                        bookingDate != null && bookingDate.equals(dateTime) &&
+                                        snapshot.child("className").getValue(String.class).equals(className)) {
+                                    isAlreadyBooked = true;
+                                    break;
+                                }
                             }
-                        });
-                    } else {
-                        Toast.makeText(thongTinDatLop.this, "Bạn đã đặt chỗ trong lớp này.", Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(thongTinDatLop.this, "Lỗi khi kiểm tra trạng thái đặt chỗ.", Toast.LENGTH_SHORT).show();
-                }
-            });
+                            if (!isAlreadyBooked) {
+                                HashMap<String, Object> bookingDetails = new HashMap<>();
+                                bookingDetails.put("userId", currentUserId);
+                                bookingDetails.put("className", className);
+                                bookingDetails.put("dateTime", dateTime);
+                                bookingDetails.put("location", location);
+                                bookingDetails.put("seatPosition", selectedSeat);
+                                bookingDetails.put("bookingDate", dateTime);
+
+                                bookingRef.push().setValue(bookingDetails).addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(thongTinDatLop.this, "Đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
+                                        bookButton.setVisibility(View.GONE);
+                                        cancelBookingButton.setVisibility(View.VISIBLE);
+                                        checkInButton.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Toast.makeText(thongTinDatLop.this, "Lỗi khi đặt chỗ!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(thongTinDatLop.this, "Bạn đã đặt chỗ trong lớp này.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(thongTinDatLop.this, "Lỗi khi kiểm tra trạng thái đặt chỗ.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         } else {
             Toast.makeText(this, "Vui lòng chọn chỗ ngồi!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void checkBookingStatus(String classCode) {
+    private void checkBookingStatus(String className) {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String selectedDate = getIntent().getStringExtra("date"); // Ngày đã chọn
+        String selectedDate = getIntent().getStringExtra("date"); // Ngày được truyền từ Intent
 
-        bookingRef.orderByChild("classCode").equalTo(classCode).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean isBooked = false;
+        // Kiểm tra xem người dùng đã đặt chỗ cho lớp học này vào ngày đã chọn chưa, sử dụng className thay vì classCode
+        bookingRef.orderByChild("className").equalTo(className)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean isBooked = false;
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String userId = snapshot.child("userId").getValue(String.class);
-                    String bookingDate = snapshot.child("bookingDate").getValue(String.class);
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String userId = snapshot.child("userId").getValue(String.class);
+                            String bookingDate = snapshot.child("bookingDate").getValue(String.class);
 
-                    // Kiểm tra nếu trạng thái đặt chỗ thuộc ngày hiện tại và của người dùng hiện tại
-                    if (userId != null && userId.equals(currentUserId) &&
-                            bookingDate != null && bookingDate.equals(selectedDate)) {
-                        isBooked = true;
-                        selectedSeat = snapshot.child("seatPosition").getValue(Integer.class); // Lưu lại ghế đã đặt
-                        break;
+                            // Kiểm tra nếu userId và bookingDate trùng khớp với người dùng và ngày đã chọn
+                            if (userId != null && userId.equals(currentUserId) &&
+                                    bookingDate != null && bookingDate.equals(selectedDate)) {
+                                // Người dùng đã đặt chỗ cho lớp học này vào ngày này
+                                isBooked = true;
+                                selectedSeat = snapshot.child("seatPosition").getValue(Integer.class); // Lưu vị trí ghế đã đặt
+                                break; // Đã tìm thấy đặt chỗ, thoát vòng lặp
+                            }
+                        }
+
+                        // Cập nhật giao diện
+                        if (isBooked) {
+                            // Người dùng đã đặt chỗ, hiển thị nút hủy
+                            bookButton.setVisibility(View.GONE);
+                            cancelBookingButton.setVisibility(View.VISIBLE);
+                            checkInButton.setVisibility(View.VISIBLE);
+                        } else {
+                            // Người dùng chưa đặt chỗ, hiển thị nút đặt chỗ
+                            bookButton.setVisibility(View.VISIBLE);
+                            cancelBookingButton.setVisibility(View.GONE);
+                            checkInButton.setVisibility(View.GONE);
+                            selectedSeat = -1; // Reset trạng thái ghế
+                        }
                     }
-                }
-                // Cập nhật giao diện theo trạng thái đặt chỗ
-                if (isBooked) {
-                    bookButton.setVisibility(View.GONE);
-                    cancelBookingButton.setVisibility(View.VISIBLE);
-                    checkInButton.setVisibility(View.VISIBLE);
-                } else {
-                    bookButton.setVisibility(View.VISIBLE);
-                    cancelBookingButton.setVisibility(View.GONE);
-                    checkInButton.setVisibility(View.GONE);
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(thongTinDatLop.this, "Lỗi khi kiểm tra trạng thái đặt chỗ.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(thongTinDatLop.this, "Lỗi khi kiểm tra trạng thái đặt chỗ.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private void renderSeats(int maxSeats, String classCode) {
+    private void renderSeats(int maxSeats, String className) {
         seatGrid.removeAllViews();
 
         String selectedDate = getIntent().getStringExtra("date"); // Ngày được truyền từ Intent
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        bookingRef.orderByChild("classCode").equalTo(classCode).addListenerForSingleValueEvent(new ValueEventListener() {
+        // Lọc theo className và bookingDate
+        bookingRef.orderByChild("className").equalTo(className).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (int i = 1; i <= maxSeats; i++) {
                     Button seatButton = new Button(thongTinDatLop.this);
-                    seatButton.setText(String.format("%02d", i)); // Hiển thị số ghế
+                    seatButton.setText(String.format("%02d", i));
                     seatButton.setTag(i);
 
                     boolean isSeatTaken = false;
                     boolean isCurrentUser = false;
 
-                    // Kiểm tra trạng thái của từng ghế
+                    // Lặp qua tất cả các booking trong lớp học này
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String bookingDate = snapshot.child("bookingDate").getValue(String.class);
-                        String userId = snapshot.child("userId").getValue(String.class);
-                        Integer seatNumber = snapshot.child("seatPosition").getValue(Integer.class);
+                        String bookingDate = snapshot.child("bookingDate").getValue(String.class); // Ngày đã đặt
+                        String userId = snapshot.child("userId").getValue(String.class); // Người dùng đã đặt
+                        Integer seatNumber = snapshot.child("seatPosition").getValue(Integer.class); // Ghế đã đặt
 
-                        // Kiểm tra điều kiện khớp với ngày, vị trí ghế, và người dùng
+                        // Lọc theo className và bookingDate để đảm bảo chỉ lấy ghế của lớp học và ngày đã chọn
                         if (bookingDate != null && bookingDate.equals(selectedDate) &&
-                                seatNumber != null && seatNumber == i) {
+                                seatNumber != null && seatNumber == i &&
+                                snapshot.child("className").getValue(String.class).equals(className)) {
+
                             isSeatTaken = true;
+
+                            // Kiểm tra xem ghế này có phải của người dùng hiện tại không
                             if (userId != null && userId.equals(currentUserId)) {
                                 isCurrentUser = true;
-                                selectedSeat = seatNumber; // Lưu lại ghế đã đặt bởi người dùng
+                                selectedSeat = seatNumber;
                             }
                             break;
                         }
                     }
 
-                    // Cập nhật màu sắc cho ghế
+                    // Cập nhật giao diện của ghế
                     if (isSeatTaken) {
-                        seatButton.setEnabled(false); // Không cho phép đặt lại ghế đã được đặt
+                        seatButton.setEnabled(false);
                         if (isCurrentUser) {
-                            seatButton.setBackgroundColor(getResources().getColor(R.color.my_color)); // Màu xanh biển
+                            seatButton.setBackgroundColor(getResources().getColor(R.color.my_color)); // Màu cho người dùng hiện tại
                         } else {
-                            seatButton.setBackgroundColor(getResources().getColor(R.color.my_color2)); // Màu xám
+                            seatButton.setBackgroundColor(getResources().getColor(R.color.my_color2)); // Màu ghế đã đặt
                         }
                     } else {
-                        seatButton.setBackgroundColor(getResources().getColor(R.color.white)); // Màu trắng (ghế trống)
+                        seatButton.setBackgroundColor(getResources().getColor(R.color.white)); // Ghế trống
                         seatButton.setOnClickListener(v -> {
                             if (selectedSeat != -1) {
                                 Button previousButton = seatGrid.findViewWithTag(selectedSeat);
@@ -274,13 +283,12 @@ public class thongTinDatLop extends AppCompatActivity {
                                     previousButton.setBackgroundColor(getResources().getColor(R.color.white));
                                 }
                             }
-
                             selectedSeat = (int) v.getTag();
                             seatButton.setBackgroundColor(getResources().getColor(R.color.my_color));
                         });
                     }
 
-                    // Thêm ghế vào GridLayout
+                    // Thêm ghế vào layout
                     GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                     params.width = 0;
                     params.height = GridLayout.LayoutParams.WRAP_CONTENT;
@@ -297,51 +305,55 @@ public class thongTinDatLop extends AppCompatActivity {
         });
     }
 
-
-    private void cancelBooking(String classCode, int maxSeats) {
+    private void cancelBooking(String className, int maxSeats) {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String selectedDate = getIntent().getStringExtra("date"); // Ngày được truyền từ Intent
 
-        bookingRef.orderByChild("classCode").equalTo(classCode).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean bookingFound = false;
+        bookingRef.orderByChild("className").equalTo(className)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean bookingFound = false;
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String userId = snapshot.child("userId").getValue(String.class);
-                    String bookingDate = snapshot.child("bookingDate").getValue(String.class);
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String userId = snapshot.child("userId").getValue(String.class);
+                            String bookingDate = snapshot.child("bookingDate").getValue(String.class);
 
-                    // Xác định đúng booking cần hủy: phải khớp cả userId, classCode và bookingDate
-                    if (userId != null && userId.equals(currentUserId) &&
-                            bookingDate != null && bookingDate.equals(selectedDate)) {
+                            if (userId != null && userId.equals(currentUserId) &&
+                                    bookingDate != null && bookingDate.equals(selectedDate) &&
+                                    snapshot.child("className").getValue(String.class).equals(className)) {
 
-                        snapshot.getRef().removeValue().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(thongTinDatLop.this, "Hủy đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
-                                cancelBookingButton.setVisibility(View.GONE);
-                                bookButton.setVisibility(View.VISIBLE);
-                                checkInButton.setVisibility(View.GONE);
-                                selectedSeat = -1; // Xóa ghế đã chọn
-                                renderSeats(maxSeats, classCode); // Làm mới danh sách ghế
-                            } else {
-                                Toast.makeText(thongTinDatLop.this, "Lỗi khi hủy đặt chỗ!", Toast.LENGTH_SHORT).show();
+                                snapshot.getRef().removeValue().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(thongTinDatLop.this, "Hủy đặt chỗ thành công!", Toast.LENGTH_SHORT).show();
+
+                                        // Cập nhật trạng thái UI
+                                        bookButton.setVisibility(View.VISIBLE);
+                                        cancelBookingButton.setVisibility(View.GONE);
+                                        checkInButton.setVisibility(View.GONE);
+
+                                        // Reset trạng thái ghế và làm mới giao diện ghế
+                                        selectedSeat = -1;
+                                        renderSeats(maxSeats, className);
+                                    } else {
+                                        Toast.makeText(thongTinDatLop.this, "Lỗi khi hủy đặt chỗ.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                bookingFound = true;
+                                break;
                             }
-                        });
+                        }
 
-                        bookingFound = true;
-                        break;
+                        if (!bookingFound) {
+                            Toast.makeText(thongTinDatLop.this, "Không tìm thấy đặt chỗ của bạn.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                if (!bookingFound) {
-                    Toast.makeText(thongTinDatLop.this, "Không tìm thấy thông tin đặt chỗ cần hủy.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(thongTinDatLop.this, "Lỗi khi hủy đặt chỗ!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(thongTinDatLop.this, "Lỗi khi hủy đặt chỗ.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+
 }

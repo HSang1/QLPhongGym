@@ -56,7 +56,7 @@
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp"
-                android:text="Trần Huỳnh Sang" />
+                android:text="admin" />
 
             <TextView
                 android:id="@+id/textView21"
@@ -66,136 +66,12 @@
                 android:textSize="20dp"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp"
-                android:text="ID : 2251010079" />
+                android:text="ID : admin" />
 
         </LinearLayout>
 
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            android:layout_marginTop="400dp"
-            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/passwordText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20dp"
-                    android:textColor="@color/color_admin_hoso"
-                    android:text="Mật khẩu :" />
-
-                <TextView
-                    android:id="@+id/changeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textSize="20dp"
-                    android:textColor="#A8A5A5"
-                    android:text="Đổi mật khẩu" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_margin="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/emailText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="20dp"
-                    android:textColor="@color/color_admin_hoso"
-                    android:text="Email :" />
-
-                <TextView
-                    android:id="@+id/emailValueText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textSize="20dp"
-                    android:text="2251010079sang@ou.edu.vn" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_marginVertical="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/phoneText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_weight="1"
-                    android:textColor="@color/color_admin_hoso"
-                    android:text="Số điện thoại :" />
-
-                <TextView
-                    android:id="@+id/phoneValueText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_gravity="end"
-                    android:text="0123456789" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_marginVertical="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/addressText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_weight="1"
-                    android:textColor="@color/color_admin_hoso"
-                    android:text="Địa chỉ :" />
-
-                <TextView
-                    android:id="@+id/addressValueText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_gravity="end"
-                    android:text="Thành phố Hồ Chí Minh" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_marginTop="8dp"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -203,17 +79,6 @@
             android:layout_marginTop="650dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:textColor="@color/black"
-                android:text="Sửa hồ sơ"
-                android:drawableEnd="@drawable/baseline_edit_24"
-                android:textSize="20dp" />
 
             <Button
                 android:id="@+id/btDangXuatAdmin"

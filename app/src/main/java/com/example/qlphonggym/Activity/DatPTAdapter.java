@@ -64,12 +64,6 @@ public class DatPTAdapter extends RecyclerView.Adapter<DatPTAdapter.DatPTViewHol
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.imgDatPT);
 
-        // Nút Sửa PT
-        holder.btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(context, SuaSanPham_admin.class);
-            intent.putExtra("DATPT_ID", datPT.getIdDatPT()); // Truyền ID PT
-            context.startActivity(intent);
-        });
 
         // Nút Xóa PT
         holder.btnDelete.setOnClickListener(v -> {
@@ -102,7 +96,7 @@ public class DatPTAdapter extends RecyclerView.Adapter<DatPTAdapter.DatPTViewHol
             tvDiaDiem = itemView.findViewById(R.id.diaDiem); // Địa điểm
             tvDays = itemView.findViewById(R.id.days); // Ngày
             imgDatPT = itemView.findViewById(R.id.imgDatPT);
-            btnEdit = itemView.findViewById(R.id.btSuaDatPT);
+
             btnDelete = itemView.findViewById(R.id.btXoaDatPT);
         }
     }

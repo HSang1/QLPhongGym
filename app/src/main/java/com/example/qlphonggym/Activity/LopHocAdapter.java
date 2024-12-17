@@ -42,12 +42,6 @@ public class LopHocAdapter extends RecyclerView.Adapter<LopHocAdapter.LopHocView
         LopHoc lopHoc = lopHocList.get(position);
         holder.tvTenLopHoc.setText(lopHoc.getTenLopHoc());
 
-        // Nút Sửa danh mục
-        holder.btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(context, SuaLopHoc_admin.class);
-            intent.putExtra("LOPHOC_ID", lopHoc.getId()); // Truyền ID của danh mục
-            context.startActivity(intent);
-        });
 
         // Nút Xóa danh mục
         holder.btnDelete.setOnClickListener(v -> {
@@ -75,7 +69,6 @@ public class LopHocAdapter extends RecyclerView.Adapter<LopHocAdapter.LopHocView
         public LopHocViewHolder(View itemView) {
             super(itemView);
             tvTenLopHoc = itemView.findViewById(R.id.tenLopHoc);
-            btnEdit = itemView.findViewById(R.id.btSuaLopHoc);
             btnDelete = itemView.findViewById(R.id.btXoaLopHoc);
         }
     }

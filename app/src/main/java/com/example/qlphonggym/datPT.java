@@ -177,9 +177,12 @@ public class datPT extends AppCompatActivity {
                     DatPT datPT = snapshot.getValue(DatPT.class);
 
                     if (datPT != null && filterMatches(datPT)) {
-                        for (String session : datPT.getSessions()) {
-                            addClassToUI(datPT, session);
-                            hasClass = true;
+                        // Kiểm tra xem ngày hiện tại (selectedDay) có trong danh sách ngày của PT không
+                        if (datPT.getDays() != null && datPT.getDays().contains(selectedDay)) {
+                            for (String session : datPT.getSessions()) {
+                                addClassToUI(datPT, session);
+                                hasClass = true;
+                            }
                         }
                     }
                 }

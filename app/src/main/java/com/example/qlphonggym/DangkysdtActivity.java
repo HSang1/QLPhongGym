@@ -74,11 +74,6 @@ public class DangkysdtActivity extends AppCompatActivity {
     }
 
     private void validateInput() {
-        String phoneNumber = txtSDT.getText().toString().trim();
-        boolean isPhoneNumberValid = phoneNumber.matches("^(03[2-9]|05[6|8]|07[0|6-9]|08[1-6|8-9]|09[0-4|6-8])\\d{7}$");
-        boolean isCheckboxChecked = checkBox.isChecked();
-
-        // Chỉ bật nút nếu cả số điện thoại và checkbox hợp lệ
-        buttonXacThucSDT.setEnabled(isPhoneNumberValid && isCheckboxChecked);
+        buttonXacThucSDT.setEnabled(true);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     tools:context=".lophoc_item"
     android:background="?android:attr/selectableItemBackground">
@@ -25,15 +25,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btSuaLopHoc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sửa" />
 
             <Button
                 android:id="@+id/btXoaLopHoc"
