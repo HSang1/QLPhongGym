@@ -194,15 +194,17 @@ public class datLop extends AppCompatActivity {
                     DatLop datLop = snapshot.getValue(DatLop.class);
 
                     if (datLop != null) {
-                        // In log để kiểm tra dữ liệu
-                        System.out.println("Lớp: " + datLop.getTenLopHoc());
-                        System.out.println("Thành phố: " + datLop.getThanhPho());
-                        System.out.println("Địa điểm: " + datLop.getDiaDiem());
-
                         // Điều kiện lọc
                         if ((selectedCity.isEmpty() || datLop.getThanhPho().equalsIgnoreCase(selectedCity)) &&
                                 (selectedDiaDiem.isEmpty() || datLop.getDiaDiem().equalsIgnoreCase(selectedDiaDiem)) &&
                                 datLop.getDays() != null && datLop.getDays().contains(selectedDay)) {
+
+                            // Lọc giờ chỉ nếu ngày là hôm nay
+                            if (selectedDate.equals(new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime()))) {
+                                if (!isTimeValid(datLop.getThoiGianBatDau())) {
+                                    continue; // Bỏ qua lớp học nếu thời gian đã qua
+                                }
+                            }
 
                             // Kiểm tra trạng thái đặt chỗ
                             dbRefBookings.orderByChild("classCode").equalTo(datLop.getLopHocId())
@@ -249,6 +251,29 @@ public class datLop extends AppCompatActivity {
             }
         });
     }
+
+
+    private boolean isTimeValid(String startTime) {
+        try {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH'h'mm", Locale.ENGLISH);
+            Calendar currentTime = Calendar.getInstance(); // Thời gian hiện tại
+            Calendar classTime = Calendar.getInstance();
+
+            // Chuyển đổi startTime thành Calendar
+            classTime.setTime(timeFormat.parse(startTime));
+
+            // So sánh giờ và phút giữa thời gian hiện tại và thời gian lớp học
+            return (currentTime.get(Calendar.HOUR_OF_DAY) < classTime.get(Calendar.HOUR_OF_DAY)) ||
+                    (currentTime.get(Calendar.HOUR_OF_DAY) == classTime.get(Calendar.HOUR_OF_DAY) &&
+                            currentTime.get(Calendar.MINUTE) < classTime.get(Calendar.MINUTE));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true; // Trả về true nếu gặp lỗi để không chặn lớp học
+        }
+    }
+
+
+
 
     private void addClassToUI(DatLop datLop, boolean isBooked, String selectedDate) {
         LinearLayout classLayout = new LinearLayout(this);

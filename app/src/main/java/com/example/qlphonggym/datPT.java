@@ -59,6 +59,16 @@ public class datPT extends AppCompatActivity {
             return insets;
         });
 
+        // Khởi tạo TextView "Quay lại" và thiết lập sự kiện onClick
+        TextView txtQuayLai = findViewById(R.id.back_btn1);
+        txtQuayLai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(datPT.this, trangChu.class); // Chuyển sang màn hình Trang Chủ
+                startActivity(intent);
+            }
+        });
+
         datesContainer = findViewById(R.id.dates_container);
         classesContainer = findViewById(R.id.classes_container);
         TextView filterButton = findViewById(R.id.txtBoLoc1);
@@ -168,6 +178,11 @@ public class datPT extends AppCompatActivity {
         classesContainer.removeAllViews();
         DatabaseReference dbRefDatPT = FirebaseDatabase.getInstance().getReference("DatPT");
 
+        // Lấy thời gian hiện tại
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // Giờ hiện tại
+        String todayDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(calendar.getTime());
+
         dbRefDatPT.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -177,9 +192,13 @@ public class datPT extends AppCompatActivity {
                     DatPT datPT = snapshot.getValue(DatPT.class);
 
                     if (datPT != null && filterMatches(datPT)) {
-                        // Kiểm tra xem ngày hiện tại (selectedDay) có trong danh sách ngày của PT không
+                        // Kiểm tra xem ngày hiện tại có trong danh sách ngày của PT không
                         if (datPT.getDays() != null && datPT.getDays().contains(selectedDay)) {
                             for (String session : datPT.getSessions()) {
+                                // Ẩn các buổi đã qua nếu ngày được chọn là hôm nay
+                                if (selectedDate.equals(todayDate) && !isSessionValid(session, currentHour)) {
+                                    continue; // Bỏ qua các session đã qua
+                                }
                                 addClassToUI(datPT, session);
                                 hasClass = true;
                             }
@@ -202,6 +221,23 @@ public class datPT extends AppCompatActivity {
             }
         });
     }
+
+    // Hàm kiểm tra xem session còn hợp lệ không dựa vào giờ hiện tại
+    private boolean isSessionValid(String session, int currentHour) {
+        switch (session.toLowerCase()) {
+            case "sáng":
+                return currentHour < 11; // Buổi sáng kết thúc lúc 11h
+            case "trưa":
+                return currentHour < 13; // Buổi trưa kết thúc lúc 13h
+            case "chiều":
+                return currentHour < 18; // Buổi chiều kết thúc lúc 18h
+            case "tối":
+                return currentHour < 21; // Buổi tối kết thúc lúc 21h
+            default:
+                return true; // Nếu không rõ session thì không ẩn
+        }
+    }
+
 
     private boolean filterMatches(DatPT datPT) {
 
