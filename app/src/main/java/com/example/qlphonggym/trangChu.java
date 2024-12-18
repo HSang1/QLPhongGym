@@ -124,7 +124,7 @@ public class trangChu extends AppCompatActivity {
 
         // Hiển thị lớp học sắp diễn ra nếu đã đặt chỗ
         if (isRegistered) {
-            displayUpcomingClass();
+          displayUpcomingClass();
         }
 
         btnDatLop.setOnClickListener(v -> {
@@ -358,7 +358,6 @@ public class trangChu extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String bookingDate = snapshot.child("bookingDate").getValue(String.class); // Ngày
                     String className = snapshot.child("className").getValue(String.class);
-
                     String location = snapshot.child("location").getValue(String.class);
 
                     if (bookingDate != null) {
@@ -366,27 +365,24 @@ public class trangChu extends AppCompatActivity {
                         Map<String, String> classInfo = new HashMap<>();
                         classInfo.put("className", className);
                         classInfo.put("bookingDate", bookingDate);
-
                         classInfo.put("location", location);
                         classList.add(classInfo);
                     }
                 }
 
-                // Sắp xếp danh sách lớp học theo ngày và thời gian
+                // Sắp xếp danh sách lớp học theo ngày và thời gian (sắp xếp từ lớp học gần nhất)
                 Collections.sort(classList, (o1, o2) -> {
-                    int dateComparison = o1.get("bookingDate").compareTo(o2.get("bookingDate"));
-                    if (dateComparison == 0) {
-                        return o1.get("startTime").compareTo(o2.get("startTime"));
-                    }
-                    return dateComparison;
+                    return o1.get("bookingDate").compareTo(o2.get("bookingDate"));
                 });
 
-                // Hiển thị các lớp học đã sắp xếp
-                for (Map<String, String> classInfo : classList) {
+                // Hiển thị lớp học gần nhất (chỉ hiển thị 1 lớp học)
+                if (!classList.isEmpty()) {
+                    Map<String, String> classInfo = classList.get(0); // Lớp học đầu tiên (gần nhất)
                     String classKey = classInfo.get("className") + "_" + classInfo.get("bookingDate") + "_" + classInfo.get("location");
                     if (!displayedClasses.contains(classKey)) {
                         displayedClasses.add(classKey);
 
+                        // Tạo TextView cho thông tin lớp học
                         TextView upcomingClassInfo = new TextView(trangChu.this);
                         upcomingClassInfo.setText(
                                 "Tên lớp: " + classInfo.get("className") +
@@ -394,12 +390,30 @@ public class trangChu extends AppCompatActivity {
                                         "\nĐịa điểm: " + classInfo.get("location")
                         );
                         upcomingClassInfo.setTextSize(14);
-                        upcomingClassInfo.setPadding(10, 10, 10, 10);
-                        upcomingClassInfo.setBackgroundColor(getResources().getColor(R.color.white));
+                        upcomingClassInfo.setPadding(20, 10, 20, 10); // Tăng padding
+                        upcomingClassInfo.setBackgroundColor(getResources().getColor(R.color.pink_white));
                         upcomingClassInfo.setTextColor(getResources().getColor(R.color.black));
 
+                        // Thêm đường phân cách
+                        View separator = new View(trangChu.this);
+                        separator.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                2 // Chiều cao của đường phân cách
+                        ));
+                        separator.setBackgroundColor(getResources().getColor(R.color.white)); // Màu của đường phân cách
+                        separator.setPadding(0, 10, 0, 10); // Khoảng cách trên dưới
+
+                        // Thêm các view vào layout
                         upcomingClassesSection.addView(upcomingClassInfo);
+                        upcomingClassesSection.addView(separator);
                     }
+                } else {
+                    // Không có lớp học sắp diễn ra
+                    TextView noClasses = new TextView(trangChu.this);
+
+                    noClasses.setTextSize(14);
+                    noClasses.setTextColor(getResources().getColor(R.color.black));
+                    upcomingClassesSection.addView(noClasses);
                 }
             }
 
@@ -409,6 +423,7 @@ public class trangChu extends AppCompatActivity {
             }
         });
     }
+
 
 
 

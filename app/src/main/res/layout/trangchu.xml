@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đặt lớp học"
+                    android:textSize="6pt"
                     android:backgroundTint="@color/black"
                     android:textColor="@color/white"/>
 
@@ -79,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Tập cùng PT"
+                    android:textSize="6pt"
                     android:backgroundTint="@color/black"
                     android:textColor="@color/white"/>
 
@@ -87,6 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nhận xét"
+                    android:textSize="6pt"
                     android:backgroundTint="@color/black"
                     android:textColor="@color/white"/>
             </LinearLayout>

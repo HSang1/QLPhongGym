@@ -12,10 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Splash_Screen extends AppCompatActivity {
-    private TextView welcomeText;
-    private String fullText = "Welcome to PTS GYM";
     private int index = 0;
-    private long delay = 180; // Thời gian delay giữa các chữ (ms)
 
 
     @Override
@@ -29,30 +26,12 @@ public class Splash_Screen extends AppCompatActivity {
             return insets;
         });
 
-        welcomeText = findViewById(R.id.welcomeText);
-
-        // Gọi phương thức để hiển thị từng chữ
-        showTextWithEffect();
 
         // Chờ 3 giây rồi chuyển sang màn hình chính
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(Splash_Screen.this, trangChu.class);
             startActivity(intent);
             finish();
-        }, 4000);
-    }
-
-    private void showTextWithEffect() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (index < fullText.length()) {
-                    welcomeText.setText(welcomeText.getText().toString() + fullText.charAt(index));
-                    index++;
-                    handler.postDelayed(this, delay);
-                }
-            }
-        }, delay);
+        }, 2300);
     }
 }

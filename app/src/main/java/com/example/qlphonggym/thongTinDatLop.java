@@ -81,7 +81,7 @@ public class thongTinDatLop extends AppCompatActivity {
 
         // Quay lại màn hình trước
         txtQuayLai.setOnClickListener(v -> {
-            Intent intent = new Intent(thongTinDatLop.this, trangChu.class);
+            Intent intent = new Intent(thongTinDatLop.this, datLop.class);
             startActivity(intent);
             finish();
         });

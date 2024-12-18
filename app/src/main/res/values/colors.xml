@@ -14,4 +14,5 @@
     <color name="nav_item_selected">#00FF00</color> <!-- Xanh lá cây -->
     <color name="nav_item_unselected">#FFFFFF</color> <!-- Trắng -->
     <color name="blue">#2196F3</color>
+    <color name="pink_white">#AAE0D5</color>
 </resources>
