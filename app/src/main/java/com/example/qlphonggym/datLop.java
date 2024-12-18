@@ -189,6 +189,7 @@ public class datLop extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean hasClass = false;
+                List<DatLop> classList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     DatLop datLop = snapshot.getValue(DatLop.class);
@@ -205,35 +206,47 @@ public class datLop extends AppCompatActivity {
                                     continue; // Bỏ qua lớp học nếu thời gian đã qua
                                 }
                             }
-
-                            // Kiểm tra trạng thái đặt chỗ
-                            dbRefBookings.orderByChild("classCode").equalTo(datLop.getLopHocId())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot bookingSnapshot) {
-                                            boolean isBooked = false;
-
-                                            for (DataSnapshot booking : bookingSnapshot.getChildren()) {
-                                                String bookingDate = booking.child("bookingDate").getValue(String.class);
-
-                                                if (bookingDate != null && bookingDate.equals(selectedDate)) {
-                                                    isBooked = true;
-                                                    break;
-                                                }
-                                            }
-
-                                            addClassToUI(datLop, isBooked, selectedDate);
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Toast.makeText(datLop.this, "Lỗi khi tải trạng thái đặt chỗ.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
+                            classList.add(datLop);
                             hasClass = true;
                         }
                     }
+                }
+
+                // Sắp xếp danh sách theo thời gian bắt đầu
+                classList.sort((DatLop o1, DatLop o2) -> {
+                    try {
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH'h'mm", Locale.ENGLISH);
+                        return timeFormat.parse(o1.getThoiGianBatDau()).compareTo(timeFormat.parse(o2.getThoiGianBatDau()));
+                    } catch (Exception e) {
+                        return 0; // Nếu lỗi, giữ nguyên thứ tự
+                    }
+                });
+
+                // Hiển thị danh sách lớp học
+                for (DatLop datLop : classList) {
+                    dbRefBookings.orderByChild("classCode").equalTo(datLop.getLopHocId())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot bookingSnapshot) {
+                                    boolean isBooked = false;
+
+                                    for (DataSnapshot booking : bookingSnapshot.getChildren()) {
+                                        String bookingDate = booking.child("bookingDate").getValue(String.class);
+
+                                        if (bookingDate != null && bookingDate.equals(selectedDate)) {
+                                            isBooked = true;
+                                            break;
+                                        }
+                                    }
+
+                                    addClassToUI(datLop, isBooked, selectedDate);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Toast.makeText(datLop.this, "Lỗi khi tải trạng thái đặt chỗ.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
 
                 if (!hasClass) {
@@ -251,6 +264,7 @@ public class datLop extends AppCompatActivity {
             }
         });
     }
+
 
 
     private boolean isTimeValid(String startTime) {

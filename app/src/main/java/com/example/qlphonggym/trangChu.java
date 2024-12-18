@@ -24,12 +24,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class trangChu extends AppCompatActivity {
 
+    private HashSet<String> displayedClasses = new HashSet<>();
     private LinearLayout upcomingClassesSection;
     private LinearLayout taiKhoanSection;
     private FirebaseAuth mAuth;
@@ -278,7 +284,7 @@ public class trangChu extends AppCompatActivity {
                             Intent intent = new Intent(trangChu.this, datPT.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(trangChu.this, "Thẻ không hợp lệ hoặc đã hết hạn!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(trangChu.this, "Bạn cần mua thẻ Gold Member tại cửa hàng để sử dụng dịch vụ", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -324,13 +330,14 @@ public class trangChu extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(this, "Người dùng chưa đăng nhập.", Toast.LENGTH_SHORT).show();
-            return; // Thoát nếu người dùng chưa đăng nhập
+            return;
         }
 
-        // Xóa các lớp học cũ trước khi hiển thị mới
+        // Xóa các lớp học cũ và bộ nhớ đã hiển thị
         upcomingClassesSection.removeAllViews();
+        displayedClasses.clear();
 
-        // Luôn giữ tiêu đề "Lớp học sắp diễn ra"
+        // Thêm tiêu đề "Lớp học sắp diễn ra"
         TextView title = new TextView(trangChu.this);
         title.setText("Lớp học sắp diễn ra");
         title.setTextSize(18);
@@ -338,76 +345,72 @@ public class trangChu extends AppCompatActivity {
         title.setPadding(0, 10, 0, 10);
         upcomingClassesSection.addView(title);
 
-        // Tập hợp các lớp học đã hiển thị (để tránh trùng lặp)
-        HashSet<String> displayedClasses = new HashSet<>();
+        // Danh sách để lưu thông tin lớp học dưới dạng Map
+        List<Map<String, String>> classList = new ArrayList<>();
 
-        // Lấy dữ liệu từ Intent nếu có
-        Intent intent = getIntent();
-        boolean isBooked = intent.getBooleanExtra("isBooked", false);
-        if (isBooked) {
-            String className = intent.getStringExtra("className");
-            String dateTime = intent.getStringExtra("dateTime");
-            String startTime = intent.getStringExtra("startTime"); // Thời gian bắt đầu
-            String location = intent.getStringExtra("location");
+        // Truy vấn dữ liệu từ Firebase
+        DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("Bookings");
+        String userId = currentUser.getUid();
 
-            // Kiểm tra lớp học đã hiển thị hay chưa
-            String classKey = className + "_" + dateTime + "_" + location;
-            if (!displayedClasses.contains(classKey)) {
-                displayedClasses.add(classKey);
+        bookingsRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String bookingDate = snapshot.child("bookingDate").getValue(String.class); // Ngày
+                    String className = snapshot.child("className").getValue(String.class);
 
-                // Hiển thị thông tin lớp học
-                TextView upcomingClassInfo = new TextView(trangChu.this);
-                upcomingClassInfo.setText("Tên lớp: " + className + "\nNgày: " + dateTime + "\nThời gian bắt đầu: " + startTime + "\nĐịa điểm: " + location);
-                upcomingClassInfo.setTextSize(14);
-                upcomingClassInfo.setPadding(10, 10, 10, 10);
-                upcomingClassInfo.setBackgroundColor(getResources().getColor(R.color.white));
-                upcomingClassInfo.setTextColor(getResources().getColor(R.color.black));
+                    String location = snapshot.child("location").getValue(String.class);
 
-                upcomingClassesSection.addView(upcomingClassInfo);
-            }
-        } else {
-            // Truy vấn Firebase nếu không có dữ liệu từ Intent
-            DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("Bookings");
-            String userId = currentUser.getUid();
-            String today = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+                    if (bookingDate != null) {
+                        // Lưu thông tin lớp học vào Map
+                        Map<String, String> classInfo = new HashMap<>();
+                        classInfo.put("className", className);
+                        classInfo.put("bookingDate", bookingDate);
 
-            bookingsRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String bookingDate = snapshot.child("bookingDate").getValue(String.class);
-                        String className = snapshot.child("className").getValue(String.class);
-                        String startTime = snapshot.child("dateTime").getValue(String.class); // Lấy thời gian bắt đầu
-                        String location = snapshot.child("location").getValue(String.class);
-
-                        // Kiểm tra nếu lớp học diễn ra hôm nay
-                        if (bookingDate != null && bookingDate.equals(today)) {
-                            // Kiểm tra lớp học đã hiển thị hay chưa
-                            String classKey = className + "_" + bookingDate + "_" + location;
-                            if (!displayedClasses.contains(classKey)) {
-                                displayedClasses.add(classKey);
-
-                                // Tạo TextView hiển thị thông tin lớp học
-                                TextView upcomingClassInfo = new TextView(trangChu.this);
-                                upcomingClassInfo.setText("Tên lớp: " + className + "\nNgày: " + bookingDate + "\nThời gian bắt đầu: " + startTime + "\nĐịa điểm: " + location);
-                                upcomingClassInfo.setTextSize(14);
-                                upcomingClassInfo.setPadding(10, 10, 10, 10);
-                                upcomingClassInfo.setBackgroundColor(getResources().getColor(R.color.white));
-                                upcomingClassInfo.setTextColor(getResources().getColor(R.color.black));
-
-                                upcomingClassesSection.addView(upcomingClassInfo);
-                            }
-                        }
+                        classInfo.put("location", location);
+                        classList.add(classInfo);
                     }
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(trangChu.this, "Lỗi khi tải dữ liệu lớp học.", Toast.LENGTH_SHORT).show();
+                // Sắp xếp danh sách lớp học theo ngày và thời gian
+                Collections.sort(classList, (o1, o2) -> {
+                    int dateComparison = o1.get("bookingDate").compareTo(o2.get("bookingDate"));
+                    if (dateComparison == 0) {
+                        return o1.get("startTime").compareTo(o2.get("startTime"));
+                    }
+                    return dateComparison;
+                });
+
+                // Hiển thị các lớp học đã sắp xếp
+                for (Map<String, String> classInfo : classList) {
+                    String classKey = classInfo.get("className") + "_" + classInfo.get("bookingDate") + "_" + classInfo.get("location");
+                    if (!displayedClasses.contains(classKey)) {
+                        displayedClasses.add(classKey);
+
+                        TextView upcomingClassInfo = new TextView(trangChu.this);
+                        upcomingClassInfo.setText(
+                                "Tên lớp: " + classInfo.get("className") +
+                                        "\nNgày: " + classInfo.get("bookingDate") +
+                                        "\nĐịa điểm: " + classInfo.get("location")
+                        );
+                        upcomingClassInfo.setTextSize(14);
+                        upcomingClassInfo.setPadding(10, 10, 10, 10);
+                        upcomingClassInfo.setBackgroundColor(getResources().getColor(R.color.white));
+                        upcomingClassInfo.setTextColor(getResources().getColor(R.color.black));
+
+                        upcomingClassesSection.addView(upcomingClassInfo);
+                    }
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(trangChu.this, "Lỗi khi tải dữ liệu lớp học.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 
 
     // Đăng nhập vào Firebase và lưu thông tin vào SharedPreferences
