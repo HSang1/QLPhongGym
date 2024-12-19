@@ -24,15 +24,6 @@ public class boLocDatPT extends AppCompatActivity {
             return insets;
         });
 
-        // Khởi tạo TextView "Quay lại" và thiết lập sự kiện onClick
-        TextView txtQuayLai = findViewById(R.id.txtReturn);
-        txtQuayLai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(boLocDatPT.this, datPT.class); // Chuyển sang màn hình Trang Chủ
-                startActivity(intent);
-                finish(); // Đóng Activity hiện tại để tránh quay lại màn hình này khi bấm nút Back
-            }
-        });
+
     }
 }

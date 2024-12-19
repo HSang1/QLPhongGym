@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.7"
-        android:background="@color/my_color"
+        android:background="@color/my_color2"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
@@ -88,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0.7"
+                    android:textColor="@color/black"
                     android:text="Vui lòng đăng nhập tài khoản của bạn" />
 
                 <View
@@ -97,7 +98,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.7"
+                    android:alpha="0.8"
 
                     android:text="Tài khoản"
                     android:textStyle="bold" />
@@ -117,7 +118,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.7"
+                    android:alpha="0.8"
 
                     android:text="Mật khẩu"
                     android:textStyle="bold" />
@@ -134,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="textPassword"
-                       />
+                        />
 
                     <ImageView
                         android:id="@+id/imgAnHienMatKhau"
@@ -146,7 +147,7 @@
                         android:src="@drawable/baseline_remove_red_eye_24" />
                 </LinearLayout>
 
-<!--                        android:drawableEnd="@drawable/baseline_remove_red_eye_24"/>-->
+                <!--                        android:drawableEnd="@drawable/baseline_remove_red_eye_24"/>-->
 
 
 

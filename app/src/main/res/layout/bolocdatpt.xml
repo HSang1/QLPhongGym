@@ -9,15 +9,6 @@
     android:padding="16dp"
     tools:context=".boLocDatPT">
 
-    <TextView
-        android:id="@+id/txtReturn"
-        android:layout_width="166dp"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/back_27"
-        android:paddingBottom="10dp"
-        android:text=" Quay lại"
-        android:textColor="@color/black"
-        android:textSize="50px" />
 
     <!-- Spinner for City -->
     <TextView

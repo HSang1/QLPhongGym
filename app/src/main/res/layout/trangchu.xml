@@ -69,29 +69,31 @@
                     android:id="@+id/btDatLop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
                     android:text="Đặt lớp học"
                     android:textSize="6pt"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@color/white"/>
+                    android:backgroundTint="@color/color_admin"
+                    android:textColor="@color/black"/>
 
                 <Button
                     android:id="@+id/btTapPT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="3dp"
                     android:text="Tập cùng PT"
                     android:textSize="6pt"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@color/white"/>
+                    android:backgroundTint="@color/color_admin"
+                    android:textColor="@color/black"/>
 
                 <Button
                     android:id="@+id/btnNhanXet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
                     android:text="Nhận xét"
                     android:textSize="6pt"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@color/white"/>
+                    android:backgroundTint="@color/color_admin"
+                    android:textColor="@color/black"/>
             </LinearLayout>
 
             <!-- Upcoming Classes Section -->
